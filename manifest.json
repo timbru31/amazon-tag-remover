@@ -1,0 +1,20 @@
+{
+  "name": "Amazon Tag Remover",
+  "version": "1.0",
+  "manifest_version": 2,
+  "description": "Removes Amazon Affiliate (Partner) tags from your links",
+    "background": {
+    "scripts": [
+      "js/background.js"
+    ]
+  },
+  "permissions": [
+    "tabs",
+    "activeTab",
+    "webNavigation",
+    "webRequest",
+    "webRequestBlocking",
+    "*://*.amazon.de/",
+    "*://amzn.to/"
+  ]
+}
