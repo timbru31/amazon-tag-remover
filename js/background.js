@@ -1,77 +1,112 @@
-chrome.webRequest.onBeforeRequest.addListener(interceptRequest, {"urls": ["<all_urls>"]}, ['blocking']);
-chrome.webNavigation.onDOMContentLoaded.addListener(function(details) {
-  var box = 'document.body.innerHTML += "div class=&quot;amazon-tag-remover&quot;><span>no-tag</span></div>"'
-  chrome.tabs.insertCSS(details.tabId, {
-    code: '.amazon-tag-remover{right:20px;bottom:15px;background:#2C3539;color:#fff;border:2px solid #fff;opacity:.95;padding:7px 10px;position:fixed;z-index:2147483647;-webkit-border-radius:5px;-webkit-box-shadow:0 0 20px #000;text-align:left}'
-  });
-  // chrome.tabs.executeScript(details.tabId, {
-  //   code: box
-  // });
-  //chrome.tabs.executeScript(null, {file: "js/frontend.js"});
-}, {"urls": ["<all_urls>"]});
+'use strict';
+let tag;
 
+const appendedRegex = /&tag=\w+-\d{2}/g;
+const leadingRegex = /\?tag=\w+-\d{2}/g;
+const leadingRegexWithAppendix = /tag=\w+-\d{2}&/g;
+const amazonURLs = [
+  '*://www.amazon.at/gp/product/*',
+  '*://www.amazon.ca/gp/product/*',
+  '*://www.amazon.cn/gp/product/*',
+  '*://www.amazon.co.jp/gp/product/*',
+  '*://www.amazon.co.uk/gp/product/*',
+  '*://www.amazon.com.au/gp/product/*',
+  '*://www.amazon.com.br/gp/product/*',
+  '*://www.amazon.com.mx/gp/product/*',
+  '*://www.amazon.com/gp/product/*',
+  '*://www.amazon.de/gp/product/*',
+  '*://www.amazon.es/gp/product/*',
+  '*://www.amazon.fr/gp/product/*',
+  '*://www.amazon.ie/gp/product/*',
+  '*://www.amazon.in/gp/product/*',
+  '*://www.amazon.it/gp/product/*',
+  '*://www.amazon.nl/gp/product/*',
+  '*://*.amzn.to/*'
+];
+
+// Intercept requests from amazon
+chrome.webRequest.onBeforeRequest.addListener(interceptRequest, {
+  'urls': amazonURLs
+}, ['blocking']);
+
+// When request is completed, render the box
+chrome.webNavigation.onCompleted.addListener(details => {
+  if (tag) {
+    renderBox();
+  }
+}, {
+  url: [{
+    urlMatches: 'https?://\w*.?amazon.(at|ca|cn|co.jp|co.uk|com.au|com.br|com.mx|com|de|es|fr|ie|in|it|nl)/\w*'
+  }]
+});
 
 
 function interceptRequest(request) {
   if (request && request.url) {
-    return { redirectUrl: analyzeURL(request.url) }
+    return {
+      redirectUrl: analyzeURL(request.url)
+    };
   }
 }
 
+// If the URL is shortened use longurl to expand
 function analyzeURL(url) {
-  if (url.indexOf("amzn.to") > -1) {
+  if (url.indexOf('amzn.to') > -1) {
     return expandURL(url);
   } else {
-    return sanitizeURL(url)
+    return sanitizeURL(url);
   }
 }
 
+// Expand URL via longurl.org
 function expandURL(shortURL) {
-  var longURL = "http://api.longurl.org/v2/expand?" + shortURL + "&format=json&user-agent=Amazon-Tag-Remover%2F1.0"
+  let longURL = `http://api.longurl.org/v2/expand?${shortURL}&format=json&user-agent=Amazon-Tag-Remover%2F1.0`;
   chrome.runtime.sendMessage({
-      method: 'GET',
-      action: 'xhttp',
-      url: longURL,
-  }, function(responseText) {
-      if (responseText) {
-        var url = JSON.parse(responseText)['long-url'];
-        return sanitizeURL(url);
-      }
+    method: 'GET',
+    action: 'xhttp',
+    url: longURL
+  }, responseText => {
+    if (responseText) {
+      let url = JSON.parse(responseText)['long-url'];
+      return sanitizeURL(url);
+    }
   });
-
 }
 
+// Strip tag from URL
 function sanitizeURL(url) {
-  //renderCSS();
-  if (url.indexOf("&tag=") > -1) {
-    url  = url.replace(/&tag=\w+-\d{2}/g, '');
-    //renderBox("No tag found");
-  } else if (url.indexOf("%26tag%3D") > -1) {
-    url  = url.replace(/%26tag%3D\w+-\d{2}/g, '');
-    //renderBox("No tag found");
+  url = decodeURIComponent(url);
+  let matches = appendedRegex.exec(url);
+  if (matches) {
+    url = url.replace(appendedRegex, '');
+    tag = matches[0].replace('&tag=', '');
   } else {
-    //renderBox("No tag found");
+    matches = leadingRegex.exec(url);
+    if (matches) {
+      tag = matches[0].replace('?tag=', '');
+      // determine if it ends with ?tag
+      if (url.endsWith(matches[0])) {
+        url = url.replace(leadingRegex, '');
+      } else {
+        url = url.replace(leadingRegexWithAppendix, '');
+      }
+    }
   }
   return url;
 }
 
+function renderBox() {
+  chrome.tabs.query({
+    active: true,
+    currentWindow: true
+  }, tabs => {
+    chrome.tabs.sendMessage(tabs[0].id, {
+      tag: tag
+    });
+  });
 
-
-chrome.runtime.onMessage.addListener(function(request, sender, callback) {
-    if (request.action == "xhttp") {
-        var xhttp = new XMLHttpRequest();
-
-        xhttp.onload = function() {
-            callback(xhttp.responseText);
-        };
-        xhttp.onerror = function() {
-            // Do whatever you want on error. Don't forget to invoke the
-            // callback to clean up the communication port.
-            console.log("error")
-            callback();
-        };
-        xhttp.open('GET', request.url, true);
-        xhttp.send(null);
-        return true; // prevents the callback from being called too early on return
-    }
-});
+  // add CSS
+  chrome.tabs.insertCSS({
+    file: 'css/style.css'
+  });
+}

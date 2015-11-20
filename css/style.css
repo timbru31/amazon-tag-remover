@@ -1,0 +1,12 @@
+.amazon-tag-remover {
+    right: 20px;
+    bottom: 15px;
+    background: #2C3539;
+    color: #fff;
+    border: 2px solid #fff;
+    padding: 7px 10px;
+    position: fixed;
+    z-index: 50;
+    border-radius: 5px;
+    box-shadow: 0 0 20px #000;
+}

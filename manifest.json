@@ -3,18 +3,56 @@
   "version": "1.0",
   "manifest_version": 2,
   "description": "Removes Amazon Affiliate (Partner) tags from your links",
-    "background": {
+  "background": {
     "scripts": [
       "js/background.js"
     ]
   },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://www.amazon.at/gp/product/*",
+        "*://www.amazon.ca/gp/product/*",
+        "*://www.amazon.cn/gp/product/*",
+        "*://www.amazon.co.jp/gp/product/*",
+        "*://www.amazon.co.uk/gp/product/*",
+        "*://www.amazon.com.au/gp/product/*",
+        "*://www.amazon.com.br/gp/product/*",
+        "*://www.amazon.com.mx/gp/product/*",
+        "*://www.amazon.com/gp/product/*",
+        "*://www.amazon.de/gp/product/*",
+        "*://www.amazon.es/gp/product/*",
+        "*://www.amazon.fr/gp/product/*",
+        "*://www.amazon.ie/gp/product/*",
+        "*://www.amazon.in/gp/product/*",
+        "*://www.amazon.it/gp/product/*",
+        "*://www.amazon.nl/gp/product/*"
+      ],
+      "js": ["js/frontend.js"]
+    }
+  ],
   "permissions": [
     "tabs",
     "activeTab",
     "webNavigation",
     "webRequest",
     "webRequestBlocking",
-    "*://*.amazon.de/",
-    "*://amzn.to/"
+    "*://www.amazon.at/gp/product/*",
+    "*://www.amazon.ca/gp/product/*",
+    "*://www.amazon.cn/gp/product/*",
+    "*://www.amazon.co.jp/gp/product/*",
+    "*://www.amazon.co.uk/gp/product/*",
+    "*://www.amazon.com.au/gp/product/*",
+    "*://www.amazon.com.br/gp/product/*",
+    "*://www.amazon.com.mx/gp/product/*",
+    "*://www.amazon.com/gp/product/*",
+    "*://www.amazon.de/gp/product/*",
+    "*://www.amazon.es/gp/product/*",
+    "*://www.amazon.fr/gp/product/*",
+    "*://www.amazon.ie/gp/product/*",
+    "*://www.amazon.in/gp/product/*",
+    "*://www.amazon.it/gp/product/*",
+    "*://www.amazon.nl/gp/product/*",
+    "*://*.amzn.to/*"
   ]
 }

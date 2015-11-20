@@ -1,21 +1,12 @@
-chrome.extension.onRequest.addListener(renderCSS);
+'use strict';
 
-function renderCSS(request, sender, callback) {
-  var css = '.amazon-tag-remover{right:20px;bottom:15px;background:#2C3539;color:#fff;border:2px solid #fff;opacity:.95;padding:7px 10px;position:fixed;z-index:2147483647;-webkit-border-radius:5px;-webkit-box-shadow:0 0 20px #000;text-align:left}',
-  head = document.head || document.getElementsByTagName('head')[0],
-  style = document.createElement('style');
+chrome.runtime.onMessage.addListener(request => {
+  let div = document.createElement('div');
+  div.className = 'amazon-tag-remover';
+  div.innerText = `The following tag was found and has been removed: ${request.tag}`;
+  document.body.appendChild(div);
 
-  style.type = 'text/css';
-  if (style.styleSheet){
-    style.styleSheet.cssText = css;
-  } else {
-    style.appendChild(document.createTextNode(css));
-  }
-
-  head.appendChild(style);
-  renderBox("test")
-}
-
-function renderBox(tagName) {
-  document.body.innerHTML += '<div class="amazon-tag-remover"><span>' + tagName + '</span></div>'
-}
+  setTimeout(() => {
+    document.body.removeChild(div);
+  }, 5000);
+});
