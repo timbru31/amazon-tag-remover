@@ -5,22 +5,22 @@ const appendedRegex = /&tag=\w+-\d{2}/g;
 const leadingRegex = /\?tag=\w+-\d{2}/g;
 const leadingRegexWithAppendix = /tag=\w+-\d{2}&/g;
 const amazonURLs = [
-  '*://www.amazon.at/gp/product/*',
-  '*://www.amazon.ca/gp/product/*',
-  '*://www.amazon.cn/gp/product/*',
-  '*://www.amazon.co.jp/gp/product/*',
-  '*://www.amazon.co.uk/gp/product/*',
-  '*://www.amazon.com.au/gp/product/*',
-  '*://www.amazon.com.br/gp/product/*',
-  '*://www.amazon.com.mx/gp/product/*',
-  '*://www.amazon.com/gp/product/*',
-  '*://www.amazon.de/gp/product/*',
-  '*://www.amazon.es/gp/product/*',
-  '*://www.amazon.fr/gp/product/*',
-  '*://www.amazon.ie/gp/product/*',
-  '*://www.amazon.in/gp/product/*',
-  '*://www.amazon.it/gp/product/*',
-  '*://www.amazon.nl/gp/product/*',
+  '*://*.amazon.at/*',
+  '*://*.amazon.ca/*',
+  '*://*.amazon.cn/*',
+  '*://*.amazon.co.jp/*',
+  '*://*.amazon.co.uk/*',
+  '*://*.amazon.com.au/*',
+  '*://*.amazon.com.br/*',
+  '*://*.amazon.com.mx/*',
+  '*://*.amazon.com/*',
+  '*://*.amazon.de/*',
+  '*://*.amazon.es/*',
+  '*://*.amazon.fr/*',
+  '*://*.amazon.ie/*',
+  '*://*.amazon.in/*',
+  '*://*.amazon.it/*',
+  '*://*.amazon.nl/*',
   '*://*.amzn.to/*'
 ];
 
@@ -60,7 +60,8 @@ function analyzeURL(url) {
 
 // Expand URL via longurl.org
 function expandURL(shortURL) {
-  let longURL = `http://api.longurl.org/v2/expand?${shortURL}&format=json&user-agent=Amazon-Tag-Remover%2F1.0`;
+  shortURL = encodeURIComponent(shortURL);
+  let longURL = `http://api.longurl.org/v2/expand?${shortURL}&format=json&user-agent=Amazon-Tag-Remover%2v0.1`;
   chrome.runtime.sendMessage({
     method: 'GET',
     action: 'xhttp',
@@ -102,6 +103,8 @@ function renderBox() {
   }, tabs => {
     chrome.tabs.sendMessage(tabs[0].id, {
       tag: tag
+    }, () => {
+      tag = undefined;
     });
   });
 
