@@ -30,7 +30,6 @@ Please see [LICENSE.md](LICENSE.md) for more information.
 
 ## Upcoming Features
 
-* CSS update (fade in or out)
 * Options to whitelist specific tags (charity, friends of you, ...)
 
 ## Support
