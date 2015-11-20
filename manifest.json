@@ -1,36 +1,38 @@
 {
   "name": "Amazon Tag Remover",
   "version": "1.0",
+  "minimum_chrome_version": "45",
   "manifest_version": 2,
-  "description": "Removes Amazon Affiliate (Partner) tags from your links",
+  "author": "Tim 'xGhOsTkiLLeRx' Brust",
+  "description": "Remove the Amazon affiliate tracking ID (tag) from amazon links",
   "background": {
     "scripts": [
       "js/background.js"
     ]
   },
-  "content_scripts": [
-    {
-      "matches": [
-        "*://www.amazon.at/gp/product/*",
-        "*://www.amazon.ca/gp/product/*",
-        "*://www.amazon.cn/gp/product/*",
-        "*://www.amazon.co.jp/gp/product/*",
-        "*://www.amazon.co.uk/gp/product/*",
-        "*://www.amazon.com.au/gp/product/*",
-        "*://www.amazon.com.br/gp/product/*",
-        "*://www.amazon.com.mx/gp/product/*",
-        "*://www.amazon.com/gp/product/*",
-        "*://www.amazon.de/gp/product/*",
-        "*://www.amazon.es/gp/product/*",
-        "*://www.amazon.fr/gp/product/*",
-        "*://www.amazon.ie/gp/product/*",
-        "*://www.amazon.in/gp/product/*",
-        "*://www.amazon.it/gp/product/*",
-        "*://www.amazon.nl/gp/product/*"
-      ],
-      "js": ["js/frontend.js"]
-    }
-  ],
+  "content_scripts": [{
+    "matches": [
+      "*://www.amazon.at/gp/product/*",
+      "*://www.amazon.ca/gp/product/*",
+      "*://www.amazon.cn/gp/product/*",
+      "*://www.amazon.co.jp/gp/product/*",
+      "*://www.amazon.co.uk/gp/product/*",
+      "*://www.amazon.com.au/gp/product/*",
+      "*://www.amazon.com.br/gp/product/*",
+      "*://www.amazon.com.mx/gp/product/*",
+      "*://www.amazon.com/gp/product/*",
+      "*://www.amazon.de/gp/product/*",
+      "*://www.amazon.es/gp/product/*",
+      "*://www.amazon.fr/gp/product/*",
+      "*://www.amazon.ie/gp/product/*",
+      "*://www.amazon.in/gp/product/*",
+      "*://www.amazon.it/gp/product/*",
+      "*://www.amazon.nl/gp/product/*"
+    ],
+    "js": [
+      "js/frontend.js"
+    ]
+  }],
   "permissions": [
     "tabs",
     "activeTab",
@@ -56,3 +58,4 @@
     "*://*.amzn.to/*"
   ]
 }
+
