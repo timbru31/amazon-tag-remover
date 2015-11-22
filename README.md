@@ -2,16 +2,15 @@
 [![Code Climate](https://codeclimate.com/github/timbru31/amazon-tag-remover/badges/gpa.svg)](https://codeclimate.com/github/timbru31/amazon-tag-remover)
 
 ## Info
-Are you tired that each banner to amazon silently injects their affiliate tracking ID and receive a small revenue of what you bought? And more importantly what you bought?
-This extension removes the tracking ID before Chrome is performing the request.
+Are you tired that each banner or ad linking to amazon is silently injecting their affiliate tracking ID and receive a small revenue of what you bought? And more importantly what you bought?
+This extension removes the tracking ID before Chrome is performing the request, ensuring that you are not being tracked.
 
-**Note if you have a partner cookie on your computer, you might still be tracked**
+**Note: if you have a partner cookie on your computer, you might still be tracked**
 
-![Quick JIRA @Chrome Web Store](https://developer.chrome.com/webstore/images/ChromeWebStore_Badge_v2_206x58.png "QuickJIRA @Chrome Web Store")
+![Amazon Tag Remover @Chrome Web Store](https://developer.chrome.com/webstore/images/ChromeWebStore_Badge_v2_206x58.png "Amazon Tag Remover @Chrome Web Store")
 (soon)
 
 ## Features
-* Removes &tag parameter from amazon links
 * amzn.to shortlinks are expanded via long URL and then processed
 * Visual feedback which tag was removed
 * Works on starting parameter (?tag) and appended parameter (&tag)
@@ -39,6 +38,7 @@ For support please create an issue here at GitHub
 Feel free to submit any PRs here, too. :)
 
 Please indent using two spaces only, have a newline at the EOF and use UNIX line ending, thanks!
+If possible use ES6 features, where available in Chrome, and single quotes ('). Make sure to run eslint on your feature branch.
 
 ## Donation
 [![PayPal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif "Donation via PayPal")](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=T9TEV7Q88B9M2)

@@ -30,7 +30,7 @@ chrome.webRequest.onBeforeRequest.addListener(interceptRequest, {
 }, ['blocking']);
 
 // When request is completed, render the box
-chrome.webNavigation.onCompleted.addListener(details => {
+chrome.webNavigation.onCompleted.addListener(() => {
   if (tag) {
     renderBox();
   }
