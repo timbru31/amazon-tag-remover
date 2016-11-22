@@ -2,7 +2,7 @@
 [![Code Climate](https://codeclimate.com/github/timbru31/amazon-tag-remover/badges/gpa.svg)](https://codeclimate.com/github/timbru31/amazon-tag-remover)
 
 ## Info
-Are you tired that each banner or ad linking to amazon is silently injecting their affiliate tracking ID and receive a small revenue of what you bought? And more importantly what you bought?
+Are you tired that each banner or ad linking to amazon is silently injecting their affiliate tracking ID and receive a small revenue of what you bought? And more importantly they know what you bought? (even if it's not directly linked, it's still possible to de-anonymize the data)  
 This extension removes the tracking ID before Chrome is performing the request, ensuring that you are not being tracked.
 
 **Note: if you have a partner cookie on your computer, you might still be tracked**
