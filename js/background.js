@@ -39,7 +39,6 @@ chrome.webNavigation.onCompleted.addListener(() => {
   }]
 });
 
-
 function interceptRequest(request) {
   if (request && request.url) {
     return {
