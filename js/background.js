@@ -20,8 +20,7 @@ const amazonURLs = [
   '*://*.amazon.ie/*',
   '*://*.amazon.in/*',
   '*://*.amazon.it/*',
-  '*://*.amazon.nl/*',
-  '*://*.amzn.to/*'
+  '*://*.amazon.nl/*'
 ];
 
 // Intercept requests from amazon
@@ -44,39 +43,14 @@ chrome.webNavigation.onCompleted.addListener(() => {
 function interceptRequest(request) {
   if (request && request.url) {
     return {
-      redirectUrl: analyzeURL(request.url)
+      redirectUrl: sanitizeURL(request.url)
     };
   }
 }
 
-// If the URL is shortened use longurl to expand
-function analyzeURL(url) {
-  if (url.indexOf('amzn.to') > -1) {
-    return expandURL(url);
-  } else {
-    return sanitizeURL(url);
-  }
-}
-
-// Expand URL via longurl.org
-function expandURL(shortURL) {
-  shortURL = encodeURIComponent(shortURL);
-  let longURL = `http://api.longurl.org/v2/expand?${shortURL}&format=json&user-agent=Amazon-Tag-Remover%2v0.1`;
-  chrome.runtime.sendMessage({
-    method: 'GET',
-    action: 'xhttp',
-    url: longURL
-  }, responseText => {
-    if (responseText) {
-      let url = JSON.parse(responseText)['long-url'];
-      return sanitizeURL(url);
-    }
-  });
-}
-
 // Strip tag from URL
 function sanitizeURL(url) {
-  url = decodeURIComponent(url);
+  url = decodeURIComponent(encodeURIComponent(url));
   let matches = appendedRegex.exec(url);
   if (matches) {
     url = url.replace(appendedRegex, '');

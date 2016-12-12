@@ -11,10 +11,10 @@ This extension removes the tracking ID before Chrome is performing the request, 
 (soon)
 
 ## Features
-* amzn.to shortlinks are expanded via long URL and then processed
 * Visual feedback which tag was removed
 * Works on starting parameter (?tag) and appended parameter (&tag)
 * Full support for all amazon sites (e.g. from Germany, Mexico or UK to China and Italy)
+  * amazn.to links are supported, too, since the expanded request to the amazon site is intercepted
 
 ## License
 This plugin is released under the
