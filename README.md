@@ -1,5 +1,7 @@
 # Amazon Tag Remover
 [![Code Climate](https://codeclimate.com/github/timbru31/amazon-tag-remover/badges/gpa.svg)](https://codeclimate.com/github/timbru31/amazon-tag-remover)
+[![Chrome Web Store](https://img.shields.io/badge/Chrome%20Web%20Store-v0.1.0-orange.svg)](https://chrome.google.com/webstore/detail/amazon-tag-remover/mmajdhfdokfcaiadahjnffhbfjfkmcnc)
+[![License](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-blue.svg)](LICENSE.md)
 
 ## Info
 Are you tired that each banner or ad linking to amazon is silently injecting their affiliate tracking ID and receive a small revenue of what you bought? And more importantly they know what you bought? (even if it's not directly linked, it's still possible to de-anonymize the data)  
@@ -7,8 +9,7 @@ This extension removes the tracking ID before Chrome is performing the request, 
 
 **Note: if you have a partner cookie on your computer, you might still be tracked**
 
-![Amazon Tag Remover @Chrome Web Store](https://developer.chrome.com/webstore/images/ChromeWebStore_Badge_v2_206x58.png "Amazon Tag Remover @Chrome Web Store")
-(soon)
+[![Amazon Tag Remover @Chrome Web Store](https://developer.chrome.com/webstore/images/ChromeWebStore_Badge_v2_206x58.png "Amazon Tag Remover @Chrome Web Store")](https://chrome.google.com/webstore/detail/amazon-tag-remover/mmajdhfdokfcaiadahjnffhbfjfkmcnc)
 
 ## Features
 * Visual feedback which tag was removed
