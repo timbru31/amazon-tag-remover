@@ -1,6 +1,7 @@
 # Amazon Tag Remover
 [![Code Climate](https://codeclimate.com/github/timbru31/amazon-tag-remover/badges/gpa.svg)](https://codeclimate.com/github/timbru31/amazon-tag-remover)
 [![Chrome Web Store](https://img.shields.io/badge/Chrome%20Web%20Store-v0.1.0-orange.svg)](https://chrome.google.com/webstore/detail/amazon-tag-remover/mmajdhfdokfcaiadahjnffhbfjfkmcnc)
+![Opera Add-ons](https://img.shields.io/badge/Opera%20Add--ons-pending-red.svg)
 [![License](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-blue.svg)](LICENSE.md)
 
 ## Info
@@ -10,6 +11,8 @@ This extension removes the tracking ID before Chrome is performing the request, 
 **Note: if you have a partner cookie on your computer, you might still be tracked**
 
 [![Amazon Tag Remover @Chrome Web Store](https://developer.chrome.com/webstore/images/ChromeWebStore_Badge_v2_206x58.png "Amazon Tag Remover @Chrome Web Store")](https://chrome.google.com/webstore/detail/amazon-tag-remover/mmajdhfdokfcaiadahjnffhbfjfkmcnc)
+<img alt="Amazon Tag Remover @Opera add-ons" src="https://dev.opera.com/extensions/branding-guidelines/addons_206x58_en@2x.png" height="58" width="206">(pending release)
+
 
 ## Features
 * Visual feedback which tag was removed
@@ -25,8 +28,7 @@ Please see [LICENSE.md](LICENSE.md) for more information.
 
 ## Changelog
 
-**0.1**
-* initial release
+See [CHANGELOG.md](CHANGELOG.md) for a complete changelog.
 
 ## Upcoming Features
 
