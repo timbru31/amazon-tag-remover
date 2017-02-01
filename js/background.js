@@ -41,9 +41,12 @@ chrome.webNavigation.onCompleted.addListener(() => {
 
 function interceptRequest(request) {
   if (request && request.url) {
-    return {
-      redirectUrl: sanitizeURL(request.url)
-    };
+    const redirectUrl = sanitizeURL(request.url);
+    if (redirectUrl !== request.url) {
+      return {
+        redirectUrl
+      };
+    }
   }
 }
 
