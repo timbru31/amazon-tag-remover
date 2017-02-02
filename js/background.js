@@ -1,6 +1,7 @@
 'use strict';
-let tag;
 
+let tag;
+const _browser = this.browser || this.chrome;
 const appendedRegex = /&tag=\w+-\d{2}/g;
 const leadingRegex = /\?tag=\w+-\d{2}/g;
 const leadingRegexWithAppendix = /tag=\w+-\d{2}&/g;
@@ -24,12 +25,12 @@ const amazonURLs = [
 ];
 
 // Intercept requests from amazon
-chrome.webRequest.onBeforeRequest.addListener(interceptRequest, {
+_browser.webRequest.onBeforeRequest.addListener(interceptRequest, {
   'urls': amazonURLs
 }, ['blocking']);
 
 // When request is completed, render the box
-chrome.webNavigation.onCompleted.addListener(() => {
+_browser.webNavigation.onCompleted.addListener(() => {
   if (tag) {
     renderBox();
   }
@@ -73,11 +74,11 @@ function sanitizeURL(url) {
 }
 
 function renderBox() {
-  chrome.tabs.query({
+  _browser.tabs.query({
     active: true,
     currentWindow: true
   }, tabs => {
-    chrome.tabs.sendMessage(tabs[0].id, {
+    _browser.tabs.sendMessage(tabs[0].id, {
       tag: tag
     }, () => {
       tag = undefined;
@@ -85,7 +86,7 @@ function renderBox() {
   });
 
   // add CSS
-  chrome.tabs.insertCSS({
+  _browser.tabs.insertCSS({
     file: 'css/style.css'
   });
 }
