@@ -5,7 +5,7 @@ const _browser = this.browser || this.chrome;
 _browser.runtime.onMessage.addListener((request, sender, resetTag) => {
   const div = document.createElement('div');
   div.className = 'amazon-tag-remover';
-  div.textContent = `The following tag was found and has been removed: ${request.tag}`;
+  div.textContent = `The following tags were found and have been removed: ${request.tags}`;
   document.body.appendChild(div);
   div.classList.toggle('amazon-tag-remover-fade-in');
 

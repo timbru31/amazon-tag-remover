@@ -1,10 +1,7 @@
 'use strict';
 
-let tag;
+let tags = [];
 const _browser = this.browser || this.chrome;
-const appendedRegex = /&tag=\w+-\d{2}/g;
-const leadingRegex = /\?tag=\w+-\d{2}/g;
-const leadingRegexWithAppendix = /tag=\w+-\d{2}&/g;
 const amazonURLs = [
   '*://*.amazon.at/*',
   '*://*.amazon.ca/*',
@@ -24,14 +21,12 @@ const amazonURLs = [
   '*://*.amazon.nl/*'
 ];
 
-// Intercept requests from amazon
 _browser.webRequest.onBeforeRequest.addListener(interceptRequest, {
   'urls': amazonURLs
 }, ['blocking']);
 
-// When request is completed, render the box
 _browser.webNavigation.onCompleted.addListener(() => {
-  if (tag) {
+  if (tags && tags.length) {
     renderBox();
   }
 }, {
@@ -51,26 +46,18 @@ function interceptRequest(request) {
   }
 }
 
-// Strip tag from URL
-function sanitizeURL(url) {
-  url = decodeURIComponent(encodeURIComponent(url));
-  let matches = appendedRegex.exec(url);
-  if (matches) {
-    url = url.replace(appendedRegex, '');
-    tag = matches[0].replace('&tag=', '');
-  } else {
-    matches = leadingRegex.exec(url);
-    if (matches) {
-      tag = matches[0].replace('?tag=', '');
-      // determine if it ends with ?tag
-      if (url.endsWith(matches[0])) {
-        url = url.replace(leadingRegex, '');
-      } else {
-        url = url.replace(leadingRegexWithAppendix, '');
-      }
-    }
+function sanitizeURL(urlString) {
+  const url = new URL(decodeURIComponent(urlString));
+  const searchParams = url.searchParams;
+  if (searchParams.has('tag')) {
+    tags.push(searchParams.get('tag'));
   }
-  return url;
+  if (searchParams.has('ascsubtag')) {
+    tags.push(searchParams.get('ascsubtag'));
+  }
+  searchParams.delete('tag');
+  searchParams.delete('ascsubtag');
+  return url.toString();
 }
 
 function renderBox() {
@@ -79,13 +66,12 @@ function renderBox() {
     currentWindow: true
   }, tabs => {
     _browser.tabs.sendMessage(tabs[0].id, {
-      tag: tag
+      tags
     }, () => {
-      tag = undefined;
+      tags = [];
     });
   });
 
-  // add CSS
   _browser.tabs.insertCSS({
     file: 'css/style.css'
   });
