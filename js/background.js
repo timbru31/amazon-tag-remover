@@ -37,10 +37,10 @@ _browser.webNavigation.onCompleted.addListener(() => {
 
 function interceptRequest(request) {
   if (request && request.url) {
-    const redirectUrl = sanitizeURL(request.url);
-    if (redirectUrl !== request.url) {
+    const sanitzeResult = sanitizeURL(request.url);
+    if (sanitzeResult.match) {
       return {
-        redirectUrl
+        redirectUrl: sanitzeResult.url
       };
     }
   }
@@ -48,16 +48,22 @@ function interceptRequest(request) {
 
 function sanitizeURL(urlString) {
   const url = new URL(decodeURIComponent(urlString));
+  let match = false;
   const searchParams = url.searchParams;
   if (searchParams.has('tag')) {
     tags.push(searchParams.get('tag'));
+    match = true;
   }
   if (searchParams.has('ascsubtag')) {
     tags.push(searchParams.get('ascsubtag'));
+    match = true;
   }
   searchParams.delete('tag');
   searchParams.delete('ascsubtag');
-  return url.toString();
+  return {
+    url: url.toString(),
+    match
+  };
 }
 
 function renderBox() {

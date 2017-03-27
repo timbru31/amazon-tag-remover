@@ -1,6 +1,6 @@
 {
   "name": "Amazon Tag Remover",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "minimum_chrome_version": "51",
   "manifest_version": 2,
   "author": "Tim 'timbru31' Brust",
