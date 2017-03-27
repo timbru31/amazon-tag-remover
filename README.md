@@ -29,11 +29,9 @@ This plugin is released under the
 Please see [LICENSE.md](LICENSE.md) for more information.
 
 ## Changelog
-
 See [CHANGELOG.md](CHANGELOG.md) for a complete changelog.
 
 ## Upcoming Features
-
 * Options to whitelist specific tags (charity, friends of you, ...)
 
 ## Support
@@ -48,5 +46,5 @@ If possible use ES6 features, where available in Chrome, and single quotes ('). 
 ## Donation
 [![PayPal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif "Donation via PayPal")](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=T9TEV7Q88B9M2)
 
-![BitCoin](https://dl.dropboxusercontent.com/u/26476995/bitcoin_logo.png "Donation via BitCoins")  
-Address: 1NnrRgdy7CfiYN63vKHiypSi3MSctCP55C
+![BitCoin](https://dustplanet.de/wp-content/uploads/2015/01/bitcoin-logo-plain.png "Donation via BitCoins")  
+1NnrRgdy7CfiYN63vKHiypSi3MSctCP55C
