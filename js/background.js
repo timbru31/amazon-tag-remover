@@ -37,10 +37,10 @@ _browser.webNavigation.onCompleted.addListener(() => {
 
 function interceptRequest(request) {
   if (request && request.url) {
-    const sanitzeResult = sanitizeURL(request.url);
-    if (sanitzeResult.match) {
+    const sanitizedResult = sanitizeURL(request.url);
+    if (sanitizedResult.match) {
       return {
-        redirectUrl: sanitzeResult.url
+        redirectUrl: sanitizedResult.url
       };
     }
   }
