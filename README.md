@@ -2,10 +2,12 @@
 [![Code Climate](https://codeclimate.com/github/timbru31/amazon-tag-remover/badges/gpa.svg)](https://codeclimate.com/github/timbru31/amazon-tag-remover)
 [![bitHound Overall Score](https://www.bithound.io/github/timbru31/amazon-tag-remover/badges/score.svg)](https://www.bithound.io/github/timbru31/amazon-tag-remover)
 [![bitHound Code](https://www.bithound.io/github/timbru31/amazon-tag-remover/badges/code.svg)](https://www.bithound.io/github/timbru31/amazon-tag-remover)
-[![Chrome Web Store](https://img.shields.io/badge/Chrome%20Web%20Store-v0.3.1-orange.svg)](https://chrome.google.com/webstore/detail/amazon-tag-remover/mmajdhfdokfcaiadahjnffhbfjfkmcnc)
+
+[![Chrome Web Store](https://img.shields.io/chrome-web-store/v/mmajdhfdokfcaiadahjnffhbfjfkmcnc.svg)](https://chrome.google.com/webstore/detail/amazon-tag-remover/mmajdhfdokfcaiadahjnffhbfjfkmcnc)
 [![Opera Add-ons](https://img.shields.io/badge/Opera%20Add--ons-v0.3.1-orange.svg)](https://addons.opera.com/extensions/details/amazon-tag-remover/)
-[![Add-Ons for Firefox](https://img.shields.io/badge/Add--ons%20for%20Firefox-v0.3.1-orange.svg)](https://addons.mozilla.org/firefox/addon/amazon-tag-remover/)
-[![License](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-blue.svg)](LICENSE.md)
+[![Add-Ons for Firefox](https://img.shields.io/amo/v/amazon-tag-remover.svg)](https://addons.mozilla.org/firefox/addon/amazon-tag-remover/)
+
+[![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE.md)
 
 ## Info
 Are you tired that each banner or ad linking to amazon is silently injecting their affiliate tracking ID and receive a small revenue of what you bought? And more importantly they know what you bought? (even if it's not directly linked, it's still possible to de-anonymize the data)  
@@ -23,12 +25,6 @@ This extension removes the tracking ID before Chrome is performing the request, 
 * Support for ascsubtags
 * Full support for all amazon sites (e.g. from Germany, Mexico or UK to China and Italy)
   * amazn.to links are supported, too, since the expanded request to the amazon site is intercepted
-
-## License
-This plugin is released under the
-*Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)* license.
-
-Please see [LICENSE.md](LICENSE.md) for more information.
 
 ## Changelog
 See [CHANGELOG.md](CHANGELOG.md) for a complete changelog.
@@ -50,3 +46,6 @@ If possible use ES6 features, where available in Chrome, and single quotes ('). 
 
 ![BitCoin](https://dustplanet.de/wp-content/uploads/2015/01/bitcoin-logo-plain.png "Donation via BitCoins")  
 1NnrRgdy7CfiYN63vKHiypSi3MSctCP55C
+
+---
+Built by (c) Tim Brust and contributors. Released under the MIT license.
