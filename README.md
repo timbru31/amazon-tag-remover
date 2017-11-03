@@ -11,7 +11,7 @@
 
 ## Info
 Are you tired that each banner or ad linking to amazon is silently injecting their affiliate tracking ID and receive a small revenue of what you bought? And more importantly they know what you bought? (even if it's not directly linked, it's still possible to de-anonymize the data)  
-This extension removes the tracking ID before Chrome is performing the request, ensuring that you are not being tracked.
+This extension removes the tracking ID before the browser is performing the request, ensuring that you are not being tracked.
 
 **Note: if you have a partner cookie on your computer, you might still be tracked**
 
@@ -27,10 +27,10 @@ This extension removes the tracking ID before Chrome is performing the request, 
   * amazn.to links are supported, too, since the expanded request to the amazon site is intercepted
 
 ## Changelog
-See [CHANGELOG.md](CHANGELOG.md) for a complete changelog.
+Please visit [CHANGELOG.md](CHANGELOG.md) for a complete changelog.
 
 ## Upcoming Features
-* Options to whitelist specific tags (charity, friends of you, ...)
+* Options to whitelist specific tags (charity, friends of you, ...) (#9)
 
 ## Support
 For support please create an issue here at GitHub
@@ -39,7 +39,7 @@ For support please create an issue here at GitHub
 Feel free to submit any PRs here, too. :)
 
 Please indent using two spaces only, have a newline at the EOF and use UNIX line ending, thanks!
-If possible use ES6 features, where available in Chrome, and single quotes ('). Make sure to run eslint on your feature branch.
+Make sure to run eslint on your feature branch.
 
 ## Donation
 [![PayPal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif "Donation via PayPal")](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=T9TEV7Q88B9M2)
