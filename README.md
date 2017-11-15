@@ -17,7 +17,7 @@ This extension removes the tracking ID before the browser is performing the requ
 
 [![Amazon Tag Remover @Chrome Web Store](https://developer.chrome.com/webstore/images/ChromeWebStore_Badge_v2_206x58.png "Amazon Tag Remover @Chrome Web Store")](https://chrome.google.com/webstore/detail/amazon-tag-remover/mmajdhfdokfcaiadahjnffhbfjfkmcnc)
 [<img alt="Amazon Tag Remover @Opera add-ons" src="https://dev.opera.com/extensions/branding-guidelines/addons_206x58_en@2x.png" height="58" width="206">](https://addons.opera.com/extensions/details/amazon-tag-remover/)
-[<img alt="Amazon Tag Remover @Add-Ons for Firefox" src="./images/firefox_logo-wordmark-horiz_RGB.png" height="58">](https://addons.mozilla.org/firefox/addon/amazon-tag-remover/)
+[<img alt="Amazon Tag Remover @Add-Ons for Firefox" src="./images/firefox-logo-horizontal-lockup.png" height="58">](https://addons.mozilla.org/firefox/addon/amazon-tag-remover/)
 
 ## Features
 * Visual feedback which tag was removed
