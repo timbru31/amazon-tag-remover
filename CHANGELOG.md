@@ -1,5 +1,9 @@
 # Changelog
 
+#### 0.3.2 (Chrome only)
+* Republish from Chrome
+  * Items violated against the poilicy: "Do not use irrelevant, misleading, or excessive keywords in app descriptions, titles, or metadata"
+
 #### 0.3.1
 * Improved check if URL should be altered
   * Fixes e.g. AWS login
