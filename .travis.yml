@@ -1,0 +1,7 @@
+language: node_js
+node_js:
+    - lts/*
+
+after_script:
+    - npm audit
+    - npm run test
