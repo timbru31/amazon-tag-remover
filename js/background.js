@@ -19,7 +19,7 @@ const amazonURLs = [
   '*://*.amazon.in/*',
   '*://*.amazon.it/*',
   '*://*.amazon.nl/*',
-  "*://*.amazon.com.tr/*"
+  '*://*.amazon.com.tr/*'
 ];
 
 _browser.webRequest.onBeforeRequest.addListener(interceptRequest, {
