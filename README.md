@@ -1,11 +1,18 @@
 # Amazon Tag Remover
 
-[![Code Climate](https://codeclimate.com/github/timbru31/amazon-tag-remover/badges/gpa.svg)](https://codeclimate.com/github/timbru31/amazon-tag-remover)
+[![Build Status](https://travis-ci.org/timbru31/amazon-tag-remover.svg?branch=master)](https://travis-ci.org/timbru31/amazon-tag-remover)
+
+[![Dependency Status](https://david-dm.org/timbru31/amazon-tag-remover.svg)](https://david-dm.org/timbru31/amazon-tag-remover)
+[![devDependency Status](https://david-dm.org/timbru31/amazon-tag-remover/dev-status.svg)](https://david-dm.org/timbru31/amazon-tag-remover#info=devDependencies)
+
+[![Known Vulnerabilities](https://snyk.io/test/github/timbru31/amazon-tag-remover/badge.svg)](https://snyk.io/test/github/timbru31/amazon-tag-remover)
 
 [![Chrome Web Store](https://img.shields.io/chrome-web-store/v/mmajdhfdokfcaiadahjnffhbfjfkmcnc.svg)](https://chrome.google.com/webstore/detail/amazon-tag-remover/mmajdhfdokfcaiadahjnffhbfjfkmcnc)
 [![Opera Add-ons](https://img.shields.io/badge/Opera%20Add--ons-v0.3.1-orange.svg)](https://addons.opera.com/extensions/details/amazon-tag-remover/)
 [![Add-Ons for Firefox](https://img.shields.io/amo/v/amazon-tag-remover.svg)](https://addons.mozilla.org/firefox/addon/amazon-tag-remover/)
 
+[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
+[![Dependabot Status](https://api.dependabot.com/badges/status?host=github&repo=timbru31/amazon-tag-remover)](https://dependabot.com)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE.md)
 
 ## Info
@@ -21,11 +28,11 @@ This extension removes the tracking ID before the browser is performing the requ
 
 ## Features
 
-- Visual feedback which tag was removed
-- Works on starting parameter (?tag) and appended parameter (&tag)
-- Support for ascsubtags
-- Full support for all amazon sites (e.g. from Germany, Mexico or UK to China and Italy)
-  - amazn.to links are supported, too, since the expanded request to the amazon site is intercepted
+-   Visual feedback which tag was removed
+-   Works on starting parameter (?tag) and appended parameter (&tag)
+-   Support for ascsubtags
+-   Full support for all amazon sites (e.g. from Germany, Mexico or UK to China and Italy)
+    -   amazn.to links are supported, too, since the expanded request to the amazon site is intercepted
 
 ## Changelog
 
@@ -33,7 +40,7 @@ Please visit [CHANGELOG.md](CHANGELOG.md) for a complete changelog.
 
 ## Upcoming Features
 
-- Options to whitelist specific tags (charity, friends of you, ...) (#9)
+-   Options to whitelist specific tags (charity, friends of you, ...) (#9)
 
 ## Support
 
