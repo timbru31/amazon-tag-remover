@@ -27,7 +27,8 @@
       "*://*.amazon.ie/*",
       "*://*.amazon.in/*",
       "*://*.amazon.it/*",
-      "*://*.amazon.nl/*"
+      "*://*.amazon.nl/*",
+	  "*://*.amazon.com.tr/*"
     ],
     "js": [
       "js/frontend.js"
@@ -54,7 +55,8 @@
     "*://*.amazon.ie/*",
     "*://*.amazon.in/*",
     "*://*.amazon.it/*",
-    "*://*.amazon.nl/*"
+    "*://*.amazon.nl/*",
+	"*://*.amazon.com.tr/*"
   ],
   "icons": {
     "16": "images/icon16.png",

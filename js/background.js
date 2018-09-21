@@ -18,7 +18,8 @@ const amazonURLs = [
   '*://*.amazon.ie/*',
   '*://*.amazon.in/*',
   '*://*.amazon.it/*',
-  '*://*.amazon.nl/*'
+  '*://*.amazon.nl/*',
+  "*://*.amazon.com.tr/*"
 ];
 
 _browser.webRequest.onBeforeRequest.addListener(interceptRequest, {
@@ -31,7 +32,7 @@ _browser.webNavigation.onCompleted.addListener(() => {
   }
 }, {
   url: [{
-    urlMatches: 'https?://\w*.?amazon.(at|ca|cn|co.jp|co.uk|com.au|com.br|com.mx|com|de|es|fr|ie|in|it|nl)/\w*'
+    urlMatches: 'https?://\w*.?amazon.(at|ca|cn|co.jp|co.uk|com.au|com.br|com.mx|com|de|es|fr|ie|in|it|nl|com.tr)/\w*'
   }]
 });
 
