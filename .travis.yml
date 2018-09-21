@@ -4,4 +4,3 @@ node_js:
 
 after_script:
     - npm audit
-    - npm run test
