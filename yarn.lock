@@ -163,6 +163,10 @@
   version "10.10.1"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-10.10.1.tgz#d5c96ca246a418404914d180b7fdd625ad18eca6"
 
+"@yarnpkg/lockfile@^1.0.2":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@yarnpkg/lockfile/-/lockfile-1.1.0.tgz#e77a97fbd345b76d83245edcd17d393b1b41fb31"
+
 JSONStream@^1.0.4:
   version "1.3.4"
   resolved "https://registry.yarnpkg.com/JSONStream/-/JSONStream-1.3.4.tgz#615bb2adb0cd34c8f4c447b5f6512fa1d8f16a2e"
@@ -194,9 +198,9 @@ acorn@^5.0.3, acorn@^5.5.0, acorn@^5.6.0:
   version "5.7.3"
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-5.7.3.tgz#67aa231bf8812974b85235a96771eb6bd07ea279"
 
-addons-linter@^1.3.4:
-  version "1.3.4"
-  resolved "https://registry.yarnpkg.com/addons-linter/-/addons-linter-1.3.4.tgz#73d145b6365e5761ebec881656577e3bd41fe746"
+addons-linter@^1.3.5:
+  version "1.3.5"
+  resolved "https://registry.yarnpkg.com/addons-linter/-/addons-linter-1.3.5.tgz#e36094587780266e64f813efbcc27bd2cba26d2e"
   dependencies:
     "@babel/polyfill" "7.0.0"
     "@babel/register" "7.0.0"
@@ -207,8 +211,8 @@ addons-linter@^1.3.4:
     columnify "1.5.4"
     common-tags "1.8.0"
     crx-parser "0.1.2"
-    deepmerge "2.1.1"
-    dispensary "0.24.0"
+    deepmerge "2.2.0"
+    dispensary "0.25.0"
     es6-promisify "5.0.0"
     eslint "5.0.1"
     eslint-plugin-no-unsafe-innerhtml "1.0.16"
@@ -223,12 +227,12 @@ addons-linter@^1.3.4:
     os-locale "3.0.1"
     pino "5.5.0"
     po2json "0.4.5"
-    postcss "6.0.23"
+    postcss "7.0.5"
     probe-image-size "4.0.0"
     relaxed-json "1.0.1"
     semver "5.5.1"
     shelljs "0.8.2"
-    snyk "^1.88.2"
+    snyk "^1.100.1"
     source-map-support "0.5.6"
     strip-bom-stream "3.0.0"
     tosource "1.0.0"
@@ -1129,7 +1133,7 @@ debug@3.1.0:
   dependencies:
     ms "2.0.0"
 
-debug@^3, debug@^3.1.0:
+debug@^3, debug@^3.1.0, debug@^3.2.5:
   version "3.2.5"
   resolved "https://registry.yarnpkg.com/debug/-/debug-3.2.5.tgz#c2418fbfd7a29f4d4f70ff4cea604d4b64c46407"
   dependencies:
@@ -1178,7 +1182,11 @@ deep-is@~0.1.3:
   version "0.1.3"
   resolved "https://registry.yarnpkg.com/deep-is/-/deep-is-0.1.3.tgz#b369d6fb5dbc13eecf524f91b070feedc357cf34"
 
-deepmerge@2.1.1, deepmerge@^2.0.1:
+deepmerge@2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/deepmerge/-/deepmerge-2.2.0.tgz#17087b22e1dccf14310ec892e696269e85374b45"
+
+deepmerge@^2.0.1:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/deepmerge/-/deepmerge-2.1.1.tgz#e862b4e45ea0555072bf51e7fd0d9845170ae768"
 
@@ -1260,16 +1268,15 @@ dir-glob@^2.0.0:
     arrify "^1.0.1"
     path-type "^3.0.0"
 
-dispensary@0.24.0:
-  version "0.24.0"
-  resolved "https://registry.yarnpkg.com/dispensary/-/dispensary-0.24.0.tgz#bd73a3b9585f2ec928373f584dd9797075cd3b52"
+dispensary@0.25.0:
+  version "0.25.0"
+  resolved "https://registry.yarnpkg.com/dispensary/-/dispensary-0.25.0.tgz#13fd07b87e5c5b5fdd62ae8f767699c9b1ed8a3b"
   dependencies:
     array-from "~2.1.1"
     async "~2.6.0"
     natural-compare-lite "~1.4.0"
-    pino "~5.4.0"
+    pino "~5.7.0"
     request "~2.88.0"
-    semver "~5.5.0"
     sha.js "~2.4.4"
     source-map-support "~0.5.4"
     yargs "~12.0.1"
@@ -1792,11 +1799,11 @@ fast-levenshtein@~2.0.4:
   version "2.0.6"
   resolved "https://registry.yarnpkg.com/fast-levenshtein/-/fast-levenshtein-2.0.6.tgz#3d8a5c66883a16a30ca8643e851f19baa7797917"
 
-fast-redact@^1.1.14, fast-redact@^1.2.0:
+fast-redact@^1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/fast-redact/-/fast-redact-1.2.0.tgz#356bdb968c23473cd4e460689c10785842f41529"
 
-fast-safe-stringify@^2.0.4, fast-safe-stringify@^2.0.6:
+fast-safe-stringify@^2.0.6:
   version "2.0.6"
   resolved "https://registry.yarnpkg.com/fast-safe-stringify/-/fast-safe-stringify-2.0.6.tgz#04b26106cc56681f51a044cfc0d76cf0008ac2c2"
 
@@ -3104,6 +3111,10 @@ lodash.assignin@^4.2.0:
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/lodash.assignin/-/lodash.assignin-4.2.0.tgz#ba8df5fb841eb0a3e8044232b0e263a8dc6a28a2"
 
+lodash.clone@^4.5.0:
+  version "4.5.0"
+  resolved "https://registry.yarnpkg.com/lodash.clone/-/lodash.clone-4.5.0.tgz#195870450f5a13192478df4bc3d23d2dea1907b6"
+
 lodash.clonedeep@^4.3.0, lodash.clonedeep@^4.3.1:
   version "4.5.0"
   resolved "https://registry.yarnpkg.com/lodash.clonedeep/-/lodash.clonedeep-4.5.0.tgz#e23f3f9c4f8fbdde872529c1071857a086e5ccef"
@@ -3468,9 +3479,17 @@ nconf@^0.10.0:
     secure-keys "^1.0.0"
     yargs "^3.19.0"
 
-needle@^2.0.1, needle@^2.2.1:
+needle@^2.2.1:
   version "2.2.3"
   resolved "https://registry.yarnpkg.com/needle/-/needle-2.2.3.tgz#c1b04da378cd634d8befe2de965dc2cfb0fd65ca"
+  dependencies:
+    debug "^2.1.2"
+    iconv-lite "^0.4.4"
+    sax "^1.2.4"
+
+needle@^2.2.4:
+  version "2.2.4"
+  resolved "https://registry.yarnpkg.com/needle/-/needle-2.2.4.tgz#51931bff82533b1928b7d1d69e01f1b00ffd2a4e"
   dependencies:
     debug "^2.1.2"
     iconv-lite "^0.4.4"
@@ -3940,7 +3959,7 @@ pinkie@^2.0.0:
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/pinkie/-/pinkie-2.0.4.tgz#72556b80cfa0d48a974e80e77248e80ed4f7f870"
 
-pino-std-serializers@^2.2.0, pino-std-serializers@^2.2.1:
+pino-std-serializers@^2.2.1:
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/pino-std-serializers/-/pino-std-serializers-2.2.1.tgz#ceb583374358c75949e9c4ddbdd690428c15958e"
 
@@ -3957,18 +3976,18 @@ pino@5.5.0:
     quick-format-unescaped "^3.0.0"
     sonic-boom "^0.6.1"
 
-pino@~5.4.0:
-  version "5.4.1"
-  resolved "https://registry.yarnpkg.com/pino/-/pino-5.4.1.tgz#dd0793bf5ffe2e23e0645032a7d077f093501880"
+pino@~5.7.0:
+  version "5.7.0"
+  resolved "https://registry.yarnpkg.com/pino/-/pino-5.7.0.tgz#9ca520788662646877e050e8d0704f71735e1b12"
   dependencies:
     fast-json-parse "^1.0.3"
-    fast-redact "^1.1.14"
-    fast-safe-stringify "^2.0.4"
+    fast-redact "^1.2.0"
+    fast-safe-stringify "^2.0.6"
     flatstr "^1.0.5"
-    pino-std-serializers "^2.2.0"
+    pino-std-serializers "^2.2.1"
     pump "^3.0.0"
     quick-format-unescaped "^3.0.0"
-    sonic-boom "^0.6.0"
+    sonic-boom "^0.6.1"
 
 pirates@^4.0.0:
   version "4.0.0"
@@ -4096,13 +4115,13 @@ postcss-value-parser@^3.2.3, postcss-value-parser@^3.3.0:
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/postcss-value-parser/-/postcss-value-parser-3.3.0.tgz#87f38f9f18f774a4ab4c8a232f5c5ce8872a9d15"
 
-postcss@6.0.23:
-  version "6.0.23"
-  resolved "https://registry.yarnpkg.com/postcss/-/postcss-6.0.23.tgz#61c82cc328ac60e677645f979054eb98bc0e3324"
+postcss@7.0.5:
+  version "7.0.5"
+  resolved "https://registry.yarnpkg.com/postcss/-/postcss-7.0.5.tgz#70e6443e36a6d520b0fd4e7593fcca3635ee9f55"
   dependencies:
     chalk "^2.4.1"
     source-map "^0.6.1"
-    supports-color "^5.4.0"
+    supports-color "^5.5.0"
 
 postcss@^5.2.16:
   version "5.2.18"
@@ -4631,7 +4650,7 @@ semver-compare@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/semver-compare/-/semver-compare-1.0.0.tgz#0dee216a1c941ab37e9efb1788f6afc5ff5537fc"
 
-"semver@2 || 3 || 4 || 5", semver@5.5.1, semver@^5.0.1, semver@^5.1.0, semver@^5.3.0, semver@^5.4.1, semver@^5.5.0, semver@~5.5.0:
+"semver@2 || 3 || 4 || 5", semver@5.5.1, semver@^5.0.1, semver@^5.1.0, semver@^5.3.0, semver@^5.4.1, semver@^5.5.0, semver@^5.5.1:
   version "5.5.1"
   resolved "https://registry.yarnpkg.com/semver/-/semver-5.5.1.tgz#7dfdd8814bdb7cabc7be0fb1d734cfb66c940477"
 
@@ -4764,9 +4783,9 @@ snyk-config@2.2.0:
     lodash "^4.17.5"
     nconf "^0.10.0"
 
-snyk-docker-plugin@1.11.0:
-  version "1.11.0"
-  resolved "https://registry.yarnpkg.com/snyk-docker-plugin/-/snyk-docker-plugin-1.11.0.tgz#d0115279b731be86f710d45517850fb798517098"
+snyk-docker-plugin@1.12.0:
+  version "1.12.0"
+  resolved "https://registry.yarnpkg.com/snyk-docker-plugin/-/snyk-docker-plugin-1.12.0.tgz#6cbf61416946936cbb7bf07bb8293bf7dcdd33be"
   dependencies:
     debug "^3"
     tslib "^1"
@@ -4779,9 +4798,9 @@ snyk-go-plugin@1.5.2:
     tmp "0.0.33"
     toml "^2.3.2"
 
-snyk-gradle-plugin@1.3.1:
-  version "1.3.1"
-  resolved "https://registry.yarnpkg.com/snyk-gradle-plugin/-/snyk-gradle-plugin-1.3.1.tgz#9bd080f9d9ee0b9186fa0e34e682613766a13637"
+snyk-gradle-plugin@2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/snyk-gradle-plugin/-/snyk-gradle-plugin-2.1.0.tgz#96c8c0774df6790f67ff0d2888a0a6f0da230754"
   dependencies:
     clone-deep "^0.3.0"
 
@@ -4792,14 +4811,15 @@ snyk-module@1.8.2, snyk-module@^1.6.0, snyk-module@^1.8.2:
     debug "^3.1.0"
     hosted-git-info "^2.1.4"
 
-snyk-mvn-plugin@1.2.2:
-  version "1.2.2"
-  resolved "https://registry.yarnpkg.com/snyk-mvn-plugin/-/snyk-mvn-plugin-1.2.2.tgz#1ffbd0696aa548ab0ae55fb842b7d4a7d9c50f90"
+snyk-mvn-plugin@2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/snyk-mvn-plugin/-/snyk-mvn-plugin-2.0.0.tgz#875dcfe0d77b50396321552f2469ee69ca8d1416"
 
-snyk-nodejs-lockfile-parser@1.4.1:
-  version "1.4.1"
-  resolved "https://registry.yarnpkg.com/snyk-nodejs-lockfile-parser/-/snyk-nodejs-lockfile-parser-1.4.1.tgz#bfa090168be78bdb7ba2d28fbe67197e1a39d1f1"
+snyk-nodejs-lockfile-parser@1.5.1:
+  version "1.5.1"
+  resolved "https://registry.yarnpkg.com/snyk-nodejs-lockfile-parser/-/snyk-nodejs-lockfile-parser-1.5.1.tgz#fbd357d3ac8c9aa54fbb3c50f17005b7c0cc9b21"
   dependencies:
+    "@yarnpkg/lockfile" "^1.0.2"
     lodash "4.17.10"
     path "0.12.7"
     source-map-support "^0.5.7"
@@ -4835,25 +4855,26 @@ snyk-policy@1.12.0:
     snyk-try-require "^1.1.1"
     then-fs "^2.0.0"
 
-snyk-python-plugin@1.8.1:
-  version "1.8.1"
-  resolved "https://registry.yarnpkg.com/snyk-python-plugin/-/snyk-python-plugin-1.8.1.tgz#622427a30c0570726c9a8c9499e0079184d10874"
+snyk-python-plugin@1.8.2:
+  version "1.8.2"
+  resolved "https://registry.yarnpkg.com/snyk-python-plugin/-/snyk-python-plugin-1.8.2.tgz#5cd435f7fed745265cdfef30bb09246e43e8a7f5"
   dependencies:
     tmp "0.0.33"
 
-snyk-resolve-deps@3.1.0:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/snyk-resolve-deps/-/snyk-resolve-deps-3.1.0.tgz#722a9757794b5e0fb4036874459afa39847b62ec"
+snyk-resolve-deps@4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/snyk-resolve-deps/-/snyk-resolve-deps-4.0.1.tgz#099bacf1034a9737ebbe75bfdb8d06cca0553a3c"
   dependencies:
     ansicolors "^0.3.2"
-    debug "^3.1.0"
+    debug "^3.2.5"
     lodash.assign "^4.2.0"
     lodash.assignin "^4.2.0"
+    lodash.clone "^4.5.0"
     lodash.flatten "^4.4.0"
     lodash.get "^4.4.2"
     lodash.set "^4.3.2"
     lru-cache "^4.0.0"
-    semver "^5.1.0"
+    semver "^5.5.1"
     snyk-module "^1.6.0"
     snyk-resolve "^1.0.0"
     snyk-tree "^1.0.0"
@@ -4867,9 +4888,9 @@ snyk-resolve@1.0.1, snyk-resolve@^1.0.0, snyk-resolve@^1.0.1:
     debug "^3.1.0"
     then-fs "^2.0.0"
 
-snyk-sbt-plugin@1.3.2:
-  version "1.3.2"
-  resolved "https://registry.yarnpkg.com/snyk-sbt-plugin/-/snyk-sbt-plugin-1.3.2.tgz#f724219c7084da30505b90492a672c5e9493945f"
+snyk-sbt-plugin@2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/snyk-sbt-plugin/-/snyk-sbt-plugin-2.0.0.tgz#d7fa18bee77ecb045ecc7feb8915f83b75186582"
 
 snyk-tree@^1.0.0:
   version "1.0.0"
@@ -4886,9 +4907,9 @@ snyk-try-require@1.3.1, snyk-try-require@^1.1.1:
     lru-cache "^4.0.0"
     then-fs "^2.0.0"
 
-snyk@^1.88.2:
-  version "1.97.0"
-  resolved "https://registry.yarnpkg.com/snyk/-/snyk-1.97.0.tgz#339c89c1c763f0b5c494d1e328bb0ca664dba3f9"
+snyk@^1.100.1:
+  version "1.103.0"
+  resolved "https://registry.yarnpkg.com/snyk/-/snyk-1.103.0.tgz#850de8ac2f20c311bc7de0629f5966d6f7f5a644"
   dependencies:
     abbrev "^1.1.1"
     ansi-escapes "^3.1.0"
@@ -4898,7 +4919,7 @@ snyk@^1.88.2:
     hasbin "^1.2.3"
     inquirer "^3.0.0"
     lodash "^4.17.5"
-    needle "^2.0.1"
+    needle "^2.2.4"
     opn "^5.2.0"
     os-name "^2.0.1"
     proxy-agent "^2.0.0"
@@ -4906,19 +4927,19 @@ snyk@^1.88.2:
     recursive-readdir "^2.2.2"
     semver "^5.5.0"
     snyk-config "2.2.0"
-    snyk-docker-plugin "1.11.0"
+    snyk-docker-plugin "1.12.0"
     snyk-go-plugin "1.5.2"
-    snyk-gradle-plugin "1.3.1"
+    snyk-gradle-plugin "2.1.0"
     snyk-module "1.8.2"
-    snyk-mvn-plugin "1.2.2"
-    snyk-nodejs-lockfile-parser "1.4.1"
+    snyk-mvn-plugin "2.0.0"
+    snyk-nodejs-lockfile-parser "1.5.1"
     snyk-nuget-plugin "1.6.5"
     snyk-php-plugin "1.5.1"
     snyk-policy "1.12.0"
-    snyk-python-plugin "1.8.1"
+    snyk-python-plugin "1.8.2"
     snyk-resolve "1.0.1"
-    snyk-resolve-deps "3.1.0"
-    snyk-sbt-plugin "1.3.2"
+    snyk-resolve-deps "4.0.1"
+    snyk-sbt-plugin "2.0.0"
     snyk-tree "^1.0.0"
     snyk-try-require "1.3.1"
     source-map-support "^0.5.9"
@@ -4941,7 +4962,7 @@ socks@^1.1.10:
     ip "^1.1.4"
     smart-buffer "^1.0.13"
 
-sonic-boom@^0.6.0, sonic-boom@^0.6.1:
+sonic-boom@^0.6.1:
   version "0.6.1"
   resolved "https://registry.yarnpkg.com/sonic-boom/-/sonic-boom-0.6.1.tgz#da832af4ed7c477eb5317fe4c5132c75f7556245"
   dependencies:
@@ -5272,7 +5293,7 @@ supports-color@^3.2.3:
   dependencies:
     has-flag "^1.0.0"
 
-supports-color@^5.3.0, supports-color@^5.4.0:
+supports-color@^5.3.0, supports-color@^5.4.0, supports-color@^5.5.0:
   version "5.5.0"
   resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-5.5.0.tgz#e2e69a44ac8772f78a1ec0b35b689df6530efc8f"
   dependencies:
