@@ -228,9 +228,9 @@ acorn@^5.0.3, acorn@^5.5.0, acorn@^5.6.0:
   version "5.7.3"
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-5.7.3.tgz#67aa231bf8812974b85235a96771eb6bd07ea279"
 
-addons-linter@^1.3.7:
-  version "1.3.7"
-  resolved "https://registry.yarnpkg.com/addons-linter/-/addons-linter-1.3.7.tgz#2a9dcfb2a4c6ba084771f9b1a7af132ed48075a8"
+addons-linter@^1.3.8:
+  version "1.3.8"
+  resolved "https://registry.yarnpkg.com/addons-linter/-/addons-linter-1.3.8.tgz#b07b210a254b4a9541f944c5e478e7f2ec508c4c"
   dependencies:
     "@babel/polyfill" "7.0.0"
     "@babel/register" "7.0.0"
@@ -242,7 +242,7 @@ addons-linter@^1.3.7:
     common-tags "1.8.0"
     crx-parser "0.1.2"
     deepmerge "2.2.1"
-    dispensary "0.25.0"
+    dispensary "0.26.0"
     es6-promisify "5.0.0"
     eslint "5.0.1"
     eslint-plugin-no-unsafe-innerhtml "1.0.16"
@@ -1315,14 +1315,14 @@ dir-glob@^2.0.0:
     arrify "^1.0.1"
     path-type "^3.0.0"
 
-dispensary@0.25.0:
-  version "0.25.0"
-  resolved "https://registry.yarnpkg.com/dispensary/-/dispensary-0.25.0.tgz#13fd07b87e5c5b5fdd62ae8f767699c9b1ed8a3b"
+dispensary@0.26.0:
+  version "0.26.0"
+  resolved "https://registry.yarnpkg.com/dispensary/-/dispensary-0.26.0.tgz#0bf85b121e1845fd07ec4b21670e4c9060a1cd28"
   dependencies:
     array-from "~2.1.1"
     async "~2.6.0"
     natural-compare-lite "~1.4.0"
-    pino "~5.7.0"
+    pino "~5.8.0"
     request "~2.88.0"
     sha.js "~2.4.4"
     source-map-support "~0.5.4"
@@ -4083,6 +4083,10 @@ pino-std-serializers@^2.2.1:
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/pino-std-serializers/-/pino-std-serializers-2.2.1.tgz#ceb583374358c75949e9c4ddbdd690428c15958e"
 
+pino-std-serializers@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/pino-std-serializers/-/pino-std-serializers-2.3.0.tgz#34eeaab97c055c28e22c0542ae55978e7e427786"
+
 pino@5.5.0:
   version "5.5.0"
   resolved "https://registry.yarnpkg.com/pino/-/pino-5.5.0.tgz#1f65df5daa1a80e5c47dac52933d9400a5d3bbc4"
@@ -4096,15 +4100,15 @@ pino@5.5.0:
     quick-format-unescaped "^3.0.0"
     sonic-boom "^0.6.1"
 
-pino@~5.7.0:
-  version "5.7.0"
-  resolved "https://registry.yarnpkg.com/pino/-/pino-5.7.0.tgz#9ca520788662646877e050e8d0704f71735e1b12"
+pino@~5.8.0:
+  version "5.8.0"
+  resolved "https://registry.yarnpkg.com/pino/-/pino-5.8.0.tgz#b566f78617c53c2bae91d30ad62d52cd1074df4a"
   dependencies:
     fast-json-parse "^1.0.3"
     fast-redact "^1.2.0"
     fast-safe-stringify "^2.0.6"
     flatstr "^1.0.5"
-    pino-std-serializers "^2.2.1"
+    pino-std-serializers "^2.3.0"
     pump "^3.0.0"
     quick-format-unescaped "^3.0.0"
     sonic-boom "^0.6.1"
