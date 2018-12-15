@@ -1,7 +1,7 @@
 // tslint:disable-next-line:variable-name
 const _browser = chrome || browser;
 let tags: string[] = [];
-var amazonTagRemoverNotification: string = 'amazon-tag-remover-notification';
+let amazonTagRemoverNotification: string = 'amazon-tag-remover-notification';
 const amazonURLs = [
 	'*://*.amazon.at/*',
 	'*://*.amazon.ca/*',
@@ -31,13 +31,13 @@ _browser.webRequest.onBeforeRequest.addListener(
 _browser.webNavigation.onCompleted.addListener(
 	() => {
 		if (tags && tags.length) {
-			var enableNotifications = _browser.storage.local.get('enableNotifications', (item: any) => {
+			const enableNotifications = _browser.storage.local.get('enableNotifications', (item: any) => {
 				if (item.enableNotifications) {
-					var creating = _browser.notifications.create(amazonTagRemoverNotification, {
-						type: 'basic',
+					_browser.notifications.create(amazonTagRemoverNotification, {
 						iconUrl: _browser.extension.getURL('images/icon64.png'),
+						message: `The following tags were found and have been removed: ${tags}`,
 						title: 'Amazon Tag Remover',
-						message: `The following tags were found and have been removed: ${tags}`
+						type: 'basic'
 					});
 				}
 			});
