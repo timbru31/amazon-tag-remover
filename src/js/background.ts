@@ -1,7 +1,7 @@
 // tslint:disable-next-line:variable-name
 const _browser = chrome || browser;
-
 let tags: string[] = [];
+let amazonTagRemoverNotification: string = 'amazon-tag-remover-notification';
 const amazonURLs = [
 	'*://*.amazon.at/*',
 	'*://*.amazon.ca/*',
@@ -28,11 +28,19 @@ _browser.webRequest.onBeforeRequest.addListener(
 	},
 	['blocking']
 );
-
 _browser.webNavigation.onCompleted.addListener(
 	() => {
 		if (tags && tags.length) {
-			renderBox();
+			const enableNotifications = _browser.storage.local.get('enableNotifications', (item: any) => {
+				if (item.enableNotifications) {
+					_browser.notifications.create(amazonTagRemoverNotification, {
+						iconUrl: _browser.extension.getURL('images/icon64.png'),
+						message: `The following tags were found and have been removed: ${tags}`,
+						title: 'Amazon Tag Remover',
+						type: 'basic'
+					});
+				}
+			});
 		}
 	},
 	{
@@ -48,9 +56,7 @@ function interceptRequest(request: chrome.webRequest.WebRequestBodyDetails) {
 	if (request && request.url) {
 		const sanitizedResult = sanitizeURL(request.url);
 		if (sanitizedResult.match) {
-			return {
-				redirectUrl: sanitizedResult.url
-			};
+			return { redirectUrl: sanitizedResult.url };
 		}
 	}
 }
@@ -69,32 +75,5 @@ function sanitizeURL(urlString: string) {
 	}
 	searchParams.delete('tag');
 	searchParams.delete('ascsubtag');
-	return {
-		match,
-		url: url.toString()
-	};
-}
-
-function renderBox() {
-	_browser.tabs.query(
-		{
-			active: true,
-			currentWindow: true
-		},
-		tabs => {
-			_browser.tabs.sendMessage(
-				tabs[0].id!,
-				{
-					tags
-				},
-				() => {
-					tags = [];
-				}
-			);
-		}
-	);
-
-	_browser.tabs.insertCSS({
-		file: 'css/style.css'
-	});
+	return { match, url: url.toString() };
 }
