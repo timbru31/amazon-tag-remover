@@ -1,7 +1,7 @@
 // tslint:disable-next-line:variable-name
 const _browser = chrome || browser;
 let tags: string[] = [];
-let amazonTagRemoverNotification: string = 'amazon-tag-remover-notification';
+const amazonTagRemoverNotification = 'amazon-tag-remover-notification';
 const amazonURLs = [
 	'*://*.amazon.at/*',
 	'*://*.amazon.ca/*',
@@ -11,6 +11,7 @@ const amazonURLs = [
 	'*://*.amazon.com.au/*',
 	'*://*.amazon.com.br/*',
 	'*://*.amazon.com.mx/*',
+	'*://*.amazon.com.tr/*',
 	'*://*.amazon.com/*',
 	'*://*.amazon.de/*',
 	'*://*.amazon.es/*',
@@ -20,6 +21,7 @@ const amazonURLs = [
 	'*://*.amazon.it/*',
 	'*://*.amazon.nl/*'
 ];
+const storage = _browser.storage.sync || _browser.storage.local;
 
 _browser.webRequest.onBeforeRequest.addListener(
 	interceptRequest,
@@ -31,8 +33,8 @@ _browser.webRequest.onBeforeRequest.addListener(
 _browser.webNavigation.onCompleted.addListener(
 	() => {
 		if (tags && tags.length) {
-			const enableNotifications = _browser.storage.local.get('enableNotifications', (item: any) => {
-				if (item.enableNotifications) {
+			storage.get('disableNotifications', (item: any) => {
+				if (!item.disableNotifications) {
 					_browser.notifications.create(amazonTagRemoverNotification, {
 						iconUrl: _browser.extension.getURL('images/icon64.png'),
 						message: `The following tags were found and have been removed: ${tags}`,
@@ -41,12 +43,13 @@ _browser.webNavigation.onCompleted.addListener(
 					});
 				}
 			});
+			tags = [];
 		}
 	},
 	{
 		url: [
 			{
-				urlMatches: 'https?://w*.?amazon.(at|ca|cn|co.jp|co.uk|com.au|com.br|com.mx|com|de|es|fr|ie|in|it|nl)/w*'
+				urlMatches: 'https?://w*.?amazon.(at|ca|cn|co.jp|co.uk|com.au|com.br|com.mx|com.tr|com|de|es|fr|ie|in|it|nl)/w*'
 			}
 		]
 	}

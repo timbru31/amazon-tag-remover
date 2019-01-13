@@ -1,35 +1,13 @@
 {
 	"name": "Amazon Tag Remover",
 	"version": "0.4.0",
-	"minimum_chrome_version": "62",
+	"minimum_chrome_version": "67",
 	"manifest_version": 2,
 	"author": "Tim 'timbru31' Brust",
 	"description": "Remove the Amazon affiliate tracking ID (tag) from amazon links",
 	"background": {
 		"scripts": ["js/background.js"]
 	},
-	"content_scripts": [
-		{
-			"matches": [
-				"*://*.amazon.at/*",
-				"*://*.amazon.ca/*",
-				"*://*.amazon.cn/*",
-				"*://*.amazon.co.jp/*",
-				"*://*.amazon.co.uk/*",
-				"*://*.amazon.com.au/*",
-				"*://*.amazon.com.br/*",
-				"*://*.amazon.com.mx/*",
-				"*://*.amazon.com/*",
-				"*://*.amazon.de/*",
-				"*://*.amazon.es/*",
-				"*://*.amazon.fr/*",
-				"*://*.amazon.ie/*",
-				"*://*.amazon.in/*",
-				"*://*.amazon.it/*",
-				"*://*.amazon.nl/*"
-			]
-		}
-	],
 	"options_ui": {
 		"page": "options.html"
 	},
@@ -49,6 +27,7 @@
 		"*://*.amazon.com.au/*",
 		"*://*.amazon.com.br/*",
 		"*://*.amazon.com.mx/*",
+		"*://*.amazon.com.tr/*",
 		"*://*.amazon.com/*",
 		"*://*.amazon.de/*",
 		"*://*.amazon.es/*",
