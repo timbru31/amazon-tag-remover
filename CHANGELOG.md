@@ -8,20 +8,11 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### Bug Fixes
 
--   check if URL matches a tag, replace only then. Fixes AWS login ([a0cf102](https://github.com/timbru31/amazon-tag-remover/commit/a0cf102))
--   correct indentation in style.css ([5dbfd0f](https://github.com/timbru31/amazon-tag-remover/commit/5dbfd0f))
--   do not redirect when URL did not change, preserves preflight, fixes [#2](https://github.com/timbru31/amazon-tag-remover/issues/2) ([8dda56c](https://github.com/timbru31/amazon-tag-remover/commit/8dda56c))
--   remove outdated longurl code ([d478d1e](https://github.com/timbru31/amazon-tag-remover/commit/d478d1e))
--   spelling ([57ea119](https://github.com/timbru31/amazon-tag-remover/commit/57ea119))
+-   amazon.com.tr support ([9fc87c0](https://github.com/timbru31/amazon-tag-remover/commit/9fc87c06db60ee58d914f37aa0baa2761294a1e5))
 
 ### Features
 
--   add firefox logo ([1c95760](https://github.com/timbru31/amazon-tag-remover/commit/1c95760))
--   add icons ([d097c86](https://github.com/timbru31/amazon-tag-remover/commit/d097c86))
--   add support for ascsubtag, closes [#6](https://github.com/timbru31/amazon-tag-remover/issues/6) ([60dc68e](https://github.com/timbru31/amazon-tag-remover/commit/60dc68e))
--   add webstore icon ([66d14d7](https://github.com/timbru31/amazon-tag-remover/commit/66d14d7))
--   increase minimum chrome version ([ad68e44](https://github.com/timbru31/amazon-tag-remover/commit/ad68e44))
--   make extension compatible with Firefox and Edge ([115e7cc](https://github.com/timbru31/amazon-tag-remover/commit/115e7cc))
+-   add native notification, options page and minor app refactoring. ([257f27a](https://github.com/timbru31/amazon-tag-remover/commit/257f27aedb52da0d27f7a43ba53975570078a809))
 
 <a name="0.4.0"></a>
 
