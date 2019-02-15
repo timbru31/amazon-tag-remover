@@ -183,9 +183,9 @@
   dependencies:
     any-observable "^0.3.0"
 
-"@types/chrome@^0.0.79":
-  version "0.0.79"
-  resolved "https://registry.yarnpkg.com/@types/chrome/-/chrome-0.0.79.tgz#1c83b35bd9b21b6204fb56e4816a1ea65dc013e5"
+"@types/chrome@^0.0.80":
+  version "0.0.80"
+  resolved "https://registry.yarnpkg.com/@types/chrome/-/chrome-0.0.80.tgz#615b4d861e80f8065a2bf7b6293da9d9a27502ed"
   dependencies:
     "@types/filesystem" "*"
 
