@@ -35,15 +35,20 @@ _browser.webNavigation.onCompleted.addListener(
 		if (tags && tags.length) {
 			storage.get('disableNotifications', (item: any) => {
 				if (!item.disableNotifications) {
-					_browser.notifications.create(amazonTagRemoverNotification, {
-						iconUrl: _browser.extension.getURL('images/icon64.png'),
-						message: `The following tags were found and have been removed: ${tags}`,
-						title: 'Amazon Tag Remover',
-						type: 'basic'
-					});
+					_browser.notifications.create(
+						amazonTagRemoverNotification,
+						{
+							iconUrl: _browser.extension.getURL('images/icon64.png'),
+							message: `The following tags were found and have been removed: ${tags}`,
+							title: 'Amazon Tag Remover',
+							type: 'basic'
+						},
+						() => (tags = [])
+					);
+				} else {
+					tags = [];
 				}
 			});
-			tags = [];
 		}
 	},
 	{
