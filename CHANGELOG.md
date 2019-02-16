@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.5.1"></a>
+
+## [0.5.1](https://github.com/timbru31/amazon-tag-remover/compare/v0.5.0...v0.5.1) (2019-02-16)
+
+### Bug Fixes
+
+-   correctly clean tags array ([8fa5de7](https://github.com/timbru31/amazon-tag-remover/commit/8fa5de7))
+
 <a name="0.5.0"></a>
 
 # 0.5.0 (2019-01-13)
