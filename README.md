@@ -42,16 +42,16 @@ Please visit [CHANGELOG.md](CHANGELOG.md) for a complete changelog.
 
 -   Options to whitelist specific tags (charity, friends of you, ...) (#9)
 
+## Contributing
+
+1. Fork and clone the project
+2. Run `npm install`
+3. Run `npm run build:dev` and start hacking. The extension is automatically rebuilt on changes.
+4. Load the un-packaged addon from the `dist` folder
+
 ## Support
 
 For support please create an issue here at GitHub
-
-## Pull Requests
-
-Feel free to submit any PRs here, too. :)
-
-Please indent using two spaces only, have a newline at the EOF and use UNIX line ending, thanks!
-Make sure to run eslint on your feature branch.
 
 ## Donation
 
