@@ -12,7 +12,6 @@
 		"lint-built-addon": "addons-linter dist",
 		"prerelease": "npm run test && npm run build:prod && npm run lint-built-addon",
 		"release": "standard-version",
-		"postrelease": "npm run shipit",
 		"shipit": "npm run shipit:chrome && npm run shipit:firefox && npm run shipit:opera",
 		"shipit:firefox": "shipit firefox dist",
 		"shipit:chrome": "shipit chrome dist",
@@ -58,6 +57,7 @@
 	"standard-version": {
 		"scripts": {
 			"prebump": "ts-node scripts/patch-manifest-version.ts",
+			"postbump": "prettier --write src/manifest.json && git add src/manifest.json",
 			"postchangelog": "prettier --write CHANGELOG.md"
 		}
 	}
