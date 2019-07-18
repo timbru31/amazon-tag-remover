@@ -3,7 +3,7 @@
 	"version": "0.5.2",
 	"manifest_version": 2,
 	"minimum_chrome_version": "70",
-	"browser_specific_settings": {
+	"applications": {
 		"gecko": {
 			"id": "{744e2cc4-e8d5-4ab9-814e-d7dc30a09b3c}",
 			"strict_min_version": "60.0"
