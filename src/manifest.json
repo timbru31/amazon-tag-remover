@@ -1,14 +1,21 @@
 {
 	"name": "Amazon Tag Remover",
 	"version": "0.5.1",
-	"minimum_chrome_version": "68",
 	"manifest_version": 2,
+	"minimum_chrome_version": "70",
+	"browser_specific_settings": {
+		"gecko": {
+			"id": "{744e2cc4-e8d5-4ab9-814e-d7dc30a09b3c}",
+			"strict_min_version": "60.0"
+		}
+	},
 	"author": "Tim 'timbru31' Brust",
 	"description": "Remove the Amazon affiliate tracking ID (tag) from amazon links",
 	"background": {
-		"scripts": ["js/background.js"]
+		"scripts": ["browser-polyfill.min.js", "background.js"]
 	},
 	"options_ui": {
+		"chrome_style": true,
 		"page": "options.html"
 	},
 	"permissions": [

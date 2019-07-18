@@ -4,14 +4,19 @@
 	"private": true,
 	"description": "WebExtension for Chrome, Firefox, Edge and Opera to remove the Amazon affiliate tracking ID (tag) from amazon links",
 	"scripts": {
-		"prebuild": "rm -rf dist",
-		"build": "tsc",
-		"postbuild": "rsync -av --exclude='js' src/ dist",
+		"build:dev": "webpack --mode=development --watch",
+		"build:prod": "webpack --mode=production",
 		"tslint": "tslint -p tsconfig.json '{src,test}/**/*.ts'",
 		"stylelint": "stylelint 'src/**/*.css' --allow-empty-input",
 		"lint": "npm run tslint && npm run stylelint",
-		"prerelease": "npm run test && npm run build",
+		"lint-built-addon": "addons-linter dist",
+		"prerelease": "npm run test && npm run build:prod && npm run lint-built-addon",
 		"release": "standard-version",
+		"postrelease": "npm run shipit",
+		"shipit": "npm run shipit:chrome && npm run shipit:firefox && npm run shipit:opera",
+		"shipit:firefox": "shipit firefox dist",
+		"shipit:chrome": "shipit chrome dist",
+		"shipit:opera": "shipit opera dist",
 		"pretest": "npm run lint",
 		"test": "echo soon!"
 	},
@@ -26,27 +31,34 @@
 	},
 	"homepage": "https://github.com/timbru31/amazon-tag-remover#readme",
 	"devDependencies": {
-		"@types/chrome": "^0.0.86",
+		"@types/copy-webpack-plugin": "^5.0.0",
+		"@types/firefox-webext-browser": "^67.0.2",
+		"@types/node": "^12.6.8",
+		"@types/semver": "^6.0.1",
+		"@types/webpack": "^4.4.35",
+		"@wext/shipit": "^0.2.0",
 		"addons-linter": "^1.10.1",
+		"clean-webpack-plugin": "^3.0.0",
+		"copy-webpack-plugin": "^5.0.3",
 		"husky": "^3.0.0",
 		"lint-staged": "^9.2.0",
 		"prettier": "^1.18.2",
 		"standard-version": "^6.0.1",
 		"stylelint": "^10.1.0",
 		"stylelint-config-recommended": "^2.2.0",
+		"ts-loader": "^6.0.4",
+		"ts-node": "^8.3.0",
 		"tslint": "^5.18.0",
 		"tslint-config-prettier": "^1.18.0",
-		"typescript": "^3.5.3"
+		"typescript": "^3.5.3",
+		"webextension-polyfill": "^0.4.0",
+		"webpack": "^4.36.1",
+		"webpack-cli": "^3.3.6"
 	},
-	"husky": {
-		"hooks": {
-			"pre-commit": "lint-staged"
+	"standard-version": {
+		"scripts": {
+			"prebump": "ts-node scripts/patch-manifest-version.ts",
+			"postchangelog": "prettier --write CHANGELOG.md"
 		}
-	},
-	"lint-staged": {
-		"*.{ts,json,css,md,yml}": [
-			"prettier --write",
-			"git add"
-		]
 	}
 }

@@ -1,5 +1,5 @@
-// tslint:disable-next-line:variable-name
-const _browser = chrome || browser;
+import { storage } from './api';
+
 let tags: string[] = [];
 const amazonTagRemoverNotification = 'amazon-tag-remover-notification';
 const amazonURLs = [
@@ -21,30 +21,31 @@ const amazonURLs = [
 	'*://*.amazon.it/*',
 	'*://*.amazon.nl/*'
 ];
-const storage = _browser.storage.sync || _browser.storage.local;
 
-_browser.webRequest.onBeforeRequest.addListener(
+interface BeforeRequestResponse {
+	url: string;
+}
+
+browser.webRequest.onBeforeRequest.addListener(
 	interceptRequest,
 	{
 		urls: amazonURLs
 	},
 	['blocking']
 );
-_browser.webNavigation.onCompleted.addListener(
+browser.webNavigation.onCompleted.addListener(
 	() => {
 		if (tags && tags.length) {
-			storage.get('disableNotifications', (item: any) => {
+			storage.get('disableNotifications').then((item: any) => {
 				if (!item.disableNotifications) {
-					_browser.notifications.create(
-						amazonTagRemoverNotification,
-						{
-							iconUrl: _browser.extension.getURL('images/icon64.png'),
+					browser.notifications
+						.create(amazonTagRemoverNotification, {
+							iconUrl: browser.extension.getURL('images/icon64.png'),
 							message: `The following tags were found and have been removed: ${tags}`,
 							title: 'Amazon Tag Remover',
 							type: 'basic'
-						},
-						() => (tags = [])
-					);
+						})
+						.then(() => (tags = []));
 				} else {
 					tags = [];
 				}
@@ -60,7 +61,7 @@ _browser.webNavigation.onCompleted.addListener(
 	}
 );
 
-function interceptRequest(request: chrome.webRequest.WebRequestBodyDetails) {
+function interceptRequest(request: BeforeRequestResponse) {
 	if (request && request.url) {
 		const sanitizedResult = sanitizeURL(request.url);
 		if (sanitizedResult.match) {

@@ -1,7 +1,6 @@
 {
 	"compilerOptions": {
 		"declaration": false,
-		"module": "es2015",
 		"noImplicitAny": true,
 		"noImplicitReturns": false,
 		"strictNullChecks": true,
@@ -10,9 +9,11 @@
 		"noImplicitThis": true,
 		"outDir": "dist/js",
 		"removeComments": true,
-		"target": "es2018",
+		"target": "esnext",
 		"lib": ["dom", "es2018"],
-		"types": ["chrome"]
+		"module": "commonjs",
+		"esModuleInterop": true,
+		"typeRoots": ["./node_modules/@types", "./scripts/@types"]
 	},
 	"include": ["src/js/*.ts"]
 }

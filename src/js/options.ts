@@ -1,11 +1,8 @@
-// tslint:disable-next-line:variable-name
-const __browser = chrome || browser;
-// tslint:disable-next-line:variable-name
-const _storage = __browser.storage.sync || __browser.storage.local;
+import { storage } from './api';
 
 function saveOptions(e: Event) {
 	e.preventDefault();
-	_storage.set({
+	storage.set({
 		disableNotifications: document.querySelector<HTMLInputElement>('#disable-notifications')!.checked
 	});
 }
@@ -15,7 +12,7 @@ function restoreOptions() {
 		document.querySelector<HTMLInputElement>('#disable-notifications')!.checked = result.disableNotifications;
 	}
 
-	_storage.get('disableNotifications', setCurrentChoice);
+	storage.get('disableNotifications').then(setCurrentChoice);
 }
 
 document.addEventListener('DOMContentLoaded', restoreOptions);
