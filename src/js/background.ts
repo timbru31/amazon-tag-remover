@@ -71,7 +71,12 @@ function interceptRequest(request: BeforeRequestResponse) {
 }
 
 function sanitizeURL(urlString: string) {
-	const url = new URL(decodeURIComponent(urlString));
+	let rawURL = decodeURIComponent(urlString);
+	// URL does not contain a valid query parameter, patch it
+	if (!rawURL.includes('?') && rawURL.includes('&')) {
+		rawURL = replaceAt(rawURL, rawURL.lastIndexOf('/'), '?');
+	}
+	const url = new URL(rawURL);
 	let match = false;
 	const searchParams = url.searchParams;
 	if (searchParams.has('tag')) {
@@ -85,4 +90,8 @@ function sanitizeURL(urlString: string) {
 	searchParams.delete('tag');
 	searchParams.delete('ascsubtag');
 	return { match, url: url.toString() };
+}
+
+function replaceAt(original: string, index: number, replacement: string) {
+	return original.substr(0, index) + replacement + original.substr(index + replacement.length);
 }
