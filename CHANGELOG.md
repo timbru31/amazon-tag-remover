@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.5.3](https://github.com/timbru31/amazon-tag-remover/compare/v0.5.2...v0.5.3) (2019-07-19)
+
+### Bug Fixes
+
+-   correctly handle invalid url search params ([95a00e8](https://github.com/timbru31/amazon-tag-remover/commit/95a00e8))
+-   run build:prod after release tagging and bumping ([7bc6225](https://github.com/timbru31/amazon-tag-remover/commit/7bc6225))
+
+### Build System
+
+-   fix manifest ([5bd0fef](https://github.com/timbru31/amazon-tag-remover/commit/5bd0fef))
+
 ### [0.5.2](https://github.com/timbru31/amazon-tag-remover/compare/v0.5.1...v0.5.2) (2019-07-18)
 
 ### Bug Fixes
