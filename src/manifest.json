@@ -12,7 +12,8 @@
 	"author": "Tim 'timbru31' Brust",
 	"description": "Remove the Amazon affiliate tracking ID (tag) from amazon links",
 	"background": {
-		"scripts": ["browser-polyfill.min.js", "background.js"]
+		"scripts": ["browser-polyfill.min.js", "background.js"],
+		"persistent": true
 	},
 	"options_ui": {
 		"chrome_style": true,
