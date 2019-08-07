@@ -58,7 +58,7 @@
 	},
 	"standard-version": {
 		"scripts": {
-			"prebump": "ts-node scripts/patch-manifest-version.ts",
+			"prebump": "ts-node scripts/patch-versions.ts",
 			"postbump": "prettier --write src/manifest.json && git add src/manifest.json",
 			"postchangelog": "prettier --write CHANGELOG.md"
 		}
