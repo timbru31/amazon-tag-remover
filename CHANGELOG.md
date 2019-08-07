@@ -2,6 +2,35 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.6.0](https://github.com/timbru31/amazon-tag-remover/compare/v0.5.3...v0.6.0) (2019-08-07)
+
+### Build System
+
+-   run shipit manually ([525d68a](https://github.com/timbru31/amazon-tag-remover/commit/525d68a))
+-   **deps:** update dependencies ([1706785](https://github.com/timbru31/amazon-tag-remover/commit/1706785))
+-   **deps-dev:** bump @types/node from 12.6.8 to 12.6.9 ([26ee633](https://github.com/timbru31/amazon-tag-remover/commit/26ee633))
+-   **deps-dev:** bump @types/node from 12.6.9 to 12.7.0 ([c9aba94](https://github.com/timbru31/amazon-tag-remover/commit/c9aba94))
+-   **deps-dev:** bump addons-linter from 1.10.1 to 1.11.0 ([f6ddef4](https://github.com/timbru31/amazon-tag-remover/commit/f6ddef4))
+-   **deps-dev:** bump addons-linter from 1.10.1 to 1.11.0 ([#157](https://github.com/timbru31/amazon-tag-remover/issues/157)) ([5f92cc6](https://github.com/timbru31/amazon-tag-remover/commit/5f92cc6))
+-   **deps-dev:** bump copy-webpack-plugin from 5.0.3 to 5.0.4 ([88f3aab](https://github.com/timbru31/amazon-tag-remover/commit/88f3aab))
+-   **deps-dev:** bump husky from 3.0.0 to 3.0.1 ([02ed2d7](https://github.com/timbru31/amazon-tag-remover/commit/02ed2d7))
+-   **deps-dev:** bump husky from 3.0.1 to 3.0.2 ([e293197](https://github.com/timbru31/amazon-tag-remover/commit/e293197))
+-   **deps-dev:** bump lint-staged from 9.2.0 to 9.2.1 ([cf2fc87](https://github.com/timbru31/amazon-tag-remover/commit/cf2fc87))
+-   **deps-dev:** bump standard-version from 6.0.1 to 7.0.0 ([f93fb0b](https://github.com/timbru31/amazon-tag-remover/commit/f93fb0b))
+-   **deps-dev:** bump standard-version from 6.0.1 to 7.0.0 ([#166](https://github.com/timbru31/amazon-tag-remover/issues/166)) ([f9cc67c](https://github.com/timbru31/amazon-tag-remover/commit/f9cc67c))
+-   **deps-dev:** bump webpack from 4.36.1 to 4.37.0 ([ab0a3b1](https://github.com/timbru31/amazon-tag-remover/commit/ab0a3b1))
+-   **deps-dev:** bump webpack from 4.36.1 to 4.37.0 ([#159](https://github.com/timbru31/amazon-tag-remover/issues/159)) ([f35d42a](https://github.com/timbru31/amazon-tag-remover/commit/f35d42a))
+-   **deps-dev:** bump webpack from 4.37.0 to 4.38.0 ([4a5c437](https://github.com/timbru31/amazon-tag-remover/commit/4a5c437))
+-   **deps-dev:** bump webpack from 4.38.0 to 4.39.0 ([4eb50d9](https://github.com/timbru31/amazon-tag-remover/commit/4eb50d9))
+-   **deps-dev:** bump webpack from 4.39.0 to 4.39.1 ([4e0d13a](https://github.com/timbru31/amazon-tag-remover/commit/4e0d13a))
+
+### Features
+
+-   add Edge skeleton and TravisCI deployment config for Windo… ([#156](https://github.com/timbru31/amazon-tag-remover/issues/156)) ([85ff754](https://github.com/timbru31/amazon-tag-remover/commit/85ff754))
+-   add Edge skeleton and TravisCI deployment config for Windows ([37900ea](https://github.com/timbru31/amazon-tag-remover/commit/37900ea))
+-   add Edge version patching ([7dddcd0](https://github.com/timbru31/amazon-tag-remover/commit/7dddcd0))
+-   complete Edge support ([4a8f084](https://github.com/timbru31/amazon-tag-remover/commit/4a8f084))
+
 ### [0.5.3](https://github.com/timbru31/amazon-tag-remover/compare/v0.5.2...v0.5.3) (2019-07-19)
 
 ### Bug Fixes
