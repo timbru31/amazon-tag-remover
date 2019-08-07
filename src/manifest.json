@@ -19,6 +19,7 @@
 		"chrome_style": true,
 		"page": "options.html"
 	},
+	"options_page": "options.html",
 	"permissions": [
 		"tabs",
 		"activeTab",

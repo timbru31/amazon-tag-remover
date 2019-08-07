@@ -2,7 +2,7 @@
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
 	xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
 	xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3" IgnorableNamespaces="uap3">
-	<Identity Name="26440TimBrust.AmazonTagRemover" Publisher="CN=23B7F759-C54C-401E-B405-46568076E906" Version="0.5.2.0" />
+	<Identity Name="26440TimBrust.AmazonTagRemover" Publisher="CN=23B7F759-C54C-401E-B405-46568076E906" Version="0.6.0.0" />
 
 	<Properties>
 		<DisplayName>Amazon Tag Remover</DisplayName>
