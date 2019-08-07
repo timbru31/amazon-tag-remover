@@ -13,7 +13,7 @@
 		"lint-built-addon": "addons-linter dist",
 		"prerelease": "npm run test",
 		"release": "standard-version -s -a",
-		"postrelease": "npm run build:prod && npm run lint-built-addon && npm run shipit",
+		"postrelease": "npm run build:prod && npm run lint-built-addon",
 		"shipit": "npm run shipit:chrome && npm run shipit:firefox && npm run shipit:opera",
 		"shipit:firefox": "shipit firefox dist",
 		"shipit:chrome": "shipit chrome dist",
