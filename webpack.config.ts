@@ -25,7 +25,7 @@ module.exports = (_env: string, argv: Record<string, boolean | number | string>)
 						loader: 'ts-loader',
 						query: {
 							compilerOptions: {
-								module: 'es2015',
+								module: 'esnext',
 								noEmitOnError: argv.watch === false
 							},
 							transpileOnly: true
@@ -51,6 +51,9 @@ module.exports = (_env: string, argv: Record<string, boolean | number | string>)
 			},
 			{
 				from: 'node_modules/webextension-polyfill/dist/browser-polyfill.min.js'
+			},
+			{
+				from: 'src/js/backgroundScriptsAPIBridge.js'
 			}
 		])
 	],

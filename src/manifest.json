@@ -51,5 +51,8 @@
 		"48": "images/icon48.png",
 		"64": "images/icon64.png",
 		"128": "images/icon128.png"
+	},
+	"-ms-preload": {
+		"backgroundScript": "backgroundScriptsAPIBridge.js"
 	}
 }
