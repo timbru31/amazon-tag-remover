@@ -34,7 +34,7 @@
 	"devDependencies": {
 		"@types/copy-webpack-plugin": "^5.0.0",
 		"@types/firefox-webext-browser": "^67.0.2",
-		"@types/node": "^12.7.0",
+		"@types/node": "^12.7.1",
 		"@types/semver": "^6.0.1",
 		"@types/webpack": "^4.32.1",
 		"@wext/shipit": "^0.2.0",
