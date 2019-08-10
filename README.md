@@ -10,6 +10,7 @@
 [![Chrome Web Store](https://img.shields.io/chrome-web-store/v/mmajdhfdokfcaiadahjnffhbfjfkmcnc.svg)](https://chrome.google.com/webstore/detail/amazon-tag-remover/mmajdhfdokfcaiadahjnffhbfjfkmcnc)
 [![Opera Add-ons](https://img.shields.io/badge/Opera%20Add--ons-v0.5.3-orange.svg)](https://addons.opera.com/extensions/details/amazon-tag-remover/)
 [![Add-Ons for Firefox](https://img.shields.io/amo/v/amazon-tag-remover.svg)](https://addons.mozilla.org/firefox/addon/amazon-tag-remover/)
+[![Microsoft Store](https://img.shields.io/badge/Microsoft%20Store-v0.6.1.0-orange.svg)](https://www.microsoft.com/store/apps/9NVBVZB6QH92)
 
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 [![Dependabot Status](https://api.dependabot.com/badges/status?host=github&repo=timbru31/amazon-tag-remover)](https://dependabot.com)
@@ -25,6 +26,7 @@ This extension removes the tracking ID before the browser is performing the requ
 [![Amazon Tag Remover @Chrome Web Store](https://developer.chrome.com/webstore/images/ChromeWebStore_Badge_v2_206x58.png 'Amazon Tag Remover @Chrome Web Store')](https://chrome.google.com/webstore/detail/amazon-tag-remover/mmajdhfdokfcaiadahjnffhbfjfkmcnc)
 [<img alt="Amazon Tag Remover @Opera add-ons" src="https://dev.opera.com/extensions/branding-guidelines/addons_206x58_en@2x.png" height="58" width="206">](https://addons.opera.com/extensions/details/amazon-tag-remover/)
 [<img alt="Amazon Tag Remover @Add-Ons for Firefox" src="./docs/images/firefox-logo-horizontal-lockup.png" height="58">](https://addons.mozilla.org/firefox/addon/amazon-tag-remover/)
+[<img alt="Amazon Tag Remover @Microsoft Store" src="https://assets.windowsphone.com/85864462-9c82-451e-9355-a3d5f874397a/English_get-it-from-MS_InvariantCulture_Default.png" height="58">](https://www.microsoft.com/store/apps/9NVBVZB6QH92)
 
 ## Features
 
