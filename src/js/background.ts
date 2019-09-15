@@ -3,6 +3,7 @@ import { storage } from './api';
 let tags: string[] = [];
 const amazonTagRemoverNotification = 'amazon-tag-remover-notification';
 const amazonURLs = [
+	'*://*.amazon.ae/*',
 	'*://*.amazon.at/*',
 	'*://*.amazon.ca/*',
 	'*://*.amazon.cn/*',
@@ -11,6 +12,7 @@ const amazonURLs = [
 	'*://*.amazon.com.au/*',
 	'*://*.amazon.com.br/*',
 	'*://*.amazon.com.mx/*',
+	'*://*.amazon.com.sg/*',
 	'*://*.amazon.com.tr/*',
 	'*://*.amazon.com/*',
 	'*://*.amazon.de/*',
@@ -55,7 +57,7 @@ browser.webNavigation.onCompleted.addListener(
 	{
 		url: [
 			{
-				urlMatches: 'https?://w*.?amazon.(at|ca|cn|co.jp|co.uk|com.au|com.br|com.mx|com.tr|com|de|es|fr|ie|in|it|nl)/w*'
+				urlMatches: 'https?://w*.?amazon.(ae|ca|cn|co.jp|co.uk|com.au|com.br|com.mx|com.sg|com.tr|com|de|es|fr|ie|in|it|nl)/w*'
 			}
 		]
 	}
