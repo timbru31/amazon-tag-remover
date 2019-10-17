@@ -33,7 +33,7 @@
 	"homepage": "https://github.com/timbru31/amazon-tag-remover#readme",
 	"devDependencies": {
 		"@types/copy-webpack-plugin": "^5.0.0",
-		"@types/firefox-webext-browser": "^67.0.2",
+		"@types/firefox-webext-browser": "^70.0.1",
 		"@types/node": "^12.11.1",
 		"@types/semver": "^6.0.2",
 		"@types/webpack": "^4.39.3",
