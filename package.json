@@ -37,7 +37,7 @@
 		"@types/node": "^12.11.7",
 		"@types/semver": "^6.0.2",
 		"@types/webpack": "^4.39.5",
-		"@wext/shipit": "^0.2.0",
+		"@wext/shipit": "^0.2.1",
 		"addons-linter": "^1.15.2",
 		"clean-webpack-plugin": "^3.0.0",
 		"copy-webpack-plugin": "^5.0.4",
