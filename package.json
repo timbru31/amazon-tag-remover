@@ -1,6 +1,6 @@
 {
 	"name": "amazon-tag-remover",
-	"version": "0.7.0",
+	"version": "0.7.1",
 	"private": true,
 	"description": "WebExtension for Chrome, Firefox, Edge and Opera to remove the Amazon affiliate tracking ID (tag) from amazon links",
 	"scripts": {

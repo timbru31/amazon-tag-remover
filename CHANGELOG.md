@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.7.1](https://github.com/timbru31/amazon-tag-remover/compare/v0.7.0...v0.7.1) (2019-12-28)
+
+### Bug Fixes
+
+-   remove console.log ([fd47ebd](https://github.com/timbru31/amazon-tag-remover/commit/fd47ebdf7e498ad858605c71e54cc67d23c27788))
+-   **edge:** prevent multiple notifications ([1ab4041](https://github.com/timbru31/amazon-tag-remover/commit/1ab404157526ae033459ac864ff1469c7a3e4135))
+
 ## [0.7.0](https://github.com/timbru31/amazon-tag-remover/compare/v0.6.1...v0.7.0) (2019-12-28)
 
 ### Features
