@@ -24,6 +24,9 @@ const amazonURLs = [
 	'*://*.amazon.nl/*'
 ];
 
+const urlPattern = 'https?://w*.?amazon.(ae|ca|cn|co.jp|co.uk|com.au|com.br|com.mx|com.sg|com.tr|com|de|es|fr|ie|in|it|nl)/w*';
+const urlRegExp = new RegExp(urlPattern);
+
 interface BeforeRequestResponse {
 	url: string;
 }
@@ -36,28 +39,33 @@ browser.webRequest.onBeforeRequest.addListener(
 	['blocking']
 );
 browser.webNavigation.onCompleted.addListener(
-	() => {
-		if (tags && tags.length) {
-			storage.get('disableNotifications').then((item: any) => {
-				if (!item.disableNotifications) {
-					browser.notifications
-						.create(amazonTagRemoverNotification, {
+	event => {
+		if (urlRegExp.test(event.url)) {
+			if (tags && tags.length) {
+				storage.get('disableNotifications').then((item: any) => {
+					if (!item.disableNotifications) {
+						console.log('calling notification');
+						// EdgeHTML sometimes does not return a Promise, but undefined
+						const potentialNotificationPromise = browser.notifications.create(amazonTagRemoverNotification, {
 							iconUrl: browser.extension.getURL('images/icon64.png'),
 							message: `The following tags were found and have been removed: ${tags}`,
 							title: 'Amazon Tag Remover',
 							type: 'basic'
-						})
-						.then(() => (tags = []));
-				} else {
-					tags = [];
-				}
-			});
+						});
+						if (potentialNotificationPromise && potentialNotificationPromise.then) {
+							potentialNotificationPromise.then(() => (tags = []));
+						}
+					} else {
+						tags = [];
+					}
+				});
+			}
 		}
 	},
 	{
 		url: [
 			{
-				urlMatches: 'https?://w*.?amazon.(ae|ca|cn|co.jp|co.uk|com.au|com.br|com.mx|com.sg|com.tr|com|de|es|fr|ie|in|it|nl)/w*'
+				urlMatches: urlPattern
 			}
 		]
 	}
