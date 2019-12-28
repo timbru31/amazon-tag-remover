@@ -29,7 +29,6 @@ getNextVersion(packageJson.version)
 		manifest.version = version;
 		writeFileSync('./src/manifest.json', JSON.stringify(manifest, null, '\t'));
 
-
 		let edgeManifest = readFileSync('./edge/AppXManifest.xml', { encoding: 'utf-8' });
 		edgeManifest = edgeManifest.replace(/(Version=")((?:\d\.){3}\d)(")/, `$1${version}.0$3`);
 		writeFileSync('./edge/AppXManifest.xml', edgeManifest);
