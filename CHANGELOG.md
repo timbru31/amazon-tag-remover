@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.7.0](https://github.com/timbru31/amazon-tag-remover/compare/v0.6.1...v0.7.0) (2019-12-28)
+
+### Features
+
+-   add support for amazon.com.sg and amazon.ae ([d316186](https://github.com/timbru31/amazon-tag-remover/commit/d31618638e6b0c7ab96cd95602430d7a906d3ab8))
+
+### Bug Fixes
+
+-   correct edge version ([285d109](https://github.com/timbru31/amazon-tag-remover/commit/285d1096de042ab7de18f38bea9c9a40f2d66980))
+-   do not block Prime Video watchlist feature ([067c319](https://github.com/timbru31/amazon-tag-remover/commit/067c31903102d95f39c436058d3331625d7e4bce))
+-   Github Action ([c07521c](https://github.com/timbru31/amazon-tag-remover/commit/c07521c3527b62965d5025fd0b479b91891105f1))
+
 ### [0.6.1](https://github.com/timbru31/amazon-tag-remover/compare/v0.6.0...v0.6.1) (2019-08-07)
 
 ### Bug Fixes
