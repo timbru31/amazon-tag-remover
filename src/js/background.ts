@@ -81,16 +81,17 @@ function sanitizeURL(urlString: string) {
 	const url = new URL(rawURL);
 	let match = false;
 	const searchParams = url.searchParams;
-	if (searchParams.has('tag')) {
-		tags.push(searchParams.get('tag')!);
+	const tag = searchParams.get('tag');
+	if (tag && !url.pathname.includes('watchlistToggle')) {
+		tags.push(tag);
 		match = true;
+		searchParams.delete('tag');
 	}
 	if (searchParams.has('ascsubtag')) {
 		tags.push(searchParams.get('ascsubtag')!);
 		match = true;
+		searchParams.delete('ascsubtag');
 	}
-	searchParams.delete('tag');
-	searchParams.delete('ascsubtag');
 	return { match, url: url.toString() };
 }
 
