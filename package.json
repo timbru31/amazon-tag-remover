@@ -36,7 +36,7 @@
 		"@types/firefox-webext-browser": "^70.0.1",
 		"@types/node": "^12.12.24",
 		"@types/semver": "^6.2.0",
-		"@types/webpack": "^4.41.1",
+		"@types/webpack": "^4.41.2",
 		"@wext/shipit": "^0.2.1",
 		"addons-linter": "^1.19.0",
 		"clean-webpack-plugin": "^3.0.0",
