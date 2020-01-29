@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.7.2](https://github.com/timbru31/amazon-tag-remover/compare/v0.7.1...v0.7.2) (2020-01-29)
+
+### Features
+
+-   remove redundant git add ([360957c](https://github.com/timbru31/amazon-tag-remover/commit/360957cfd9b39b6473c5000c995f1f7ac7e4f50d))
+
+### Bug Fixes
+
+-   **edge:** make sure to always clear the tags ([da04469](https://github.com/timbru31/amazon-tag-remover/commit/da0446958eaa9af97e4d9e155d3faf17cfaf93b3))
+
 ### [0.7.1](https://github.com/timbru31/amazon-tag-remover/compare/v0.7.0...v0.7.1) (2019-12-28)
 
 ### Bug Fixes
