@@ -52,7 +52,9 @@ browser.webNavigation.onCompleted.addListener(
 							type: 'basic'
 						});
 						if (potentialNotificationPromise && potentialNotificationPromise.then) {
-							potentialNotificationPromise.then(() => (tags = []));
+							potentialNotificationPromise.then(() => (tags = [])).catch(_ => (tags = []));
+						} else {
+							tags = [];
 						}
 					} else {
 						tags = [];
