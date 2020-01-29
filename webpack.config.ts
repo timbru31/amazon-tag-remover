@@ -51,9 +51,6 @@ module.exports = (_env: string, argv: Record<string, boolean | number | string>)
 			},
 			{
 				from: 'node_modules/webextension-polyfill/dist/browser-polyfill.min.js'
-			},
-			{
-				from: 'src/js/backgroundScriptsAPIBridge.js'
 			}
 		])
 	],

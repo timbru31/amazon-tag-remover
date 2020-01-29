@@ -44,18 +44,14 @@ browser.webNavigation.onCompleted.addListener(
 			if (tags && tags.length) {
 				storage.get('disableNotifications').then((item: any) => {
 					if (!item.disableNotifications) {
-						// EdgeHTML sometimes does not return a Promise, but undefined
-						const potentialNotificationPromise = browser.notifications.create(amazonTagRemoverNotification, {
-							iconUrl: browser.extension.getURL('images/icon64.png'),
-							message: `The following tags were found and have been removed: ${tags}`,
-							title: 'Amazon Tag Remover',
-							type: 'basic'
-						});
-						if (potentialNotificationPromise && potentialNotificationPromise.then) {
-							potentialNotificationPromise.then(() => (tags = [])).catch(_ => (tags = []));
-						} else {
-							tags = [];
-						}
+						browser.notifications
+							.create(amazonTagRemoverNotification, {
+								iconUrl: browser.extension.getURL('images/icon64.png'),
+								message: `The following tags were found and have been removed: ${tags}`,
+								title: 'Amazon Tag Remover',
+								type: 'basic'
+							})
+							.finally(() => (tags = []));
 					} else {
 						tags = [];
 					}

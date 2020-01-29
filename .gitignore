@@ -3,4 +3,3 @@ dist/
 node_modules
 .env
 npm-debug.log
-edge/Extension/

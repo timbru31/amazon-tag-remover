@@ -2,31 +2,5 @@ language: node_js
 node_js:
     - lts/*
 
-matrix:
-    include:
-        - os: windows
-          env:
-              - DEPLOYMENT=TRUE
-              - TRAVIS_BUILD_PATH="C:\Users\travis\build\timbru31\amazon-tag-remover"
-          deploy:
-              provider: releases
-              api_key:
-                  secure: ytS6KobiOOhd78JATaktj6OcV8dde8z9Gf0PDbLMwWS/usmxnwKzOwRNnveV8VFFqeEi4y6KQdxAFcd7m2WO2YOYCFPKZHqyc956qKHDZuIjD2/8PsTYb7iG8Z4VTTU7240dMCn0BEwILH5/GpjEykqvoVgBpFxsfid8svsuniWolwH69FxQ006jh6IJ/Mo6jyaEsDxF4dy4MLpmMFMp4xDKR8sqVGj5kb8+nCJn2qlvWetG5v/TE9yeMGXinZPs4VaY7YS1JjOj/Buc8Lfjy6lFfD5T32ywGVoepi3LgD634Ee+K5Oe64lauJrOaCB5HWbmBBE//Vr8hfIDIVeFaYI/x4Z1Xr6CHbP9PNQacFw+PZxC1WuwoiPjJIweU+N6foIyetshCJawxrkjkZ7Vb6VQbZ4rO8oRG1HcHgNSD2LBy8RdZj5t+XwzjsrPeT8mf3ARC2KQDgWYQv8ToV9O80RaeYtm1W5DWLUNsrSrWtdGqkEYnP4idHsaJnEUieZjkjdcyfcckQU0cOaW/RipdTl3j3HfwQuiuCsRVjuqlnJNghxKsrbu/mUHqFFDGqvUKW70u359Vs53KR/khXHCnaX6e6S+LC6ZnekUTmApYo6oS/Z1s+hYyOkTIMowNcbsFq4MsT8FXnxk0VJbV0uI+d2GnT7PaGiTJbDf2u+ALW0=
-              file: AmazonTagRemover.appx
-              skip_cleanup: true
-              on:
-                  tags: true
-        - os: linux
-
 script:
     - npm test
-    - |
-        if [ ! -z "$TRAVIS_TAG" -a "$DEPLOYMENT" = "TRUE" ]; then
-            npm run build:prod
-            # No symlink support yet... https://travis-ci.community/t/git-symlinks-support/274
-            cd edge
-            mkdir Extension
-            cp -r ../dist/* Extension
-            cd ..
-            powershell -command "& 'C:\Program Files (x86)\Windows Kits\10\bin\x64\MakeAppx.exe' pack /d '$TRAVIS_BUILD_PATH\edge' /p '$TRAVIS_BUILD_PATH\AmazonTagRemover.appx'"
-        fi
