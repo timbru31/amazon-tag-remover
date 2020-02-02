@@ -10,7 +10,7 @@
 [![Chrome Web Store](https://img.shields.io/chrome-web-store/v/mmajdhfdokfcaiadahjnffhbfjfkmcnc.svg)](https://chrome.google.com/webstore/detail/amazon-tag-remover/mmajdhfdokfcaiadahjnffhbfjfkmcnc)
 [![Opera Add-ons](https://img.shields.io/badge/Opera%20Add--ons-v0.5.3-orange.svg)](https://addons.opera.com/extensions/details/amazon-tag-remover/)
 [![Add-Ons for Firefox](https://img.shields.io/amo/v/amazon-tag-remover.svg)](https://addons.mozilla.org/firefox/addon/amazon-tag-remover/)
-[![Microsoft Store](https://img.shields.io/badge/Microsoft%20Store-v0.6.1.0-orange.svg)](https://www.microsoft.com/store/apps/9NVBVZB6QH92)
+[![Microsoft Store](https://img.shields.io/badge/Microsoft%20Store-v0.7.2.0-orange.svg)](https://www.microsoft.com/store/apps/9NVBVZB6QH92)
 
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 [![Dependabot Status](https://api.dependabot.com/badges/status?host=github&repo=timbru31/amazon-tag-remover)](https://dependabot.com)
