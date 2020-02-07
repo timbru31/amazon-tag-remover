@@ -11,6 +11,7 @@
 [![Opera Add-ons](https://img.shields.io/badge/Opera%20Add--ons-v0.5.3-orange.svg)](https://addons.opera.com/extensions/details/amazon-tag-remover/)
 [![Add-Ons for Firefox](https://img.shields.io/amo/v/amazon-tag-remover.svg)](https://addons.mozilla.org/firefox/addon/amazon-tag-remover/)
 [![Microsoft Store](https://img.shields.io/badge/Microsoft%20Store-v0.7.2.0-orange.svg)](https://www.microsoft.com/store/apps/9NVBVZB6QH92)
+[![Microsoft Edge Addongs](https://img.shields.io/badge/Microsoft%20Edge%20Addons-v0.8.0-orange.svg)](https://microsoftedge.microsoft.com/addons/detail/mgomlnlopahnglkdhmneklogokbmhden)
 
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 [![Dependabot Status](https://api.dependabot.com/badges/status?host=github&repo=timbru31/amazon-tag-remover)](https://dependabot.com)
