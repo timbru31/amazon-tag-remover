@@ -3,7 +3,7 @@ import { storage } from './api';
 function saveOptions(e: Event) {
 	e.preventDefault();
 	storage.set({
-		disableNotifications: document.querySelector<HTMLInputElement>('#disable-notifications')!.checked
+		disableNotifications: document.querySelector<HTMLInputElement>('#disable-notifications')!.checked,
 	});
 }
 

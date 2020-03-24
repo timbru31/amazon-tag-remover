@@ -21,7 +21,7 @@ const amazonURLs = [
 	'*://*.amazon.ie/*',
 	'*://*.amazon.in/*',
 	'*://*.amazon.it/*',
-	'*://*.amazon.nl/*'
+	'*://*.amazon.nl/*',
 ];
 
 const urlPattern = 'https?://w*.?amazon.(ae|ca|cn|co.jp|co.uk|com.au|com.br|com.mx|com.sg|com.tr|com|de|es|fr|ie|in|it|nl)/w*';
@@ -34,12 +34,12 @@ interface BeforeRequestResponse {
 browser.webRequest.onBeforeRequest.addListener(
 	interceptRequest,
 	{
-		urls: amazonURLs
+		urls: amazonURLs,
 	},
 	['blocking']
 );
 browser.webNavigation.onCompleted.addListener(
-	event => {
+	(event) => {
 		if (urlRegExp.test(event.url)) {
 			if (tags && tags.length) {
 				storage.get('disableNotifications').then((item: any) => {
@@ -49,7 +49,7 @@ browser.webNavigation.onCompleted.addListener(
 								iconUrl: browser.extension.getURL('images/icon64.png'),
 								message: `The following tags were found and have been removed: ${tags}`,
 								title: 'Amazon Tag Remover',
-								type: 'basic'
+								type: 'basic',
 							})
 							.finally(() => (tags = []));
 					} else {
@@ -62,9 +62,9 @@ browser.webNavigation.onCompleted.addListener(
 	{
 		url: [
 			{
-				urlMatches: urlPattern
-			}
-		]
+				urlMatches: urlPattern,
+			},
+		],
 	}
 );
 

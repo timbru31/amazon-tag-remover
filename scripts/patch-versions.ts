@@ -9,7 +9,7 @@ const getNextVersion = (currentVersion: string) => {
 	return new Promise((resolve, reject) => {
 		bump(
 			{
-				preset: 'angular'
+				preset: 'angular',
 			},
 			(err, release) => {
 				if (err) {
@@ -24,7 +24,7 @@ const getNextVersion = (currentVersion: string) => {
 };
 
 getNextVersion(packageJson.version)
-	.then(version => {
+	.then((version) => {
 		const manifest = JSON.parse(readFileSync('./src/manifest.json', { encoding: 'utf-8' }));
 		manifest.version = version;
 		writeFileSync('./src/manifest.json', JSON.stringify(manifest, null, '\t'));
