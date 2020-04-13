@@ -8,11 +8,11 @@ module.exports = (_env: string, argv: Record<string, boolean | number | string>)
 	devtool: argv.mode === 'production' ? undefined : 'source-map',
 	entry: {
 		background: './src/js/background.ts',
-		options: './src/js/options.ts'
+		options: './src/js/options.ts',
 	},
 	output: {
 		filename: '[name].js',
-		path: path.join(__dirname, 'dist')
+		path: path.join(__dirname, 'dist'),
 	},
 	// tslint:disable-next-line: object-literal-sort-keys
 	module: {
@@ -26,14 +26,14 @@ module.exports = (_env: string, argv: Record<string, boolean | number | string>)
 						query: {
 							compilerOptions: {
 								module: 'esnext',
-								noEmitOnError: argv.watch === false
+								noEmitOnError: argv.watch === false,
 							},
-							transpileOnly: true
-						}
-					}
-				]
-			}
-		]
+							transpileOnly: true,
+						},
+					},
+				],
+			},
+		],
 	},
 	plugins: [
 		new CleanWebpackPlugin(),
@@ -41,20 +41,20 @@ module.exports = (_env: string, argv: Record<string, boolean | number | string>)
 			{
 				context: 'src',
 				from: '*',
-				ignore: ['*.js', '*.ts']
+				ignore: ['*.js', '*.ts'],
 			},
 			{
 				context: 'src/images',
 				from: '*',
 				ignore: ['*.js', '*.ts'],
-				to: 'images'
+				to: 'images',
 			},
 			{
-				from: 'node_modules/webextension-polyfill/dist/browser-polyfill.min.js'
-			}
-		])
+				from: 'node_modules/webextension-polyfill/dist/browser-polyfill.min.js',
+			},
+		]),
 	],
 	resolve: {
-		extensions: ['.ts']
-	}
+		extensions: ['.ts'],
+	},
 });
