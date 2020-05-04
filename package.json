@@ -48,7 +48,7 @@
 		"stylelint": "^13.3.3",
 		"stylelint-config-recommended": "^3.0.0",
 		"ts-loader": "^7.0.2",
-		"ts-node": "^8.9.1",
+		"ts-node": "^8.10.1",
 		"tslint": "^6.1.2",
 		"tslint-config-prettier": "^1.18.0",
 		"typescript": "^3.8.3",
