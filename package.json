@@ -45,7 +45,7 @@
 		"lint-staged": "^10.2.3",
 		"prettier": "^2.0.5",
 		"standard-version": "^8.0.0",
-		"stylelint": "^13.3.3",
+		"stylelint": "^13.4.0",
 		"stylelint-config-recommended": "^3.0.0",
 		"ts-loader": "^7.0.4",
 		"ts-node": "^8.10.1",
