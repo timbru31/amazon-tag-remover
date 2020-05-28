@@ -9,10 +9,11 @@
 		"noImplicitThis": true,
 		"outDir": "dist/js",
 		"removeComments": true,
-		"target": "esnext",
-		"lib": ["dom", "es2018"],
-		"module": "commonjs",
+		"target": "ESNext",
+		"lib": ["DOM", "ES2020"],
+		"module": "CommonJS",
 		"esModuleInterop": true,
+		"resolveJsonModule": true,
 		"typeRoots": ["./node_modules/@types", "./scripts/@types"]
 	},
 	"include": ["src/js/*.ts"]

@@ -3,7 +3,7 @@ import { readFileSync, writeFileSync } from 'fs';
 
 import bump from 'conventional-recommended-bump';
 import { inc, valid } from 'semver';
-const packageJson = JSON.parse(readFileSync('./package.json', { encoding: 'utf-8' }));
+import { version } from '../package.json';
 
 const getNextVersion = (currentVersion: string) => {
 	return new Promise((resolve, reject) => {
@@ -23,7 +23,7 @@ const getNextVersion = (currentVersion: string) => {
 	});
 };
 
-getNextVersion(packageJson.version)
+getNextVersion(version)
 	.then((version) => {
 		const manifest = JSON.parse(readFileSync('./src/manifest.json', { encoding: 'utf-8' }));
 		manifest.version = version;

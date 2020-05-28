@@ -37,22 +37,28 @@ module.exports = (_env: string, argv: Record<string, boolean | number | string>)
 	},
 	plugins: [
 		new CleanWebpackPlugin(),
-		new CopyWebpackPlugin([
-			{
-				context: 'src',
-				from: '*',
-				ignore: ['*.js', '*.ts'],
-			},
-			{
-				context: 'src/images',
-				from: '*',
-				ignore: ['*.js', '*.ts'],
-				to: 'images',
-			},
-			{
-				from: 'node_modules/webextension-polyfill/dist/browser-polyfill.min.js',
-			},
-		]),
+		new CopyWebpackPlugin({
+			patterns: [
+				{
+					context: 'src',
+					from: '*',
+					globOptions: {
+						ignore: ['*.js', '*.ts'],
+					},
+				},
+				{
+					context: 'src/images',
+					from: '*',
+					globOptions: {
+						ignore: ['*.js', '*.ts'],
+					},
+					to: 'images',
+				},
+				{
+					from: 'node_modules/webextension-polyfill/dist/browser-polyfill.min.js',
+				},
+			],
+		}),
 	],
 	resolve: {
 		extensions: ['.ts'],
