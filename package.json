@@ -40,7 +40,7 @@
 		"@wext/shipit": "^0.2.1",
 		"addons-linter": "^2.1.0",
 		"clean-webpack-plugin": "^3.0.0",
-		"copy-webpack-plugin": "^6.0.3",
+		"copy-webpack-plugin": "^6.1.0",
 		"husky": "^4.2.5",
 		"lint-staged": "^10.2.13",
 		"prettier": "^2.1.1",
