@@ -1,6 +1,7 @@
 # Amazon Tag Remover
 
-[![Build Status](https://travis-ci.org/timbru31/amazon-tag-remover.svg?branch=master)](https://travis-ci.org/timbru31/amazon-tag-remover)
+[![Security](https://github.com/timbru31/amazon-tag-remover/workflows/Security/badge.svg)](https://github.com/timbru31/amazon-tag-remover/actions?query=workflow%3ASecurity)
+[![Linting](https://github.com/timbru31/amazon-tag-remover/workflows/Linting/badge.svg)](https://github.com/timbru31/amazon-tag-remover/actions?query=workflow%3ALinting)
 
 [![Dependency Status](https://david-dm.org/timbru31/amazon-tag-remover.svg)](https://david-dm.org/timbru31/amazon-tag-remover)
 [![devDependency Status](https://david-dm.org/timbru31/amazon-tag-remover/dev-status.svg)](https://david-dm.org/timbru31/amazon-tag-remover#info=devDependencies)
