@@ -14,17 +14,10 @@
 		"prerelease": "npm run test",
 		"release": "standard-version -s -a",
 		"postrelease": "npm run build:prod && npm run lint-built-addon",
-		"shipit": "npm run shipit:chrome && npm run shipit:firefox && npm run shipit:opera",
-		"shipit:firefox": "shipit firefox dist",
-		"shipit:chrome": "shipit chrome dist",
-		"shipit:opera": "shipit opera dist",
 		"pretest": "npm run lint",
 		"test": "echo soon!"
 	},
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/timbru31/amazon-tag-remover.git"
-	},
+	"repository": "timbru31/amazon-tag-remover",
 	"author": "Tim Brust <github@timbrust.de>",
 	"license": "MIT",
 	"bugs": {
@@ -37,12 +30,11 @@
 		"@types/node": "^12.12.55",
 		"@types/semver": "^7.3.3",
 		"@types/webpack": "^4.41.22",
-		"@wext/shipit": "^0.2.1",
 		"addons-linter": "^2.1.0",
 		"clean-webpack-plugin": "^3.0.0",
 		"copy-webpack-plugin": "^6.1.0",
 		"husky": "^4.2.5",
-		"lint-staged": "^10.2.13",
+		"lint-staged": "^10.3.0",
 		"prettier": "^2.1.1",
 		"standard-version": "^9.0.0",
 		"stylelint": "^13.7.0",
