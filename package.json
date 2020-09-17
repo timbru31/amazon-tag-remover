@@ -27,7 +27,7 @@
 	"devDependencies": {
 		"@types/copy-webpack-plugin": "^6.0.0",
 		"@types/firefox-webext-browser": "^78.0.1",
-		"@types/node": "^12.12.59",
+		"@types/node": "^12.12.61",
 		"@types/semver": "^7.3.4",
 		"@types/webpack": "^4.41.22",
 		"addons-linter": "^2.3.0",
