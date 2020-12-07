@@ -33,7 +33,7 @@
 		"addons-linter": "^2.13.1",
 		"clean-webpack-plugin": "^3.0.0",
 		"copy-webpack-plugin": "^6.3.2",
-		"husky": "^4.3.0",
+		"husky": "^4.3.5",
 		"lint-staged": "^10.5.2",
 		"prettier": "^2.2.1",
 		"standard-version": "^9.0.0",
