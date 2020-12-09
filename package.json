@@ -30,7 +30,7 @@
 		"@types/node": "^12.19.8",
 		"@types/semver": "^7.3.4",
 		"@types/webpack": "^4.41.25",
-		"addons-linter": "^2.13.1",
+		"addons-linter": "^2.14.0",
 		"clean-webpack-plugin": "^3.0.0",
 		"copy-webpack-plugin": "^6.4.0",
 		"husky": "^4.3.5",
