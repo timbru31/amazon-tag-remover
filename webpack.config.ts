@@ -1,7 +1,6 @@
 // tslint:disable: no-implicit-dependencies
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
-import path from 'path';
 import webpack from 'webpack';
 
 module.exports = (_env: string, argv: Record<string, boolean | number | string>): webpack.Configuration => ({
@@ -9,10 +8,6 @@ module.exports = (_env: string, argv: Record<string, boolean | number | string>)
 	entry: {
 		background: './src/js/background.ts',
 		options: './src/js/options.ts',
-	},
-	output: {
-		filename: '[name].js',
-		path: path.join(__dirname, 'dist'),
 	},
 	// tslint:disable-next-line: object-literal-sort-keys
 	module: {
@@ -23,12 +18,12 @@ module.exports = (_env: string, argv: Record<string, boolean | number | string>)
 				use: [
 					{
 						loader: 'ts-loader',
-						query: {
+						options: {
+							transpileOnly: true,
 							compilerOptions: {
 								module: 'esnext',
 								noEmitOnError: argv.watch === false,
 							},
-							transpileOnly: true,
 						},
 					},
 				],

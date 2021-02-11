@@ -12,6 +12,7 @@
 		"target": "ESNext",
 		"lib": ["DOM", "ES2020"],
 		"module": "CommonJS",
+		"moduleResolution": "Node",
 		"esModuleInterop": true,
 		"resolveJsonModule": true,
 		"typeRoots": ["./node_modules/@types", "./scripts/@types"]
