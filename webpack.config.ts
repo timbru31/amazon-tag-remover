@@ -1,9 +1,13 @@
 // tslint:disable: no-implicit-dependencies
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
-import webpack from 'webpack';
+import { resolve } from 'path';
+import webpack, { WebpackPluginInstance } from 'webpack';
 
 module.exports = (_env: string, argv: Record<string, boolean | number | string>): webpack.Configuration => ({
+	output: {
+		path: resolve(__dirname, 'dist'),
+	},
 	devtool: argv.mode === 'production' ? undefined : 'source-map',
 	entry: {
 		background: './src/js/background.ts',
@@ -31,8 +35,8 @@ module.exports = (_env: string, argv: Record<string, boolean | number | string>)
 		],
 	},
 	plugins: [
-		new CleanWebpackPlugin(),
-		new CopyWebpackPlugin({
+		(new CleanWebpackPlugin() as unknown) as WebpackPluginInstance,
+		(new CopyWebpackPlugin({
 			patterns: [
 				{
 					context: 'src',
@@ -53,7 +57,7 @@ module.exports = (_env: string, argv: Record<string, boolean | number | string>)
 					from: 'node_modules/webextension-polyfill/dist/browser-polyfill.min.js',
 				},
 			],
-		}),
+		}) as unknown) as WebpackPluginInstance,
 	],
 	resolve: {
 		extensions: ['.ts'],

@@ -22,9 +22,11 @@ const amazonURLs = [
 	'*://*.amazon.in/*',
 	'*://*.amazon.it/*',
 	'*://*.amazon.nl/*',
+	'*://*.amazon.pl/*',
+	'*://*.amazon.se/*',
 ];
 
-const urlPattern = 'https?://w*.?amazon.(ae|ca|cn|co.jp|co.uk|com.au|com.br|com.mx|com.sg|com.tr|com|de|es|fr|ie|in|it|nl)/w*';
+const urlPattern = 'https?://w*.?amazon.(ae|ca|cn|co.jp|co.uk|com.au|com.br|com.mx|com.sg|com.tr|com|de|es|fr|ie|in|it|nl|pl|se)/w*';
 const urlRegExp = new RegExp(urlPattern);
 
 interface BeforeRequestResponse {

@@ -1,7 +1,8 @@
-// tslint:disable:no-implicit-dependencies
 import { readFileSync, writeFileSync } from 'fs';
 
+// tslint:disable-next-line:no-implicit-dependencies
 import bump from 'conventional-recommended-bump';
+// tslint:disable-next-line:no-implicit-dependencies
 import { inc, valid } from 'semver';
 import { version } from '../package.json';
 

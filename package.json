@@ -7,7 +7,6 @@
 		"prepare": "husky install",
 		"build:dev": "webpack --mode=development --watch",
 		"build:prod": "webpack --mode=production",
-		"postbuild:prod": "ts-node scripts/patch-strict-mode.ts",
 		"tslint": "tslint -p tsconfig.json '{src,test}/**/*.ts'",
 		"stylelint": "stylelint 'src/**/*.css' --allow-empty-input",
 		"lint": "npm run tslint && npm run stylelint",
@@ -26,6 +25,7 @@
 	},
 	"homepage": "https://github.com/timbru31/amazon-tag-remover#readme",
 	"devDependencies": {
+		"@types/conventional-recommended-bump": "^6.0.0",
 		"@types/copy-webpack-plugin": "^6.4.1",
 		"@types/firefox-webext-browser": "^82.0.0",
 		"@types/node": "^12.20.6",
