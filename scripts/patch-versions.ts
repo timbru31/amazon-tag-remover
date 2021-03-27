@@ -3,7 +3,7 @@ import { readFileSync, writeFileSync } from 'fs';
 // tslint:disable-next-line:no-implicit-dependencies
 import bump from 'conventional-recommended-bump';
 // tslint:disable-next-line:no-implicit-dependencies
-import { inc, valid } from 'semver';
+import { inc, ReleaseType, valid } from 'semver';
 import { version } from '../package.json';
 
 const getNextVersion = (currentVersion: string) => {
@@ -17,7 +17,7 @@ const getNextVersion = (currentVersion: string) => {
 					reject(err);
 					return;
 				}
-				const nextVersion = valid(release.releaseType) || inc(currentVersion, release.releaseType);
+				const nextVersion = valid(release.releaseType) || inc(currentVersion, release.releaseType as ReleaseType);
 				resolve(nextVersion);
 			}
 		);
@@ -25,9 +25,9 @@ const getNextVersion = (currentVersion: string) => {
 };
 
 getNextVersion(version)
-	.then((version) => {
+	.then((newVersion) => {
 		const manifest = JSON.parse(readFileSync('./src/manifest.json', { encoding: 'utf-8' }));
-		manifest.version = version;
+		manifest.version = newVersion;
 		writeFileSync('./src/manifest.json', JSON.stringify(manifest, null, '\t'));
 	})
 	// tslint:disable-next-line: no-console

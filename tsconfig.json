@@ -15,7 +15,7 @@
 		"moduleResolution": "Node",
 		"esModuleInterop": true,
 		"resolveJsonModule": true,
-		"typeRoots": ["./node_modules/@types", "./scripts/@types"]
+		"typeRoots": ["./node_modules/@types"]
 	},
 	"include": ["src/js/*.ts"]
 }
