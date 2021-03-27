@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.9.0](https://github.com/timbru31/amazon-tag-remover/compare/v0.8.0...v0.9.0) (2021-03-27)
+
+### Bug Fixes
+
+-   re-release as v0.9.0 ([e4c5f23](https://github.com/timbru31/amazon-tag-remover/commit/e4c5f23369457a27ff82b6dd673046865c5fec89))
+
 ## [0.8.0](https://github.com/timbru31/amazon-tag-remover/compare/v0.7.2...v0.8.0) (2021-03-27)
 
 ### Features
