@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.8.0](https://github.com/timbru31/amazon-tag-remover/compare/v0.7.2...v0.8.0) (2021-03-27)
+
+### Features
+
+-   adds support for amazon.pl and amazon.se ([358ce97](https://github.com/timbru31/amazon-tag-remover/commit/358ce9758a33861f49275ba0dd02982aef8fc033))
+-   remove legacy edge code ([13599f5](https://github.com/timbru31/amazon-tag-remover/commit/13599f5177428708f1055fc048ac937383998939))
+
 ### [0.7.2](https://github.com/timbru31/amazon-tag-remover/compare/v0.7.1...v0.7.2) (2020-01-29)
 
 ### Features
