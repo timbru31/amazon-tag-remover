@@ -48,7 +48,8 @@
 		"*://*.amazon.it/*",
 		"*://*.amazon.nl/*",
 		"*://*.amazon.pl/*",
-		"*://*.amazon.se/*"
+		"*://*.amazon.se/*",
+		"*://*.amazon.sg/*"
 	],
 	"icons": {
 		"16": "images/icon16.png",
