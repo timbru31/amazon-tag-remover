@@ -28,7 +28,7 @@
 		"@types/conventional-recommended-bump": "^6.0.0",
 		"@types/copy-webpack-plugin": "^6.4.1",
 		"@types/firefox-webext-browser": "^82.0.0",
-		"@types/node": "^12.20.10",
+		"@types/node": "^15.0.1",
 		"@types/semver": "^7.3.5",
 		"@types/webpack": "^5.28.0",
 		"addons-linter": "^3.3.0",
