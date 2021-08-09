@@ -41,7 +41,7 @@
 		"stylelint": "^13.13.1",
 		"stylelint-config-recommended": "^5.0.0",
 		"ts-loader": "^9.2.5",
-		"ts-node": "^10.1.0",
+		"ts-node": "^10.2.0",
 		"tslint": "^6.1.3",
 		"tslint-config-prettier": "^1.18.0",
 		"typescript": "^4.3.5",
