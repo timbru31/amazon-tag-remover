@@ -16,6 +16,7 @@ const amazonURLs = [
 	'*://*.amazon.com.tr/*',
 	'*://*.amazon.com/*',
 	'*://*.amazon.de/*',
+	'*://*.amazon.eg/*',
 	'*://*.amazon.es/*',
 	'*://*.amazon.fr/*',
 	'*://*.amazon.ie/*',
