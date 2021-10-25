@@ -9,9 +9,9 @@
 [![Known Vulnerabilities](https://snyk.io/test/github/timbru31/amazon-tag-remover/badge.svg)](https://snyk.io/test/github/timbru31/amazon-tag-remover)
 
 [![Chrome Web Store](https://img.shields.io/chrome-web-store/v/mmajdhfdokfcaiadahjnffhbfjfkmcnc.svg)](https://chrome.google.com/webstore/detail/amazon-tag-remover/mmajdhfdokfcaiadahjnffhbfjfkmcnc)
-[![Opera Add-ons](https://img.shields.io/badge/Opera%20Add--ons-v0.5.3-orange.svg)](https://addons.opera.com/extensions/details/amazon-tag-remover/)
+[![Opera Add-ons](https://img.shields.io/badge/Opera%20Add--ons-v0.9.0-orange.svg)](https://addons.opera.com/extensions/details/amazon-tag-remover/)
 [![Add-Ons for Firefox](https://img.shields.io/amo/v/amazon-tag-remover.svg)](https://addons.mozilla.org/firefox/addon/amazon-tag-remover/)
-[![Microsoft Edge Addons](https://img.shields.io/badge/Microsoft%20Edge%20Addons-v0.8.0-orange.svg)](https://microsoftedge.microsoft.com/addons/detail/mgomlnlopahnglkdhmneklogokbmhden)
+[![Microsoft Edge Addons](https://img.shields.io/badge/Microsoft%20Edge%20Addons-v0.9.0-orange.svg)](https://microsoftedge.microsoft.com/addons/detail/mgomlnlopahnglkdhmneklogokbmhden)
 
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 [![Dependabot Status](https://api.dependabot.com/badges/status?host=github&repo=timbru31/amazon-tag-remover)](https://dependabot.com)
