@@ -50,7 +50,7 @@ browser.webNavigation.onCompleted.addListener(
 					if (!item.disableNotifications) {
 						browser.notifications
 							.create(amazonTagRemoverNotification, {
-								iconUrl: browser.extension.getURL('images/icon64.png'),
+								iconUrl: browser.runtime.getURL('images/icon64.png'),
 								message: `The following tags were found and have been removed: ${tags}`,
 								title: 'Amazon Tag Remover',
 								type: 'basic',
