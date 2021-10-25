@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.10.0](https://github.com/timbru31/amazon-tag-remover/compare/v0.9.0...v0.10.0) (2021-10-25)
+
+### Features
+
+-   adds support for Amazon Egypt. closes [#810](https://github.com/timbru31/amazon-tag-remover/issues/810) ([#814](https://github.com/timbru31/amazon-tag-remover/issues/814)) ([e1f093c](https://github.com/timbru31/amazon-tag-remover/commit/e1f093cf9cae2685e9e568a74c1e22e7ca458240))
+
+### Bug Fixes
+
+-   adds proper support for amazon.sg ([f55681e](https://github.com/timbru31/amazon-tag-remover/commit/f55681e99bea057678444f919631e464c2bf3b5b))
+-   deprecation ([d13d170](https://github.com/timbru31/amazon-tag-remover/commit/d13d1708a6ffb8a79bf16747e469917461f5746f))
+-   notifications for Amazon Egypt ([3679641](https://github.com/timbru31/amazon-tag-remover/commit/367964162c5ee4ba0ead3e55ecddac9b1de65507))
+-   version ([31d11dd](https://github.com/timbru31/amazon-tag-remover/commit/31d11ddbf5bf180f9201a089550e3119f4f6cb78))
+
 ### [0.9.1](https://github.com/timbru31/amazon-tag-remover/compare/v0.9.0...v0.9.1) (2021-10-21)
 
 ### Features
