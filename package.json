@@ -38,7 +38,7 @@
 		"lint-staged": "^12.0.3",
 		"prettier": "^2.4.1",
 		"standard-version": "^9.3.2",
-		"stylelint": "^14.0.1",
+		"stylelint": "^14.1.0",
 		"stylelint-config-recommended": "^6.0.0",
 		"ts-loader": "^9.2.6",
 		"ts-node": "^10.4.0",
