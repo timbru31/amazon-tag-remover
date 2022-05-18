@@ -33,7 +33,7 @@
 		"@types/webpack": "^5.28.0",
 		"addons-linter": "^5.4.0",
 		"clean-webpack-plugin": "^4.0.0",
-		"copy-webpack-plugin": "^10.2.4",
+		"copy-webpack-plugin": "^11.0.0",
 		"husky": "^8.0.1",
 		"lint-staged": "^12.4.1",
 		"prettier": "^2.6.2",
