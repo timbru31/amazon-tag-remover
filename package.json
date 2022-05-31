@@ -35,7 +35,7 @@
 		"clean-webpack-plugin": "^4.0.0",
 		"copy-webpack-plugin": "^11.0.0",
 		"husky": "^8.0.1",
-		"lint-staged": "^12.4.2",
+		"lint-staged": "^12.4.3",
 		"prettier": "^2.6.2",
 		"standard-version": "^9.5.0",
 		"stylelint": "^14.8.5",
