@@ -36,7 +36,7 @@
 		"copy-webpack-plugin": "^11.0.0",
 		"husky": "^8.0.2",
 		"lint-staged": "^13.0.3",
-		"prettier": "^2.7.1",
+		"prettier": "^2.8.0",
 		"standard-version": "^9.5.0",
 		"stylelint": "^14.15.0",
 		"stylelint-config-recommended": "^9.0.0",
