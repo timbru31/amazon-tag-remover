@@ -10,6 +10,7 @@ const amazonURLs = [
 	'*://*.amazon.co.jp/*',
 	'*://*.amazon.co.uk/*',
 	'*://*.amazon.com.au/*',
+	'*://*.amazon.com.be/*',
 	'*://*.amazon.com.br/*',
 	'*://*.amazon.com.mx/*',
 	'*://*.amazon.com.sg/*',
@@ -28,7 +29,7 @@ const amazonURLs = [
 	'*://*.amazon.sg/*',
 ];
 
-const urlPattern = 'https?://w*.?amazon.(ae|ca|cn|co.jp|co.uk|com.au|com.br|com.mx|com.sg|com.tr|com|de|eg|es|fr|ie|in|it|nl|pl|se|sg)/w*';
+const urlPattern = 'https?://w*.?amazon.(ae|ca|cn|co.jp|co.uk|com.au|com.be|com.br|com.mx|com.sg|com.tr|com|de|eg|es|fr|ie|in|it|nl|pl|se|sg)/w*';
 const urlRegExp = new RegExp(urlPattern);
 
 interface BeforeRequestResponse {
