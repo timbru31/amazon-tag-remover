@@ -4,7 +4,7 @@
 	"private": true,
 	"description": "WebExtension for Chrome, Firefox, Edge and Opera to remove the Amazon affiliate tracking ID (tag) from amazon links",
 	"scripts": {
-		"prepare": "husky install",
+		"prepare": "husky",
 		"build:dev": "webpack --mode=development --watch",
 		"build:prod": "webpack --mode=production",
 		"tslint": "tslint -p tsconfig.json '{src,test}/**/*.ts'",
