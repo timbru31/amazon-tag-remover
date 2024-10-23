@@ -25,7 +25,7 @@
 	},
 	"homepage": "https://github.com/timbru31/amazon-tag-remover#readme",
 	"devDependencies": {
-		"@types/conventional-recommended-bump": "^9.0.3",
+		"@types/conventional-recommended-bump": "^10.0.2",
 		"@types/copy-webpack-plugin": "^10.1.2",
 		"@types/firefox-webext-browser": "^120.0.4",
 		"@types/node": "^14.18.63",
