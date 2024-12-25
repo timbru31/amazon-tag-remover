@@ -31,11 +31,11 @@ This extension removes the tracking ID before the browser is performing the requ
 
 ## Features
 
--   Visual feedback which tag was removed
--   Works on starting parameter (?tag) and appended parameter (&tag)
--   Support for ascsubtags
--   Full support for all amazon sites (e.g. from Germany, Mexico or UK to China and Italy)
-    -   amazn.to links are supported, too, since the expanded request to the amazon site is intercepted
+- Visual feedback which tag was removed
+- Works on starting parameter (?tag) and appended parameter (&tag)
+- Support for ascsubtags
+- Full support for all amazon sites (e.g. from Germany, Mexico or UK to China and Italy)
+  - amazn.to links are supported, too, since the expanded request to the amazon site is intercepted
 
 ## Changelog
 
@@ -43,7 +43,7 @@ Please visit [CHANGELOG.md](CHANGELOG.md) for a complete changelog.
 
 ## Upcoming Features
 
--   Options to whitelist specific tags (charity, friends of you, ...) (#9)
+- Options to whitelist specific tags (charity, friends of you, ...) (#9)
 
 ## Contributing
 

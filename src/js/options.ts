@@ -1,19 +1,24 @@
-import { storage } from './api';
+import { storage } from './api.js';
 
 function saveOptions(e: Event) {
-	e.preventDefault();
-	storage.set({
-		disableNotifications: document.querySelector<HTMLInputElement>('#disable-notifications')!.checked,
-	});
+  e.preventDefault();
+  void storage.set({
+    disableNotifications: document.querySelector<HTMLInputElement>('#disable-notifications')?.checked,
+  });
 }
 
 function restoreOptions() {
-	function setCurrentChoice(result: any) {
-		document.querySelector<HTMLInputElement>('#disable-notifications')!.checked = result.disableNotifications;
-	}
+  function setCurrentChoice(result: { disableNotifications: boolean }) {
+    const abc = document.querySelector<HTMLInputElement>('#disable-notifications');
+    if (abc) {
+      abc.checked = result.disableNotifications;
+    }
+  }
 
-	storage.get('disableNotifications').then(setCurrentChoice);
+  void storage.get<{ disableNotifications: boolean }>('disableNotifications').then((options) => {
+    setCurrentChoice(options as { disableNotifications: boolean });
+  });
 }
 
 document.addEventListener('DOMContentLoaded', restoreOptions);
-document.querySelector('form')!.addEventListener('submit', saveOptions);
+document.querySelector('form')?.addEventListener('submit', saveOptions);

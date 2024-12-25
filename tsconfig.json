@@ -1,21 +1,19 @@
 {
-	"compilerOptions": {
-		"declaration": false,
-		"noImplicitAny": true,
-		"noImplicitReturns": false,
-		"strictNullChecks": true,
-		"experimentalDecorators": true,
-		"strictFunctionTypes": true,
-		"noImplicitThis": true,
-		"outDir": "dist/js",
-		"removeComments": true,
-		"target": "ESNext",
-		"lib": ["DOM", "ES2020"],
-		"module": "CommonJS",
-		"moduleResolution": "Node",
-		"esModuleInterop": true,
-		"resolveJsonModule": true,
-		"typeRoots": ["./node_modules/@types"]
-	},
-	"include": ["src/js/*.ts"]
+  "compilerOptions": {
+    "declaration": false,
+    "target": "ES2023",
+    "module": "ES2022",
+    "moduleResolution": "node",
+    "noImplicitAny": true,
+    "noImplicitReturns": false,
+    "strictNullChecks": true,
+    "experimentalDecorators": true,
+    "strictFunctionTypes": true,
+    "noImplicitThis": true,
+    "outDir": "dist/js",
+    "removeComments": true,
+    "esModuleInterop": true,
+    "lib": ["dom", "ES2023"]
+  },
+  "include": ["src/js/*.ts"]
 }

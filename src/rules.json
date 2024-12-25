@@ -1,0 +1,20 @@
+[
+  {
+    "id": 7919054,
+    "priority": 1,
+    "action": {
+      "type": "redirect",
+      "redirect": {
+        "transform": {
+          "queryTransform": {
+            "removeParams": ["tag", "ascsubtag"]
+          }
+        }
+      }
+    },
+    "condition": {
+      "urlFilter": "*://*.amazon.*/*",
+      "resourceTypes": ["main_frame", "sub_frame"]
+    }
+  }
+]

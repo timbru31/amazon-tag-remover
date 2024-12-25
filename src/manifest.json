@@ -1,61 +1,72 @@
 {
-	"name": "Amazon Tag Remover",
-	"version": "0.10.2",
-	"manifest_version": 2,
-	"minimum_chrome_version": "70",
-	"applications": {
-		"gecko": {
-			"id": "{744e2cc4-e8d5-4ab9-814e-d7dc30a09b3c}",
-			"strict_min_version": "60.0"
-		}
-	},
-	"author": "Tim 'timbru31' Brust",
-	"description": "Remove the Amazon affiliate tracking ID (tag) from amazon links",
-	"background": {
-		"scripts": ["browser-polyfill.min.js", "background.js"],
-		"persistent": true
-	},
-	"options_ui": {
-		"chrome_style": true,
-		"page": "options.html"
-	},
-	"options_page": "options.html",
-	"permissions": [
-		"webNavigation",
-		"webRequest",
-		"webRequestBlocking",
-		"notifications",
-		"storage",
-		"*://*.amazon.ae/*",
-		"*://*.amazon.at/*",
-		"*://*.amazon.ca/*",
-		"*://*.amazon.cn/*",
-		"*://*.amazon.co.jp/*",
-		"*://*.amazon.co.uk/*",
-		"*://*.amazon.com.au/*",
-		"*://*.amazon.com.be/*",
-		"*://*.amazon.com.br/*",
-		"*://*.amazon.com.mx/*",
-		"*://*.amazon.com.sg/*",
-		"*://*.amazon.com.tr/*",
-		"*://*.amazon.com/*",
-		"*://*.amazon.de/*",
-		"*://*.amazon.eg/*",
-		"*://*.amazon.es/*",
-		"*://*.amazon.fr/*",
-		"*://*.amazon.ie/*",
-		"*://*.amazon.in/*",
-		"*://*.amazon.it/*",
-		"*://*.amazon.nl/*",
-		"*://*.amazon.pl/*",
-		"*://*.amazon.se/*",
-		"*://*.amazon.sg/*"
-	],
-	"icons": {
-		"16": "images/icon16.png",
-		"32": "images/icon32.png",
-		"48": "images/icon48.png",
-		"64": "images/icon64.png",
-		"128": "images/icon128.png"
-	}
+  "name": "Amazon Tag Remover",
+  "version": "1.0.0",
+  "manifest_version": 3,
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "{744e2cc4-e8d5-4ab9-814e-d7dc30a09b3c}",
+      "strict_min_version": "60.0"
+    }
+  },
+  "author": "Tim 'timbru31' Brust",
+  "description": "Remove the Amazon affiliate tracking ID (tag) from amazon links",
+  "background": {
+    "service_worker": "js/background.js",
+    "type": "module"
+  },
+  "minimum_chrome_version": "125",
+  "options_ui": {
+    "page": "options.html"
+  },
+  "permissions": ["webNavigation", "declarativeNetRequest", "declarativeNetRequestFeedback", "notifications", "storage"],
+  "host_permissions": [
+    "*://*.amazon.ae/*",
+    "*://*.amazon.at/*",
+    "*://*.amazon.ca/*",
+    "*://*.amazon.ch/*",
+    "*://*.amazon.cn/*",
+    "*://*.amazon.co.jp/*",
+    "*://*.amazon.co.uk/*",
+    "*://*.amazon.co.za/*",
+    "*://*.amazon.com.au/*",
+    "*://*.amazon.com.be/*",
+    "*://*.amazon.com.br/*",
+    "*://*.amazon.com.mx/*",
+    "*://*.amazon.com.sg/*",
+    "*://*.amazon.com.tr/*",
+    "*://*.amazon.com/*",
+    "*://*.amazon.de/*",
+    "*://*.amazon.dk/*",
+    "*://*.amazon.eg/*",
+    "*://*.amazon.es/*",
+    "*://*.amazon.fr/*",
+    "*://*.amazon.ie/*",
+    "*://*.amazon.in/*",
+    "*://*.amazon.it/*",
+    "*://*.amazon.mx/*",
+    "*://*.amazon.nl/*",
+    "*://*.amazon.nz/*",
+    "*://*.amazon.pl/*",
+    "*://*.amazon.pt/*",
+    "*://*.amazon.sa/*",
+    "*://*.amazon.se/*",
+    "*://*.amazon.sg/*",
+    "*://*.amazon.us/*"
+  ],
+  "declarative_net_request": {
+    "rule_resources": [
+      {
+        "id": "remove-amazon-tag",
+        "enabled": true,
+        "path": "rules.json"
+      }
+    ]
+  },
+  "icons": {
+    "16": "images/icon16.png",
+    "32": "images/icon32.png",
+    "48": "images/icon48.png",
+    "64": "images/icon64.png",
+    "128": "images/icon128.png"
+  }
 }
