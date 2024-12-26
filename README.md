@@ -76,4 +76,3 @@ For support please create an issue here at GitHub
 ---
 
 Built by (c) Tim Brust and contributors. Released under the MIT license.  
-The `Get it for Microsoft Edge` logo is kindly offered for free by [Julien Muggli](https://gist.github.com/Liozon/cf898c47628bfecd9896f79e6c9a8db8)
