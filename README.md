@@ -1,20 +1,35 @@
 # Amazon Tag Remover
 
+<p>
+  <a href="https://chrome.google.com/webstore/detail/amazon-tag-remover/mmajdhfdokfcaiadahjnffhbfjfkmcnc">
+    <picture>
+      <source srcset="https://i.imgur.com/XBIE9pk.png" media="(prefers-color-scheme: dark)" />
+      <img height="58" src="https://i.imgur.com/oGxig2F.png" alt="Chrome Web Store"
+    /></picture>
+  </a>
+  <a href="https://addons.mozilla.org/firefox/addon/amazon-tag-remover/">
+    <picture>
+      <source srcset="https://i.imgur.com/ZluoP7T.png" media="(prefers-color-scheme: dark)" />
+      <img height="58" src="https://i.imgur.com/4PobQqE.png" alt="Firefox add-ons" /></picture
+  ></a>
+  <a href="https://microsoftedge.microsoft.com/addons/detail/mgomlnlopahnglkdhmneklogokbmhden">
+    <picture>
+      <source srcset="https://i.imgur.com/Jog9cQP.png" media="(prefers-color-scheme: dark)" />
+      <img height="58" src="https://i.imgur.com/aiprUt8.png" alt="Microsoft Store" /></picture
+  ></a>
+  <a href="https://addons.opera.com/extensions/details/amazon-tag-remover">
+    <picture>
+      <source srcset="https://i.imgur.com/ziehy0f.png" media="(prefers-color-scheme: dark)" />
+      <img height="58" src="https://i.imgur.com/ytVATu0.png" alt="Opera add-ons" /></picture
+  ></a>
+</p>
+
 [![Security](https://github.com/timbru31/amazon-tag-remover/workflows/Security/badge.svg)](https://github.com/timbru31/amazon-tag-remover/actions?query=workflow%3ASecurity)
 [![Linting](https://github.com/timbru31/amazon-tag-remover/workflows/Linting/badge.svg)](https://github.com/timbru31/amazon-tag-remover/actions?query=workflow%3ALinting)
 
-[![Dependency Status](https://david-dm.org/timbru31/amazon-tag-remover.svg)](https://david-dm.org/timbru31/amazon-tag-remover)
-[![devDependency Status](https://david-dm.org/timbru31/amazon-tag-remover/dev-status.svg)](https://david-dm.org/timbru31/amazon-tag-remover#info=devDependencies)
-
 [![Known Vulnerabilities](https://snyk.io/test/github/timbru31/amazon-tag-remover/badge.svg)](https://snyk.io/test/github/timbru31/amazon-tag-remover)
 
-[![Chrome Web Store](https://img.shields.io/chrome-web-store/v/mmajdhfdokfcaiadahjnffhbfjfkmcnc.svg)](https://chrome.google.com/webstore/detail/amazon-tag-remover/mmajdhfdokfcaiadahjnffhbfjfkmcnc)
-[![Opera Add-ons](https://img.shields.io/badge/Opera%20Add--ons-v0.9.0-orange.svg)](https://addons.opera.com/extensions/details/amazon-tag-remover/)
-[![Add-Ons for Firefox](https://img.shields.io/amo/v/amazon-tag-remover.svg)](https://addons.mozilla.org/firefox/addon/amazon-tag-remover/)
-[![Microsoft Edge Addons](https://img.shields.io/badge/Microsoft%20Edge%20Addons-v0.10.2-orange.svg)](https://microsoftedge.microsoft.com/addons/detail/mgomlnlopahnglkdhmneklogokbmhden)
-
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
-[![Dependabot Status](https://api.dependabot.com/badges/status?host=github&repo=timbru31/amazon-tag-remover)](https://dependabot.com)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE.md)
 
 ## Info
@@ -23,11 +38,6 @@ Are you tired that each banner or ad linking to amazon is silently injecting the
 This extension removes the tracking ID before the browser is performing the request, ensuring that you are not being tracked.
 
 **Note: if you have a partner cookie on your computer, you might still be tracked**
-
-[![Amazon Tag Remover @Chrome Web Store](https://storage.googleapis.com/chrome-gcs-uploader.appspot.com/image/WlD8wC6g8khYWPJUsQceQkhXSlv1/tbyBjqi7Zu733AAKA5n4.png 'Amazon Tag Remover @Chrome Web Store')](https://chrome.google.com/webstore/detail/amazon-tag-remover/mmajdhfdokfcaiadahjnffhbfjfkmcnc)
-[<img alt="Amazon Tag Remover @Opera add-ons" src="https://dev.opera.com/extensions/branding-guidelines/addons_206x58_en@2x.png" height="58" width="206">](https://addons.opera.com/extensions/details/amazon-tag-remover/)
-[<img alt="Amazon Tag Remover @Add-Ons for Firefox" src="https://addons.cdn.mozilla.net/static/img/addons-buttons/AMO-button_1.png" height="58">](https://addons.mozilla.org/firefox/addon/amazon-tag-remover/)
-[<img alt="Amazon Tag Remover @Microsoft Edge Addons" src="docs/edge.png" height="58">](https://microsoftedge.microsoft.com/addons/detail/mgomlnlopahnglkdhmneklogokbmhden)
 
 ## Features
 
