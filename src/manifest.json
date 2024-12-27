@@ -5,7 +5,7 @@
   "browser_specific_settings": {
     "gecko": {
       "id": "{744e2cc4-e8d5-4ab9-814e-d7dc30a09b3c}",
-      "strict_min_version": "60.0"
+      "strict_min_version": "113.0"
     }
   },
   "author": "Tim 'timbru31' Brust",
@@ -18,7 +18,7 @@
   "options_ui": {
     "page": "options.html"
   },
-  "permissions": ["webNavigation", "declarativeNetRequest", "declarativeNetRequestFeedback", "notifications", "storage"],
+  "permissions": ["webNavigation", "declarativeNetRequest", "notifications", "storage"],
   "host_permissions": [
     "*://*.amazon.ae/*",
     "*://*.amazon.at/*",
