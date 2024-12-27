@@ -1,6 +1,6 @@
 {
   "name": "Amazon Tag Remover",
-  "version": "0.10.2",
+  "version": "1.0.0",
   "manifest_version": 3,
   "browser_specific_settings": {
     "gecko": {
