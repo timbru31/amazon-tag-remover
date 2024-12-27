@@ -11,8 +11,9 @@
     "eslint": "eslint src/js",
     "stylelint": "stylelint --allow-empty-input 'src/**/*.css'",
     "lint": "npm run eslint && npm run stylelint",
-    "prerelease": "npm run test && npm run build",
-    "release": "commit-and-tag-version -s --dry-run",
+    "prerelease": "npm run test",
+    "release": "commit-and-tag-version -s",
+    "postrelease": "npm run build",
     "pretest": "npm run lint",
     "test": "echo soon!"
   },
@@ -43,10 +44,9 @@
     "typescript": "^5.7.2",
     "typescript-eslint": "^8.18.2"
   },
-  "standard-version": {
+  "commit-and-tag-version": {
     "scripts": {
-      "prebump": "tsx scripts/patch-versions.ts",
-      "postbump": "prettier --write src/manifest.json && git add src/manifest.json",
+      "postbump": "tsx scripts/patch-versions.ts && prettier --write src/manifest.json && git add src/manifest.json",
       "postchangelog": "prettier --write CHANGELOG.md"
     }
   }
