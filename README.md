@@ -51,10 +51,6 @@ This extension removes the tracking ID before the browser is performing the requ
 
 Please visit [CHANGELOG.md](CHANGELOG.md) for a complete changelog.
 
-## Upcoming Features
-
-- Options to whitelist specific tags (charity, friends of you, ...) (#9)
-
 ## Contributing
 
 1. Fork and clone the project
@@ -75,4 +71,4 @@ For support please create an issue here at GitHub
 
 ---
 
-Built by (c) Tim Brust and contributors. Released under the MIT license.  
+Built by (c) Tim Brust and contributors. Released under the MIT license.
