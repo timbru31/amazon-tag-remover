@@ -12,7 +12,7 @@
     "stylelint": "stylelint --allow-empty-input 'src/**/*.css'",
     "lint": "npm run eslint && npm run stylelint",
     "prerelease": "npm run test",
-    "release": "commit-and-tag-version -s",
+    "release": "commit-and-tag-version -s -a",
     "postrelease": "npm run build",
     "pretest": "npm run lint",
     "test": "echo soon!"
@@ -46,8 +46,8 @@
   },
   "commit-and-tag-version": {
     "scripts": {
-      "postbump": "tsx scripts/patch-versions.ts && prettier --write src/manifest.json && git add src/manifest.json",
-      "postchangelog": "prettier --write CHANGELOG.md"
+      "postbump": "tsx scripts/patch-versions.ts",
+      "precommit": "prettier --write src/manifest.json CHANGELOG.MD && git add src/manifest.json"
     }
   }
 }
