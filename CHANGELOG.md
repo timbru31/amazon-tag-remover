@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [1.1.0](https://github.com/timbru31/amazon-tag-remover/compare/v0.10.2...v1.1.0) (2025-01-03)
+
+### Features
+
+- adds allow list support ([07b4df8](https://github.com/timbru31/amazon-tag-remover/commit/07b4df805cedbc9fdd077e1d13e8511fcd95dd7d)), closes [#9](https://github.com/timbru31/amazon-tag-remover/issues/9)
+- adds Amazon South Africa support ([4727b1c](https://github.com/timbru31/amazon-tag-remover/commit/4727b1c60422df8e2782092268afe56e24cb85ba))
+- adds missing aliases for neighbour countries ([358c7e2](https://github.com/timbru31/amazon-tag-remover/commit/358c7e2fb53c89ddd5cdea5d56ed1b99335c82ae))
+- adds support for Amazon Belgium ([a72a159](https://github.com/timbru31/amazon-tag-remover/commit/a72a15908bc19b30dc356a4e13841aee1a7d6eda))
+
+### Bug Fixes
+
+- allowlist regex ([bbed4e9](https://github.com/timbru31/amazon-tag-remover/commit/bbed4e9e36125f9a8695de0545a442ac870c2e02))
+- FF version and unused permission in manifest ([c188c91](https://github.com/timbru31/amazon-tag-remover/commit/c188c914cf9700bed4c845472093aa2d02e4c78d))
+- options ([88687db](https://github.com/timbru31/amazon-tag-remover/commit/88687db9ec6174f91c5b5eb7f4af49c8e06a3bbf))
+- use npx for rsync, fix lint command ([f3205c4](https://github.com/timbru31/amazon-tag-remover/commit/f3205c423f3bb7568108262b4a3e0dae52693179))
+
 ## [1.0.0](https://github.com/timbru31/amazon-tag-remover/compare/v0.10.2...v1.0.0) (2024-12-27)
 
 ### Features
