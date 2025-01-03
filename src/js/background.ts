@@ -19,7 +19,7 @@ function createAmazonRules(allowedTags: string[]): browser.declarativeNetRequest
         regexFilter:
           allowedTags.length > 0
             ? // eslint-disable-next-line no-useless-escape
-              `^https?://[^?]*\.amazon\.[a-z]+(?:[/?#][^?]*)([?&](tag=(${allowedTagsRegex})|ascsubtag=(${allowedTagsRegex})))?(&.*|$)`
+              `^https?://[^/]*amazon\.[^/]+/.*[?&](tag=(${allowedTagsRegex})|ascsubtag=(${allowedTagsRegex})).*`
             : '^$',
         resourceTypes: ['main_frame', 'sub_frame'] as chrome.declarativeNetRequest.ResourceType &
           browser.declarativeNetRequest.ResourceType,
