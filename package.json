@@ -46,8 +46,8 @@
   },
   "commit-and-tag-version": {
     "scripts": {
-      "postbump": "tsx scripts/patch-versions.ts",
-      "precommit": "prettier --write src/manifest.json CHANGELOG.MD && git add src/manifest.json"
+      "postbump": "tsx scripts/patch-versions.ts && prettier --write src/manifest.json && git add src/manifest.json",
+      "postchangelog": "prettier --write CHANGELOG.md"
     }
   }
 }
