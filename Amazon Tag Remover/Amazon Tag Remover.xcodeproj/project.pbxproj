@@ -1,0 +1,963 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		19ABF0682D2DBDE30065DDE6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19ABF0672D2DBDE30065DDE6 /* AppDelegate.swift */; };
+		19ABF06A2D2DBDE30065DDE6 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19ABF0692D2DBDE30065DDE6 /* SceneDelegate.swift */; };
+		19ABF06D2D2DBDE30065DDE6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 19ABF06B2D2DBDE30065DDE6 /* LaunchScreen.storyboard */; };
+		19ABF0702D2DBDE30065DDE6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 19ABF06E2D2DBDE30065DDE6 /* Main.storyboard */; };
+		19ABF0792D2DBDE30065DDE6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19ABF0782D2DBDE30065DDE6 /* AppDelegate.swift */; };
+		19ABF07C2D2DBDE30065DDE6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 19ABF07A2D2DBDE30065DDE6 /* Main.storyboard */; };
+		19ABF0842D2DBDE30065DDE6 /* Amazon Tag Remover Extension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 19ABF0832D2DBDE30065DDE6 /* Amazon Tag Remover Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		19ABF08E2D2DBDE30065DDE6 /* Amazon Tag Remover Extension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 19ABF08D2D2DBDE30065DDE6 /* Amazon Tag Remover Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		19ABF0942D2DBDE30065DDE6 /* Main.html in Resources */ = {isa = PBXBuildFile; fileRef = 19ABF0572D2DBDE10065DDE6 /* Main.html */; };
+		19ABF0952D2DBDE30065DDE6 /* Main.html in Resources */ = {isa = PBXBuildFile; fileRef = 19ABF0572D2DBDE10065DDE6 /* Main.html */; };
+		19ABF0962D2DBDE30065DDE6 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 19ABF0592D2DBDE10065DDE6 /* Icon.png */; };
+		19ABF0972D2DBDE30065DDE6 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 19ABF0592D2DBDE10065DDE6 /* Icon.png */; };
+		19ABF0982D2DBDE30065DDE6 /* Style.css in Resources */ = {isa = PBXBuildFile; fileRef = 19ABF05A2D2DBDE10065DDE6 /* Style.css */; };
+		19ABF0992D2DBDE30065DDE6 /* Style.css in Resources */ = {isa = PBXBuildFile; fileRef = 19ABF05A2D2DBDE10065DDE6 /* Style.css */; };
+		19ABF09A2D2DBDE30065DDE6 /* Script.js in Resources */ = {isa = PBXBuildFile; fileRef = 19ABF05B2D2DBDE10065DDE6 /* Script.js */; };
+		19ABF09B2D2DBDE30065DDE6 /* Script.js in Resources */ = {isa = PBXBuildFile; fileRef = 19ABF05B2D2DBDE10065DDE6 /* Script.js */; };
+		19ABF09C2D2DBDE30065DDE6 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19ABF05C2D2DBDE10065DDE6 /* ViewController.swift */; };
+		19ABF09D2D2DBDE30065DDE6 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19ABF05C2D2DBDE10065DDE6 /* ViewController.swift */; };
+		19ABF09E2D2DBDE30065DDE6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 19ABF05D2D2DBDE30065DDE6 /* Assets.xcassets */; };
+		19ABF09F2D2DBDE30065DDE6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 19ABF05D2D2DBDE30065DDE6 /* Assets.xcassets */; };
+		19ABF0A02D2DBDE30065DDE6 /* SafariWebExtensionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19ABF05F2D2DBDE30065DDE6 /* SafariWebExtensionHandler.swift */; };
+		19ABF0A12D2DBDE30065DDE6 /* SafariWebExtensionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19ABF05F2D2DBDE30065DDE6 /* SafariWebExtensionHandler.swift */; };
+		19ABF0B82D2DBDE40065DDE6 /* images in Resources */ = {isa = PBXBuildFile; fileRef = 19ABF0B32D2DBDE40065DDE6 /* images */; };
+		19ABF0B92D2DBDE40065DDE6 /* js in Resources */ = {isa = PBXBuildFile; fileRef = 19ABF0B42D2DBDE40065DDE6 /* js */; };
+		19ABF0BA2D2DBDE40065DDE6 /* rules.json in Resources */ = {isa = PBXBuildFile; fileRef = 19ABF0B52D2DBDE40065DDE6 /* rules.json */; };
+		19ABF0BB2D2DBDE40065DDE6 /* manifest.json in Resources */ = {isa = PBXBuildFile; fileRef = 19ABF0B62D2DBDE40065DDE6 /* manifest.json */; };
+		19ABF0BC2D2DBDE40065DDE6 /* options.html in Resources */ = {isa = PBXBuildFile; fileRef = 19ABF0B72D2DBDE40065DDE6 /* options.html */; };
+		19ABF0BD2D2DBDE40065DDE6 /* images in Resources */ = {isa = PBXBuildFile; fileRef = 19ABF0B32D2DBDE40065DDE6 /* images */; };
+		19ABF0BE2D2DBDE40065DDE6 /* js in Resources */ = {isa = PBXBuildFile; fileRef = 19ABF0B42D2DBDE40065DDE6 /* js */; };
+		19ABF0BF2D2DBDE40065DDE6 /* rules.json in Resources */ = {isa = PBXBuildFile; fileRef = 19ABF0B52D2DBDE40065DDE6 /* rules.json */; };
+		19ABF0C02D2DBDE40065DDE6 /* manifest.json in Resources */ = {isa = PBXBuildFile; fileRef = 19ABF0B62D2DBDE40065DDE6 /* manifest.json */; };
+		19ABF0C12D2DBDE40065DDE6 /* options.html in Resources */ = {isa = PBXBuildFile; fileRef = 19ABF0B72D2DBDE40065DDE6 /* options.html */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		19ABF0852D2DBDE30065DDE6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 19ABF0512D2DBDE10065DDE6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 19ABF0822D2DBDE30065DDE6;
+			remoteInfo = "Amazon Tag Remover Extension (iOS)";
+		};
+		19ABF08F2D2DBDE30065DDE6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 19ABF0512D2DBDE10065DDE6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 19ABF08C2D2DBDE30065DDE6;
+			remoteInfo = "Amazon Tag Remover Extension (macOS)";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		19ABF0A72D2DBDE30065DDE6 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				19ABF0842D2DBDE30065DDE6 /* Amazon Tag Remover Extension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		19ABF0AE2D2DBDE30065DDE6 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				19ABF08E2D2DBDE30065DDE6 /* Amazon Tag Remover Extension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		19ABF0582D2DBDE10065DDE6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = Base; path = Base.lproj/Main.html; sourceTree = "<group>"; };
+		19ABF0592D2DBDE10065DDE6 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
+		19ABF05A2D2DBDE10065DDE6 /* Style.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = Style.css; sourceTree = "<group>"; };
+		19ABF05B2D2DBDE10065DDE6 /* Script.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = Script.js; sourceTree = "<group>"; };
+		19ABF05C2D2DBDE10065DDE6 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		19ABF05D2D2DBDE30065DDE6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		19ABF05F2D2DBDE30065DDE6 /* SafariWebExtensionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariWebExtensionHandler.swift; sourceTree = "<group>"; };
+		19ABF0642D2DBDE30065DDE6 /* Amazon Tag Remover.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Amazon Tag Remover.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		19ABF0672D2DBDE30065DDE6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		19ABF0692D2DBDE30065DDE6 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		19ABF06C2D2DBDE30065DDE6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		19ABF06F2D2DBDE30065DDE6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		19ABF0712D2DBDE30065DDE6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		19ABF0762D2DBDE30065DDE6 /* Amazon Tag Remover.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Amazon Tag Remover.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		19ABF0782D2DBDE30065DDE6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		19ABF07B2D2DBDE30065DDE6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		19ABF07D2D2DBDE30065DDE6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		19ABF07E2D2DBDE30065DDE6 /* Amazon Tag Remover.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Amazon Tag Remover.entitlements"; sourceTree = "<group>"; };
+		19ABF0832D2DBDE30065DDE6 /* Amazon Tag Remover Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Amazon Tag Remover Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		19ABF0882D2DBDE30065DDE6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		19ABF08D2D2DBDE30065DDE6 /* Amazon Tag Remover Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Amazon Tag Remover Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		19ABF0922D2DBDE30065DDE6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		19ABF0932D2DBDE30065DDE6 /* Amazon Tag Remover.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Amazon Tag Remover.entitlements"; sourceTree = "<group>"; };
+		19ABF0B32D2DBDE40065DDE6 /* images */ = {isa = PBXFileReference; lastKnownFileType = folder; name = images; path = ../../dist/images; sourceTree = "<group>"; };
+		19ABF0B42D2DBDE40065DDE6 /* js */ = {isa = PBXFileReference; lastKnownFileType = folder; name = js; path = ../../dist/js; sourceTree = "<group>"; };
+		19ABF0B52D2DBDE40065DDE6 /* rules.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = rules.json; path = ../../dist/rules.json; sourceTree = "<group>"; };
+		19ABF0B62D2DBDE40065DDE6 /* manifest.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = manifest.json; path = ../../dist/manifest.json; sourceTree = "<group>"; };
+		19ABF0B72D2DBDE40065DDE6 /* options.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = options.html; path = ../../dist/options.html; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		19ABF0612D2DBDE30065DDE6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		19ABF0732D2DBDE30065DDE6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		19ABF0802D2DBDE30065DDE6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		19ABF08A2D2DBDE30065DDE6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		19ABF0502D2DBDE10065DDE6 = {
+			isa = PBXGroup;
+			children = (
+				19ABF0552D2DBDE10065DDE6 /* Shared (App) */,
+				19ABF05E2D2DBDE30065DDE6 /* Shared (Extension) */,
+				19ABF0662D2DBDE30065DDE6 /* iOS (App) */,
+				19ABF0772D2DBDE30065DDE6 /* macOS (App) */,
+				19ABF0872D2DBDE30065DDE6 /* iOS (Extension) */,
+				19ABF0912D2DBDE30065DDE6 /* macOS (Extension) */,
+				19ABF0652D2DBDE30065DDE6 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		19ABF0552D2DBDE10065DDE6 /* Shared (App) */ = {
+			isa = PBXGroup;
+			children = (
+				19ABF05C2D2DBDE10065DDE6 /* ViewController.swift */,
+				19ABF05D2D2DBDE30065DDE6 /* Assets.xcassets */,
+				19ABF0562D2DBDE10065DDE6 /* Resources */,
+			);
+			path = "Shared (App)";
+			sourceTree = "<group>";
+		};
+		19ABF0562D2DBDE10065DDE6 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				19ABF0572D2DBDE10065DDE6 /* Main.html */,
+				19ABF0592D2DBDE10065DDE6 /* Icon.png */,
+				19ABF05A2D2DBDE10065DDE6 /* Style.css */,
+				19ABF05B2D2DBDE10065DDE6 /* Script.js */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		19ABF05E2D2DBDE30065DDE6 /* Shared (Extension) */ = {
+			isa = PBXGroup;
+			children = (
+				19ABF0B22D2DBDE40065DDE6 /* Resources */,
+				19ABF05F2D2DBDE30065DDE6 /* SafariWebExtensionHandler.swift */,
+			);
+			path = "Shared (Extension)";
+			sourceTree = "<group>";
+		};
+		19ABF0652D2DBDE30065DDE6 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				19ABF0642D2DBDE30065DDE6 /* Amazon Tag Remover.app */,
+				19ABF0762D2DBDE30065DDE6 /* Amazon Tag Remover.app */,
+				19ABF0832D2DBDE30065DDE6 /* Amazon Tag Remover Extension.appex */,
+				19ABF08D2D2DBDE30065DDE6 /* Amazon Tag Remover Extension.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		19ABF0662D2DBDE30065DDE6 /* iOS (App) */ = {
+			isa = PBXGroup;
+			children = (
+				19ABF0672D2DBDE30065DDE6 /* AppDelegate.swift */,
+				19ABF0692D2DBDE30065DDE6 /* SceneDelegate.swift */,
+				19ABF06B2D2DBDE30065DDE6 /* LaunchScreen.storyboard */,
+				19ABF06E2D2DBDE30065DDE6 /* Main.storyboard */,
+				19ABF0712D2DBDE30065DDE6 /* Info.plist */,
+			);
+			path = "iOS (App)";
+			sourceTree = "<group>";
+		};
+		19ABF0772D2DBDE30065DDE6 /* macOS (App) */ = {
+			isa = PBXGroup;
+			children = (
+				19ABF0782D2DBDE30065DDE6 /* AppDelegate.swift */,
+				19ABF07A2D2DBDE30065DDE6 /* Main.storyboard */,
+				19ABF07D2D2DBDE30065DDE6 /* Info.plist */,
+				19ABF07E2D2DBDE30065DDE6 /* Amazon Tag Remover.entitlements */,
+			);
+			path = "macOS (App)";
+			sourceTree = "<group>";
+		};
+		19ABF0872D2DBDE30065DDE6 /* iOS (Extension) */ = {
+			isa = PBXGroup;
+			children = (
+				19ABF0882D2DBDE30065DDE6 /* Info.plist */,
+			);
+			path = "iOS (Extension)";
+			sourceTree = "<group>";
+		};
+		19ABF0912D2DBDE30065DDE6 /* macOS (Extension) */ = {
+			isa = PBXGroup;
+			children = (
+				19ABF0922D2DBDE30065DDE6 /* Info.plist */,
+				19ABF0932D2DBDE30065DDE6 /* Amazon Tag Remover.entitlements */,
+			);
+			path = "macOS (Extension)";
+			sourceTree = "<group>";
+		};
+		19ABF0B22D2DBDE40065DDE6 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				19ABF0B32D2DBDE40065DDE6 /* images */,
+				19ABF0B42D2DBDE40065DDE6 /* js */,
+				19ABF0B52D2DBDE40065DDE6 /* rules.json */,
+				19ABF0B62D2DBDE40065DDE6 /* manifest.json */,
+				19ABF0B72D2DBDE40065DDE6 /* options.html */,
+			);
+			name = Resources;
+			path = "Shared (Extension)";
+			sourceTree = SOURCE_ROOT;
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		19ABF0632D2DBDE30065DDE6 /* Amazon Tag Remover (iOS) */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 19ABF0A82D2DBDE30065DDE6 /* Build configuration list for PBXNativeTarget "Amazon Tag Remover (iOS)" */;
+			buildPhases = (
+				19ABF0602D2DBDE30065DDE6 /* Sources */,
+				19ABF0612D2DBDE30065DDE6 /* Frameworks */,
+				19ABF0622D2DBDE30065DDE6 /* Resources */,
+				19ABF0A72D2DBDE30065DDE6 /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				19ABF0862D2DBDE30065DDE6 /* PBXTargetDependency */,
+			);
+			name = "Amazon Tag Remover (iOS)";
+			packageProductDependencies = (
+			);
+			productName = "Amazon Tag Remover (iOS)";
+			productReference = 19ABF0642D2DBDE30065DDE6 /* Amazon Tag Remover.app */;
+			productType = "com.apple.product-type.application";
+		};
+		19ABF0752D2DBDE30065DDE6 /* Amazon Tag Remover (macOS) */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 19ABF0AF2D2DBDE30065DDE6 /* Build configuration list for PBXNativeTarget "Amazon Tag Remover (macOS)" */;
+			buildPhases = (
+				19ABF0722D2DBDE30065DDE6 /* Sources */,
+				19ABF0732D2DBDE30065DDE6 /* Frameworks */,
+				19ABF0742D2DBDE30065DDE6 /* Resources */,
+				19ABF0AE2D2DBDE30065DDE6 /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				19ABF0902D2DBDE30065DDE6 /* PBXTargetDependency */,
+			);
+			name = "Amazon Tag Remover (macOS)";
+			packageProductDependencies = (
+			);
+			productName = "Amazon Tag Remover (macOS)";
+			productReference = 19ABF0762D2DBDE30065DDE6 /* Amazon Tag Remover.app */;
+			productType = "com.apple.product-type.application";
+		};
+		19ABF0822D2DBDE30065DDE6 /* Amazon Tag Remover Extension (iOS) */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 19ABF0A42D2DBDE30065DDE6 /* Build configuration list for PBXNativeTarget "Amazon Tag Remover Extension (iOS)" */;
+			buildPhases = (
+				19ABF07F2D2DBDE30065DDE6 /* Sources */,
+				19ABF0802D2DBDE30065DDE6 /* Frameworks */,
+				19ABF0812D2DBDE30065DDE6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Amazon Tag Remover Extension (iOS)";
+			packageProductDependencies = (
+			);
+			productName = "Amazon Tag Remover Extension (iOS)";
+			productReference = 19ABF0832D2DBDE30065DDE6 /* Amazon Tag Remover Extension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		19ABF08C2D2DBDE30065DDE6 /* Amazon Tag Remover Extension (macOS) */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 19ABF0AB2D2DBDE30065DDE6 /* Build configuration list for PBXNativeTarget "Amazon Tag Remover Extension (macOS)" */;
+			buildPhases = (
+				19ABF0892D2DBDE30065DDE6 /* Sources */,
+				19ABF08A2D2DBDE30065DDE6 /* Frameworks */,
+				19ABF08B2D2DBDE30065DDE6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Amazon Tag Remover Extension (macOS)";
+			packageProductDependencies = (
+			);
+			productName = "Amazon Tag Remover Extension (macOS)";
+			productReference = 19ABF08D2D2DBDE30065DDE6 /* Amazon Tag Remover Extension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		19ABF0512D2DBDE10065DDE6 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1620;
+				LastUpgradeCheck = 1620;
+				TargetAttributes = {
+					19ABF0632D2DBDE30065DDE6 = {
+						CreatedOnToolsVersion = 16.2;
+					};
+					19ABF0752D2DBDE30065DDE6 = {
+						CreatedOnToolsVersion = 16.2;
+					};
+					19ABF0822D2DBDE30065DDE6 = {
+						CreatedOnToolsVersion = 16.2;
+					};
+					19ABF08C2D2DBDE30065DDE6 = {
+						CreatedOnToolsVersion = 16.2;
+					};
+				};
+			};
+			buildConfigurationList = 19ABF0542D2DBDE10065DDE6 /* Build configuration list for PBXProject "Amazon Tag Remover" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 19ABF0502D2DBDE10065DDE6;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 19ABF0652D2DBDE30065DDE6 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				19ABF0632D2DBDE30065DDE6 /* Amazon Tag Remover (iOS) */,
+				19ABF0752D2DBDE30065DDE6 /* Amazon Tag Remover (macOS) */,
+				19ABF0822D2DBDE30065DDE6 /* Amazon Tag Remover Extension (iOS) */,
+				19ABF08C2D2DBDE30065DDE6 /* Amazon Tag Remover Extension (macOS) */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		19ABF0622D2DBDE30065DDE6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				19ABF0962D2DBDE30065DDE6 /* Icon.png in Resources */,
+				19ABF06D2D2DBDE30065DDE6 /* LaunchScreen.storyboard in Resources */,
+				19ABF0942D2DBDE30065DDE6 /* Main.html in Resources */,
+				19ABF09A2D2DBDE30065DDE6 /* Script.js in Resources */,
+				19ABF09E2D2DBDE30065DDE6 /* Assets.xcassets in Resources */,
+				19ABF0702D2DBDE30065DDE6 /* Main.storyboard in Resources */,
+				19ABF0982D2DBDE30065DDE6 /* Style.css in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		19ABF0742D2DBDE30065DDE6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				19ABF0972D2DBDE30065DDE6 /* Icon.png in Resources */,
+				19ABF0992D2DBDE30065DDE6 /* Style.css in Resources */,
+				19ABF07C2D2DBDE30065DDE6 /* Main.storyboard in Resources */,
+				19ABF09B2D2DBDE30065DDE6 /* Script.js in Resources */,
+				19ABF09F2D2DBDE30065DDE6 /* Assets.xcassets in Resources */,
+				19ABF0952D2DBDE30065DDE6 /* Main.html in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		19ABF0812D2DBDE30065DDE6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				19ABF0C02D2DBDE40065DDE6 /* manifest.json in Resources */,
+				19ABF0BF2D2DBDE40065DDE6 /* rules.json in Resources */,
+				19ABF0C12D2DBDE40065DDE6 /* options.html in Resources */,
+				19ABF0BD2D2DBDE40065DDE6 /* images in Resources */,
+				19ABF0BE2D2DBDE40065DDE6 /* js in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		19ABF08B2D2DBDE30065DDE6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				19ABF0BB2D2DBDE40065DDE6 /* manifest.json in Resources */,
+				19ABF0BA2D2DBDE40065DDE6 /* rules.json in Resources */,
+				19ABF0BC2D2DBDE40065DDE6 /* options.html in Resources */,
+				19ABF0B82D2DBDE40065DDE6 /* images in Resources */,
+				19ABF0B92D2DBDE40065DDE6 /* js in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		19ABF0602D2DBDE30065DDE6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				19ABF09C2D2DBDE30065DDE6 /* ViewController.swift in Sources */,
+				19ABF0682D2DBDE30065DDE6 /* AppDelegate.swift in Sources */,
+				19ABF06A2D2DBDE30065DDE6 /* SceneDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		19ABF0722D2DBDE30065DDE6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				19ABF09D2D2DBDE30065DDE6 /* ViewController.swift in Sources */,
+				19ABF0792D2DBDE30065DDE6 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		19ABF07F2D2DBDE30065DDE6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				19ABF0A02D2DBDE30065DDE6 /* SafariWebExtensionHandler.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		19ABF0892D2DBDE30065DDE6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				19ABF0A12D2DBDE30065DDE6 /* SafariWebExtensionHandler.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		19ABF0862D2DBDE30065DDE6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 19ABF0822D2DBDE30065DDE6 /* Amazon Tag Remover Extension (iOS) */;
+			targetProxy = 19ABF0852D2DBDE30065DDE6 /* PBXContainerItemProxy */;
+		};
+		19ABF0902D2DBDE30065DDE6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 19ABF08C2D2DBDE30065DDE6 /* Amazon Tag Remover Extension (macOS) */;
+			targetProxy = 19ABF08F2D2DBDE30065DDE6 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		19ABF0572D2DBDE10065DDE6 /* Main.html */ = {
+			isa = PBXVariantGroup;
+			children = (
+				19ABF0582D2DBDE10065DDE6 /* Base */,
+			);
+			name = Main.html;
+			sourceTree = "<group>";
+		};
+		19ABF06B2D2DBDE30065DDE6 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				19ABF06C2D2DBDE30065DDE6 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		19ABF06E2D2DBDE30065DDE6 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				19ABF06F2D2DBDE30065DDE6 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		19ABF07A2D2DBDE30065DDE6 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				19ABF07B2D2DBDE30065DDE6 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		19ABF0A22D2DBDE30065DDE6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		19ABF0A32D2DBDE30065DDE6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+		19ABF0A52D2DBDE30065DDE6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = JR7SKSGWZH;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "iOS (Extension)/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Amazon Tag Remover Extension";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "de.dustplanet.Amazon-Tag-Remover.Extension";
+				PRODUCT_NAME = "Amazon Tag Remover Extension";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		19ABF0A62D2DBDE30065DDE6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = JR7SKSGWZH;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "iOS (Extension)/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Amazon Tag Remover Extension";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "de.dustplanet.Amazon-Tag-Remover.Extension";
+				PRODUCT_NAME = "Amazon Tag Remover Extension";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		19ABF0A92D2DBDE30065DDE6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = JR7SKSGWZH;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "iOS (App)/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Amazon Tag Remover";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+					"-framework",
+					WebKit,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "de.dustplanet.Amazon-Tag-Remover";
+				PRODUCT_NAME = "Amazon Tag Remover";
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		19ABF0AA2D2DBDE30065DDE6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = JR7SKSGWZH;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "iOS (App)/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Amazon Tag Remover";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+					"-framework",
+					WebKit,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "de.dustplanet.Amazon-Tag-Remover";
+				PRODUCT_NAME = "Amazon Tag Remover";
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		19ABF0AC2D2DBDE30065DDE6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "macOS (Extension)/Amazon Tag Remover.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = JR7SKSGWZH;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "macOS (Extension)/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Amazon Tag Remover Extension";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 14.6;
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "de.dustplanet.Amazon-Tag-Remover.Extension";
+				PRODUCT_NAME = "Amazon Tag Remover Extension";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		19ABF0AD2D2DBDE30065DDE6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "macOS (Extension)/Amazon Tag Remover.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = JR7SKSGWZH;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "macOS (Extension)/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Amazon Tag Remover Extension";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 14.6;
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "de.dustplanet.Amazon-Tag-Remover.Extension";
+				PRODUCT_NAME = "Amazon Tag Remover Extension";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		19ABF0B02D2DBDE30065DDE6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "macOS (App)/Amazon Tag Remover.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = JR7SKSGWZH;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "macOS (App)/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Amazon Tag Remover";
+				INFOPLIST_KEY_NSMainStoryboardFile = Main;
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 14.6;
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+					"-framework",
+					WebKit,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "de.dustplanet.Amazon-Tag-Remover";
+				PRODUCT_NAME = "Amazon Tag Remover";
+				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		19ABF0B12D2DBDE30065DDE6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "macOS (App)/Amazon Tag Remover.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = JR7SKSGWZH;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "macOS (App)/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Amazon Tag Remover";
+				INFOPLIST_KEY_NSMainStoryboardFile = Main;
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 14.6;
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+					"-framework",
+					WebKit,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "de.dustplanet.Amazon-Tag-Remover";
+				PRODUCT_NAME = "Amazon Tag Remover";
+				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		19ABF0542D2DBDE10065DDE6 /* Build configuration list for PBXProject "Amazon Tag Remover" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				19ABF0A22D2DBDE30065DDE6 /* Debug */,
+				19ABF0A32D2DBDE30065DDE6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		19ABF0A42D2DBDE30065DDE6 /* Build configuration list for PBXNativeTarget "Amazon Tag Remover Extension (iOS)" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				19ABF0A52D2DBDE30065DDE6 /* Debug */,
+				19ABF0A62D2DBDE30065DDE6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		19ABF0A82D2DBDE30065DDE6 /* Build configuration list for PBXNativeTarget "Amazon Tag Remover (iOS)" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				19ABF0A92D2DBDE30065DDE6 /* Debug */,
+				19ABF0AA2D2DBDE30065DDE6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		19ABF0AB2D2DBDE30065DDE6 /* Build configuration list for PBXNativeTarget "Amazon Tag Remover Extension (macOS)" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				19ABF0AC2D2DBDE30065DDE6 /* Debug */,
+				19ABF0AD2D2DBDE30065DDE6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		19ABF0AF2D2DBDE30065DDE6 /* Build configuration list for PBXNativeTarget "Amazon Tag Remover (macOS)" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				19ABF0B02D2DBDE30065DDE6 /* Debug */,
+				19ABF0B12D2DBDE30065DDE6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 19ABF0512D2DBDE10065DDE6 /* Project object */;
+}

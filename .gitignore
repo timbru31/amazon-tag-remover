@@ -4,5 +4,11 @@ node_modules
 .env
 npm-debug.log
 edge/
-BUILDING_WINDOWS.md
-dustplanet.*
+DerivedData/
+xcuserdata/
+*.xcscmblueprint
+*.xccheckout
+*.xcuserstate
+*.xcworkspace
+.build/
+Package.resolved
