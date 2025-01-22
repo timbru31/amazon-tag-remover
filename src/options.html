@@ -1,17 +1,167 @@
 <!doctype html>
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Amazon Tag Remover Options</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        margin: 0;
+        padding: 20px;
+        background-color: #f4f4f4;
+      }
+      .container {
+        max-width: 400px;
+        margin: 0 auto;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+      h1 {
+        text-align: center;
+        color: #333;
+        font-size: 1.5em;
+        margin-bottom: 20px;
+      }
+      form {
+        display: flex;
+        flex-direction: column;
+      }
+      .option-group {
+        margin-bottom: 20px;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+      }
+      label {
+        display: flex;
+        align-items: center;
+        margin-bottom: 5px;
+        font-weight: bold;
+      }
+      input[type='checkbox'] {
+        margin-right: 5px;
+      }
+      textarea {
+        width: calc(100% - 16px);
+        padding: 8px;
+        margin-top: 5px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        resize: vertical;
+        box-sizing: border-box;
+      }
+      .submit-button {
+        background-color: #4caf50;
+        color: white;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: all 0.3s ease;
+      }
+      .submit-button:hover {
+        background-color: #45a049;
+      }
+      .checkmark {
+        display: none;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background-color: #4caf50;
+        color: white;
+        font-size: 24px;
+        line-height: 40px;
+        text-align: center;
+        margin: 0 auto;
+      }
+      .options-status {
+        margin-top: 10px;
+        font-weight: bold;
+        text-align: center;
+      }
+      .button-container {
+        position: relative;
+        height: 40px;
+        width: 100%;
+      }
+
+      .submit-button,
+      .checkmark {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        margin: auto;
+        transition: all 0.3s ease;
+      }
+
+      .submit-button {
+        background-color: #4caf50;
+        color: white;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      .submit-button:hover {
+        background-color: #45a049;
+      }
+
+      .submit-button.hidden {
+        opacity: 0;
+        transform: scale(0.5);
+      }
+
+      .checkmark {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background-color: #4caf50;
+        color: white;
+        font-size: 24px;
+        opacity: 0;
+        transform: scale(0.5);
+      }
+
+      .checkmark.visible {
+        opacity: 1;
+        transform: scale(1);
+      }
+    </style>
   </head>
   <body>
-    <form>
-      <label>Disable notifications: <input type="checkbox" id="disable-notifications" /></label>
-      <br /><br />
-      <label>Allowed tags (one per line):</label><br />
-      <textarea id="allowed-tags" rows="5" cols="40"></textarea>
-      <br /><br />
-      <button type="submit">Save</button>
-    </form>
+    <div class="container">
+      <h1>Amazon Tag Remover Options</h1>
+      <form id="options-form">
+        <div class="option-group" id="notifications-section">
+          <label>
+            <input type="checkbox" id="disable-notifications" />
+            <span>Disable notifications</span>
+          </label>
+        </div>
+        <div class="option-group">
+          <label for="allowed-tags">Allowed tags (one per line):</label>
+          <textarea id="allowed-tags" rows="5"></textarea>
+        </div>
+        <div class="button-container">
+          <button type="submit" class="submit-button">Save options</button>
+          <div class="checkmark">✓</div>
+        </div>
+      </form>
+    </div>
+    <script type="module" src="js/options.js"></script>
   </body>
-  <script type="module" src="js/options.js"></script>
 </html>

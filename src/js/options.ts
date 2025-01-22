@@ -1,8 +1,17 @@
-import { storage } from './api.js';
+import { isSafari, storage } from './api.js';
 
 interface StorageOptions {
   disableNotifications: boolean;
   allowedTags?: string[];
+}
+
+function hideNotificationCheckboxForSafari() {
+  if (isSafari()) {
+    const notificationsSection = document.getElementById('notifications-section');
+    if (notificationsSection) {
+      notificationsSection.style.display = 'none';
+    }
+  }
 }
 
 function saveOptions(e: Event) {
@@ -14,10 +23,25 @@ function saveOptions(e: Event) {
     .map((tag) => tag.trim())
     .filter((tag) => tag.length > 0);
 
-  void storage.set({
-    disableNotifications: document.querySelector<HTMLInputElement>('#disable-notifications')?.checked,
-    allowedTags,
-  });
+  void storage.set(
+    {
+      disableNotifications: document.querySelector<HTMLInputElement>('#disable-notifications')?.checked,
+      allowedTags,
+    },
+    () => {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const submitButton = document.querySelector('.submit-button')!;
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const checkmark = document.querySelector('.checkmark')!;
+
+      submitButton.classList.add('hidden');
+      checkmark.classList.add('visible');
+
+      window.setTimeout(() => {
+        window.close();
+      }, 1500);
+    },
+  );
 }
 
 function restoreOptions() {
@@ -41,3 +65,5 @@ function restoreOptions() {
 
 document.addEventListener('DOMContentLoaded', restoreOptions);
 document.querySelector('form')?.addEventListener('submit', saveOptions);
+
+hideNotificationCheckboxForSafari();
