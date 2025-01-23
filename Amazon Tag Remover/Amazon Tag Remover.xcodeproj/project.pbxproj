@@ -781,7 +781,7 @@
 				CODE_SIGN_ENTITLEMENTS = "macOS (Extension)/Amazon Tag Remover.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 4;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = JR7SKSGWZH;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "macOS (Extension)/Info.plist";
@@ -813,7 +813,7 @@
 				CODE_SIGN_ENTITLEMENTS = "macOS (Extension)/Amazon Tag Remover.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 4;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = JR7SKSGWZH;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "macOS (Extension)/Info.plist";
@@ -847,7 +847,7 @@
 				CODE_SIGN_ENTITLEMENTS = "macOS (App)/Amazon Tag Remover.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 4;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = JR7SKSGWZH;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "macOS (App)/Info.plist";
@@ -883,7 +883,7 @@
 				CODE_SIGN_ENTITLEMENTS = "macOS (App)/Amazon Tag Remover.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 4;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = JR7SKSGWZH;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "macOS (App)/Info.plist";
