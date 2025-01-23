@@ -5,12 +5,18 @@ interface StorageOptions {
   allowedTags?: string[];
 }
 
-function hideNotificationCheckboxForSafari() {
+function handleSafariQuirks() {
   if (isSafari()) {
     const notificationsSection = document.getElementById('notifications-section');
     if (notificationsSection) {
       notificationsSection.style.display = 'none';
     }
+
+    const extensionSettingsLink = document.createElement('p');
+    extensionSettingsLink.textContent =
+      'Note: Make sure to allow access to Amazon domains in the Safari Extensions Preferences to enable all features.';
+    extensionSettingsLink.classList.add('settings-hint');
+    notificationsSection?.after(extensionSettingsLink);
   }
 }
 
@@ -66,4 +72,4 @@ function restoreOptions() {
 document.addEventListener('DOMContentLoaded', restoreOptions);
 document.querySelector('form')?.addEventListener('submit', saveOptions);
 
-hideNotificationCheckboxForSafari();
+handleSafariQuirks();
