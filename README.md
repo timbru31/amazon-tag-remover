@@ -22,6 +22,13 @@
       <source srcset="https://i.imgur.com/ziehy0f.png" media="(prefers-color-scheme: dark)" />
       <img height="58" src="https://i.imgur.com/ytVATu0.png" alt="Opera add-ons" /></picture
   ></a>
+  <br />
+    <a href="https://testflight.apple.com/join/xUQ3H9S2">
+    <picture>
+      <source srcset="./docs/TestFlight_Dark.svg" media="(prefers-color-scheme: dark)" />
+      <img height="58" src="./docs/TestFlight_Light.svg" alt="TestFlight beta for macOS and iOS" /></picture
+  ></a>
+  </p>
 </p>
 
 [![Security](https://github.com/timbru31/amazon-tag-remover/workflows/Security/badge.svg)](https://github.com/timbru31/amazon-tag-remover/actions?query=workflow%3ASecurity)

@@ -87,7 +87,19 @@ class ViewController: PlatformViewController, WKNavigationDelegate, WKScriptMess
 				}
 			}
 		}
+	#elseif os(macOS)
+		SFSafariApplication.showPreferencesForExtension(withIdentifier: extensionBundleIdentifier) { error in
+			guard error == nil else {
+				// Insert code to inform the user that something went wrong.
+				return
+			}
+
+			DispatchQueue.main.async {
+				NSApp.terminate(self)
+			}
+		}
 	#endif
+
 	}
 
 
