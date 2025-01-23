@@ -102,6 +102,4 @@ class ViewController: PlatformViewController, WKNavigationDelegate, WKScriptMess
 
 	}
 
-
-
 }
