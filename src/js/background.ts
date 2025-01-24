@@ -91,8 +91,8 @@ if (_browser.notifications) {
           if (filteredRemovedTags.length > 0) {
             await _browser.notifications.create('amazonTagRemoverNotification', {
               iconUrl: _browser.runtime.getURL('images/icon64.png'),
-              message: `The following Amazon tracking tags have been removed: ${removedTags.join(', ')}`,
-              title: 'Amazon Tag Remover',
+              message: `The following tracking tags have been removed: ${removedTags.join(', ')}`,
+              title: 'Tag Remover for Amazon',
               type: 'basic',
             });
 

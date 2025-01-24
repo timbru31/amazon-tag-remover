@@ -1,4 +1,4 @@
-# Amazon Tag Remover
+# Tag Remover for Amazon
 
 <p>
   <a href="https://chrome.google.com/webstore/detail/amazon-tag-remover/mmajdhfdokfcaiadahjnffhbfjfkmcnc">
