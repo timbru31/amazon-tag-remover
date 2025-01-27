@@ -23,6 +23,11 @@
   ></a>
 </p>
 <p align="center">
+  <a href="https://apps.apple.com/app/tag-remover-for-amazon/id6740751508">
+    <picture>
+      <source srcset="./docs/AppStore_Dark.svg" media="(prefers-color-scheme: dark)" />
+      <img height="58" src="./docs/AppStore_Light.svg" alt="AppStore for macOS and iOS" /></picture
+  ></a>
   <a href="https://testflight.apple.com/join/xUQ3H9S2">
     <picture>
       <source srcset="./docs/TestFlight_Dark.svg" media="(prefers-color-scheme: dark)" />
