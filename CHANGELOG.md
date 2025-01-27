@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [1.2.0](https://github.com/timbru31/amazon-tag-remover/compare/v1.1.0...v1.2.0) (2025-01-27)
+
+### Features
+
+- adds darkmode to options page ([a9c3313](https://github.com/timbru31/amazon-tag-remover/commit/a9c33137190187d44c6d6a7e44636b2b7da7b7d0))
+- adds initial Safari Xcode project ([d8438b4](https://github.com/timbru31/amazon-tag-remover/commit/d8438b4c55bd185ab569480115af1402323bd4e0))
+- new options page, revised icon, open Safari settings link ([7d53c39](https://github.com/timbru31/amazon-tag-remover/commit/7d53c3990f1a20293a2990be576b867dd9e1977a))
+- rename extension to Tag Remover for Amazon ([8d50551](https://github.com/timbru31/amazon-tag-remover/commit/8d50551085d40de2ac908e43eb01c5842fd14290))
+
+### Bug Fixes
+
+- adds TestFlight SVGs ([98779d1](https://github.com/timbru31/amazon-tag-remover/commit/98779d1a950e032b748e0a7ea3e7d5b5f095f4d4))
+- isSafari check, add notice to allow URLs ([a16193c](https://github.com/timbru31/amazon-tag-remover/commit/a16193c928fdb7ae0d2c2aa85e3da25dabec6467))
+- macOS settings button, adds TestFlight link ([50eb638](https://github.com/timbru31/amazon-tag-remover/commit/50eb6388e8789782872c2e28f9042e447916c255))
+- move stylelint file to mjs ([d815297](https://github.com/timbru31/amazon-tag-remover/commit/d8152973ab602c57002badbf09ab4263349505fc))
+- move stylelint file to mjs ([04106eb](https://github.com/timbru31/amazon-tag-remover/commit/04106eb8387301e4ddbec950099677cfb56c493e))
+- styles, enable stylelint ([2ded6c3](https://github.com/timbru31/amazon-tag-remover/commit/2ded6c312c91fabb1802b3e2b2291410c4bed31a))
+- swiftlint ([14f65d2](https://github.com/timbru31/amazon-tag-remover/commit/14f65d26e968005d18474dfa49d5cb62dd08a5fc))
+- Xcode versions and category ([d9658ff](https://github.com/timbru31/amazon-tag-remover/commit/d9658ffb340279f0fd32f0013692df8f06a9a8a7))
+
 ## [1.1.0](https://github.com/timbru31/amazon-tag-remover/compare/v0.10.2...v1.1.0) (2025-01-03)
 
 ### Features
