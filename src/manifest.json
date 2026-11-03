@@ -15,7 +15,7 @@
       "strict_min_version": "142.0"
     }
   },
-  "author": "Tim 'timbru31' Brust",
+  "author": "Tim 'timbru31' Prüssing",
   "description": "Removes the affiliate tracking ID (tag) from Amazon links",
   "background": {
     "service_worker": "js/background.js",
