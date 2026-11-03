@@ -36,9 +36,12 @@ const amazonDomains = [
   "us",
 ];
 
-// Unified event filter (Chrome 148+ / Firefox 140+): urlMatches uses RE2
+// Unified event filter (Chrome 148+ / Firefox 140+): urlMatches uses RE2.
+// ([a-z0-9-]+\.)* requires a dotted subdomain label (or none) before "amazon"
+// so hosts like m.media-amazon.com do not match, while www.amazon.de and
+// amazon.de do.
 const amazonUrlFilter = {
-  url: [{ urlMatches: `^https?://[^/]*amazon\\.(${amazonDomains.join("|")})/` }],
+  url: [{ urlMatches: `^https?://([a-z0-9-]+\\.)*amazon\\.(${amazonDomains.join("|")})/` }],
 };
 
 function createAmazonRules(allowedTags: string[]): chrome.declarativeNetRequest.Rule[] {
