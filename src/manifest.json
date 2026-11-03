@@ -22,7 +22,7 @@
     "scripts": ["js/background.js"],
     "type": "module"
   },
-  "minimum_chrome_version": "125",
+  "minimum_chrome_version": "148",
   "options_ui": {
     "page": "options.html"
   },

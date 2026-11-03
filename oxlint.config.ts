@@ -45,8 +45,6 @@ export default defineConfig({
     // `void` marks the intentional fire-and-forget storage calls; a `.catch()`
     // replacement would need a no-op handler and changes nothing observable.
     "eslint/no-void": "off",
-    // `_browser` is the shim name for "whichever webextension API is present".
-    "no-underscore-dangle": ["error", { allow: ["_browser"] }],
   },
   env: {
     node: true,

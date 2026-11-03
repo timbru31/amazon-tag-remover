@@ -1,4 +1,4 @@
-import { _browser, storage } from "./api.js";
+import { storage } from "./api.js";
 
 const urlPattern =
   "https?://w*.?amazon.(ae|ca|cn|co.jp|co.uk|com.au|com.be|com.br|com.mx|com.sg|com.tr|com|de|eg|es|fr|ie|in|it|nl|pl|se|sg)/w*";
@@ -35,10 +35,10 @@ function createAmazonRules(allowedTags: string[]): chrome.declarativeNetRequest.
 
 async function updateRules(allowedTags: string[]): Promise<void> {
   try {
-    const existingRules = await _browser.declarativeNetRequest.getDynamicRules();
+    const existingRules = await browser.declarativeNetRequest.getDynamicRules();
     const removeRuleIds = existingRules.map((rule) => rule.id);
     const addRules = createAmazonRules(allowedTags);
-    await _browser.declarativeNetRequest.updateDynamicRules({
+    await browser.declarativeNetRequest.updateDynamicRules({
       removeRuleIds,
       addRules,
     });
@@ -47,8 +47,8 @@ async function updateRules(allowedTags: string[]): Promise<void> {
   }
 }
 
-if (_browser.notifications) {
-  _browser.webNavigation.onBeforeNavigate.addListener(
+if (browser.notifications) {
+  browser.webNavigation.onBeforeNavigate.addListener(
     async (details) => {
       try {
         const { tabId, url } = details;
@@ -75,7 +75,7 @@ if (_browser.notifications) {
     { url: [{ urlMatches: urlPattern }] },
   );
 
-  _browser.webNavigation.onCompleted.addListener(
+  browser.webNavigation.onCompleted.addListener(
     async (details) => {
       try {
         const { disableNotifications } = await storage.get("disableNotifications");
@@ -85,8 +85,8 @@ if (_browser.notifications) {
           const filteredRemovedTags = removedTags?.filter((tag) => !allowedTags?.includes(tag)) || [];
 
           if (filteredRemovedTags.length > 0) {
-            await _browser.notifications.create("amazonTagRemoverNotification", {
-              iconUrl: _browser.runtime.getURL("images/icon64.png"),
+            await browser.notifications.create("amazonTagRemoverNotification", {
+              iconUrl: browser.runtime.getURL("images/icon64.png"),
               message: `The following tracking tags have been removed: ${removedTags.join(", ")}`,
               title: "Tag Remover for Amazon",
               type: "basic",
@@ -103,7 +103,7 @@ if (_browser.notifications) {
   );
 }
 
-_browser.runtime.onInstalled.addListener(async (details) => {
+browser.runtime.onInstalled.addListener(async (details) => {
   if (details.reason === "install") {
     void storage.set({
       disableNotifications: false,
@@ -116,7 +116,7 @@ _browser.runtime.onInstalled.addListener(async (details) => {
   });
 });
 
-_browser.storage.onChanged.addListener(async (changes) => {
+browser.storage.onChanged.addListener(async (changes) => {
   if (changes.allowedTags) {
     await updateRules((changes.allowedTags.newValue as string[]) || []);
   }
