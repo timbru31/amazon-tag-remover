@@ -65,7 +65,7 @@ function setCurrentChoice(result: StorageOptions): void {
 
 function restoreOptions(): void {
   void storage.get(["disableNotifications", "allowedTags"]).then((options) => {
-    setCurrentChoice(options as StorageOptions);
+    setCurrentChoice(options as unknown as StorageOptions);
   });
 }
 

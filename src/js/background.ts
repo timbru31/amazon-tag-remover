@@ -3,7 +3,7 @@ import { _browser, storage } from "./api.js";
 const urlPattern =
   "https?://w*.?amazon.(ae|ca|cn|co.jp|co.uk|com.au|com.be|com.br|com.mx|com.sg|com.tr|com|de|eg|es|fr|ie|in|it|nl|pl|se|sg)/w*";
 
-function createAmazonRules(allowedTags: string[]): browser.declarativeNetRequest.Rule[] & chrome.declarativeNetRequest.Rule[] {
+function createAmazonRules(allowedTags: string[]): chrome.declarativeNetRequest.Rule[] {
   return allowedTags.flatMap((tag, index) => {
     const escapedTag = tag.replaceAll(/[.*+?^${}()|[\]\\]/gu, "\\$&");
     return [
@@ -11,24 +11,22 @@ function createAmazonRules(allowedTags: string[]): browser.declarativeNetRequest
         id: index * 2 + 1,
         priority: 1,
         action: {
-          type: "allow" as chrome.declarativeNetRequest.RuleActionType & browser.declarativeNetRequest._RuleActionType,
+          type: "allow",
         },
         condition: {
           regexFilter: `^https?://[^/]*amazon\\.[^/]+/.*[?&]tag=${escapedTag}.*`,
-          resourceTypes: ["main_frame", "sub_frame"] as chrome.declarativeNetRequest.ResourceType &
-            browser.declarativeNetRequest.ResourceType,
+          resourceTypes: ["main_frame", "sub_frame"],
         },
       },
       {
         id: index * 2 + 2,
         priority: 1,
         action: {
-          type: "allow" as chrome.declarativeNetRequest.RuleActionType & browser.declarativeNetRequest._RuleActionType,
+          type: "allow",
         },
         condition: {
           regexFilter: `^https?://[^/]*amazon\\.[^/]+/.*[?&]ascsubtag=${escapedTag}.*`,
-          resourceTypes: ["main_frame", "sub_frame"] as chrome.declarativeNetRequest.ResourceType &
-            browser.declarativeNetRequest.ResourceType,
+          resourceTypes: ["main_frame", "sub_frame"],
         },
       },
     ];

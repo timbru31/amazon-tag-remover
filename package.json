@@ -29,23 +29,22 @@
     "test": "echo soon!"
   },
   "devDependencies": {
-    "@types/chrome": "^0.1.36",
-    "@types/firefox-webext-browser": "^120.0.5",
+    "@types/chrome": "^0.3.7",
     "@types/fs-extra": "^11.0.4",
     "@types/node": "^26.6.6",
-    "addons-linter": "^7.20.0",
-    "commit-and-tag-version": "^12.6.1",
+    "addons-linter": "^10.15.0",
+    "commit-and-tag-version": "^13.3.0",
     "fs-extra": "^11.3.3",
     "husky": "^9.1.7",
-    "lint-staged": "^16.2.7",
+    "lint-staged": "^17.6.0",
     "oxfmt": "^0.75.0",
     "oxlint": "^1.90.0",
-    "postcss-html": "^1.8.1",
-    "stylelint": "^16.26.1",
-    "stylelint-config-html": "^1.1.0",
-    "stylelint-config-recommended": "^15.0.0",
+    "postcss-html": "^2.0.0",
+    "stylelint": "^17.16.0",
+    "stylelint-config-html": "^2.0.0",
+    "stylelint-config-recommended": "^18.0.0",
     "tsx": "^4.21.0",
-    "typescript": "^5.9.3"
+    "typescript": "^7.0.2"
   },
   "packageManager": "pnpm@12.16.1",
   "commit-and-tag-version": {
