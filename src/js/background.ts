@@ -85,68 +85,60 @@ async function updateRules(allowedTags: string[]): Promise<void> {
   }
 }
 
-if (browser.notifications) {
-  browser.webNavigation.onBeforeNavigate.addListener(async (details) => {
-    try {
-      const { tabId, url } = details;
-      const parsedUrl = new URL(url);
+browser.webNavigation.onBeforeNavigate.addListener(async (details) => {
+  try {
+    const { tabId, url } = details;
+    const parsedUrl = new URL(url);
 
-      const tag = parsedUrl.searchParams.get("tag");
-      const ascsubtag = parsedUrl.searchParams.get("ascsubtag");
+    // getAll() covers repeated params (e.g. ?tag=a&tag=b) and dedupe so a value
+    // present in both tag and ascsubtag is only listed once. removeParams in
+    // rules.json strips every occurrence, so this mirrors what actually happens.
+    const removedTags = [...new Set([...parsedUrl.searchParams.getAll("tag"), ...parsedUrl.searchParams.getAll("ascsubtag")])];
 
-      const removedTags: string[] = [];
-      if (tag) {
-        removedTags.push(tag);
-      }
-      if (ascsubtag) {
-        removedTags.push(ascsubtag);
-      }
-
-      const removedTagsKey = `removedTags-${tabId}`;
-      if (removedTags.length > 0) {
-        await storage.set({ [removedTagsKey]: removedTags });
-      } else {
-        // Clear any stale value left over from a previous navigation in this tab
-        await storage.remove(removedTagsKey);
-      }
-    } catch (error) {
-      console.error("Error storing removed tags:", error);
-    }
-  }, amazonUrlFilter);
-
-  browser.webNavigation.onCompleted.addListener(async (details) => {
-    try {
-      const removedTagsKey = `removedTags-${details.tabId}`;
-      const { [removedTagsKey]: removedTags } = (await storage.get(removedTagsKey)) as Record<string, string[]>;
-
-      // Always clean up so keys never accumulate in sync storage
+    const removedTagsKey = `removedTags-${tabId}`;
+    if (removedTags.length > 0) {
+      await storage.set({ [removedTagsKey]: removedTags });
+    } else {
+      // Clear any stale value left over from a previous navigation in this tab
       await storage.remove(removedTagsKey);
-
-      if (!removedTags?.length) {
-        return;
-      }
-
-      const { disableNotifications } = await storage.get("disableNotifications");
-      if (disableNotifications) {
-        return;
-      }
-
-      const { allowedTags } = (await storage.get("allowedTags")) as Record<string, string[]>;
-      const filteredRemovedTags = removedTags.filter((tag) => !allowedTags?.includes(tag));
-
-      if (filteredRemovedTags.length > 0) {
-        await browser.notifications.create("amazonTagRemoverNotification", {
-          iconUrl: browser.runtime.getURL("images/icon64.png"),
-          message: `The following tracking tags have been removed: ${filteredRemovedTags.join(", ")}`,
-          title: "Tag Remover for Amazon",
-          type: "basic",
-        });
-      }
-    } catch (error) {
-      console.error("Error handling navigation event:", error);
     }
-  }, amazonUrlFilter);
-}
+  } catch (error) {
+    console.error("Error storing removed tags:", error);
+  }
+}, amazonUrlFilter);
+
+browser.webNavigation.onCompleted.addListener(async (details) => {
+  try {
+    const removedTagsKey = `removedTags-${details.tabId}`;
+    const { [removedTagsKey]: removedTags } = (await storage.get(removedTagsKey)) as Record<string, string[]>;
+
+    // Always clean up so keys never accumulate in sync storage
+    await storage.remove(removedTagsKey);
+
+    if (!removedTags?.length) {
+      return;
+    }
+
+    const { disableNotifications } = await storage.get("disableNotifications");
+    if (disableNotifications) {
+      return;
+    }
+
+    const { allowedTags } = (await storage.get("allowedTags")) as Record<string, string[]>;
+    const filteredRemovedTags = removedTags.filter((tag) => !allowedTags?.includes(tag));
+
+    if (filteredRemovedTags.length > 0 && browser.notifications) {
+      await browser.notifications.create("amazonTagRemoverNotification", {
+        iconUrl: browser.runtime.getURL("images/icon64.png"),
+        message: `The following tracking tags have been removed: ${filteredRemovedTags.join(", ")}`,
+        title: "Tag Remover for Amazon",
+        type: "basic",
+      });
+    }
+  } catch (error) {
+    console.error("Error handling navigation event:", error);
+  }
+}, amazonUrlFilter);
 
 browser.runtime.onInstalled.addListener(async (details) => {
   if (details.reason === "install") {
