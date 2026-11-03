@@ -30,11 +30,9 @@
   },
   "devDependencies": {
     "@types/chrome": "^0.3.7",
-    "@types/fs-extra": "^11.0.4",
     "@types/node": "^26.6.6",
     "addons-linter": "^10.15.0",
     "commit-and-tag-version": "^13.3.0",
-    "fs-extra": "^11.3.3",
     "husky": "^9.1.7",
     "lint-staged": "^17.6.0",
     "oxfmt": "^0.75.0",

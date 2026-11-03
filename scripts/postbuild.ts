@@ -1,4 +1,4 @@
-import { copy } from "fs-extra";
+import { cp } from "node:fs/promises";
 import { join, resolve } from "node:path";
 
 const copyFiles = async () => {
@@ -6,7 +6,8 @@ const copyFiles = async () => {
   const distDir = resolve(import.meta.dirname, "../dist");
 
   try {
-    await copy(srcDir, distDir, {
+    await cp(srcDir, distDir, {
+      recursive: true,
       filter: (src) => {
         const jsDir = join(srcDir, "js");
         return !src.startsWith(jsDir);
