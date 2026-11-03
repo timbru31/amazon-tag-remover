@@ -3,54 +3,53 @@
   "version": "1.2.0",
   "private": true,
   "description": "WebExtension for Chrome, Firefox, Edge and Opera to remove the Amazon affiliate tracking ID (tag) from amazon links",
+  "homepage": "https://github.com/timbru31/amazon-tag-remover#readme",
+  "bugs": {
+    "url": "https://github.com/timbru31/amazon-tag-remover/issues"
+  },
+  "license": "MIT",
+  "author": "Tim Prüssing <github@timbrust.de>",
+  "repository": "timbru31/amazon-tag-remover",
+  "type": "module",
   "scripts": {
     "prepare": "husky",
     "prebuild": "rm -rf dist",
     "build": "tsc",
     "postbuild": "tsx scripts/postbuild.ts",
-    "eslint": "eslint src/js",
+    "lint:js": "oxlint src/js",
+    "lint:webext": "addons-linter dist",
     "stylelint": "stylelint 'src/**/*.html'",
-    "lint": "npm run eslint && npm run stylelint",
+    "lint": "pnpm run lint:js && pnpm run stylelint && pnpm run fmt:check",
     "lint:swift": "swiftlint",
-    "prerelease": "npm run test",
+    "fmt": "oxfmt",
+    "fmt:check": "oxfmt --check",
+    "prerelease": "pnpm run test",
     "release": "commit-and-tag-version -s -a",
-    "postrelease": "npm run build",
-    "pretest": "npm run lint",
+    "postrelease": "pnpm run build",
+    "pretest": "pnpm run lint",
     "test": "echo soon!"
   },
-  "repository": "timbru31/amazon-tag-remover",
-  "author": "Tim Brust <github@timbrust.de>",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/timbru31/amazon-tag-remover/issues"
-  },
-  "homepage": "https://github.com/timbru31/amazon-tag-remover#readme",
   "devDependencies": {
-    "@eslint/js": "^9.39.2",
-    "@types/chrome": "^0.1.36",
-    "@types/eslint__js": "^9.14.0",
-    "@types/firefox-webext-browser": "^120.0.5",
-    "@types/fs-extra": "^11.0.4",
-    "addons-linter": "^7.20.0",
-    "commit-and-tag-version": "^12.6.1",
-    "eslint-config-prettier": "^10.1.8",
-    "eslint-plugin-prettier": "^5.5.5",
-    "fs-extra": "^11.3.3",
+    "@types/chrome": "^0.3.7",
+    "@types/node": "^26.6.6",
+    "addons-linter": "^10.15.0",
+    "commit-and-tag-version": "^13.3.0",
     "husky": "^9.1.7",
-    "lint-staged": "^16.2.7",
-    "postcss-html": "^1.8.1",
-    "prettier": "^3.8.1",
-    "stylelint": "^16.26.1",
-    "stylelint-config-html": "^1.1.0",
-    "stylelint-config-recommended": "^15.0.0",
+    "lint-staged": "^17.6.0",
+    "oxfmt": "^0.75.0",
+    "oxlint": "^1.90.0",
+    "postcss-html": "^2.0.0",
+    "stylelint": "^17.16.0",
+    "stylelint-config-html": "^2.0.0",
+    "stylelint-config-recommended": "^18.0.0",
     "tsx": "^4.21.0",
-    "typescript": "^5.9.3",
-    "typescript-eslint": "^8.54.0"
+    "typescript": "^7.0.2"
   },
+  "packageManager": "pnpm@12.16.1",
   "commit-and-tag-version": {
     "scripts": {
-      "postbump": "tsx scripts/patch-versions.ts && prettier --write src/manifest.json && git add src/manifest.json",
-      "postchangelog": "prettier --write CHANGELOG.md"
+      "postbump": "tsx scripts/patch-versions.ts && oxfmt src/manifest.json && git add src/manifest.json",
+      "postchangelog": "oxfmt CHANGELOG.md"
     }
   }
 }

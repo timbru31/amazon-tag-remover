@@ -3,30 +3,37 @@ name: Linting
 on:
   push:
     branches:
-      - master
+      - main
   pull_request:
 
 jobs:
   build:
     runs-on: macos-latest
 
-    steps:
-      - uses: actions/checkout@v6.0.3
+    permissions:
+      contents: read
 
-      - uses: actions/setup-node@v4.4.0
+    steps:
+      - uses: actions/checkout@v7.0.1
+
+      - uses: pnpm/setup@v3.1.2
         with:
-          node-version-file: '.node-version'
+          cache: true
+          require-lockfile: true
 
       - name: Setup
         run: |
           brew install swiftlint
           swiftlint version
-          npm ci
+
+      - name: Build
+        run: pnpm build
 
       - name: Linting
         run: |
-          npm test
-          npm run lint:swift
+          pnpm test
+          pnpm run lint:swift
+          pnpm run lint:webext
 
   auto-merge:
     runs-on: ubuntu-latest

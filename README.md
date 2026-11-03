@@ -35,7 +35,6 @@
   ></a>
 </p>
 
-[![Security](https://github.com/timbru31/amazon-tag-remover/workflows/Security/badge.svg)](https://github.com/timbru31/amazon-tag-remover/actions?query=workflow%3ASecurity)
 [![Linting](https://github.com/timbru31/amazon-tag-remover/workflows/Linting/badge.svg)](https://github.com/timbru31/amazon-tag-remover/actions?query=workflow%3ALinting)
 
 [![Known Vulnerabilities](https://snyk.io/test/github/timbru31/amazon-tag-remover/badge.svg)](https://snyk.io/test/github/timbru31/amazon-tag-remover)
@@ -65,8 +64,8 @@ Please visit [CHANGELOG.md](CHANGELOG.md) for a complete changelog.
 ## Contributing
 
 1. Fork and clone the project
-2. Run `npm install`
-3. Run `npm run build:dev` and start hacking. The extension is automatically rebuilt on changes.
+2. Run `pnpm install`
+3. Run `pnpm run build:dev` and start hacking. The extension is automatically rebuilt on changes.
 4. Load the un-packaged addon from the `dist` folder
 
 ## Support
@@ -75,11 +74,11 @@ For support please create an issue here at GitHub
 
 ## Donation
 
-[![PayPal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif 'Donation via PayPal')](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=T9TEV7Q88B9M2)
+[![PayPal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif "Donation via PayPal")](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=T9TEV7Q88B9M2)
 
-![BitCoin](https://dustplanet.de/wp-content/uploads/2015/01/bitcoin-logo-plain.png 'Donation via BitCoins')  
+![BitCoin](https://dustplanet.de/wp-content/uploads/2015/01/bitcoin-logo-plain.png "Donation via BitCoins")  
 1NnrRgdy7CfiYN63vKHiypSi3MSctCP55C
 
 ---
 
-Built by (c) Tim Brust and contributors. Released under the MIT license.
+Built by (c) Tim Prüssing and contributors. Released under the MIT license.

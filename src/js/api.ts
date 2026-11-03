@@ -1,12 +1,5 @@
-const isFirefox = typeof browser !== 'undefined';
-type BrowserType = typeof browser | typeof chrome;
+export const storage = browser.storage.sync || browser.storage.local;
 
-export const _browser: BrowserType = isFirefox ? browser : chrome;
-
-// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-export const storage = _browser.storage.sync || _browser.storage.local;
-
-export function isSafari() {
-  // eslint-disable-next-line @typescript-eslint/no-deprecated
-  return navigator.vendor.includes('Apple') && navigator.userAgent.includes('Safari') && !/Chrome|Chromium/.test(navigator.userAgent);
+export function isSafari(): boolean {
+  return navigator.vendor.includes("Apple") && navigator.userAgent.includes("Safari") && !/Chrome|Chromium/u.test(navigator.userAgent);
 }
