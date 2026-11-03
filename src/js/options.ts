@@ -20,7 +20,7 @@ function handleSafariQuirks(): void {
   }
 }
 
-function saveOptions(e: Event): void {
+async function saveOptions(e: Event): Promise<void> {
   e.preventDefault();
 
   const allowedText = document.querySelector<HTMLTextAreaElement>("#allowed-tags")?.value ?? "";
@@ -29,25 +29,22 @@ function saveOptions(e: Event): void {
     .map((tag) => tag.trim())
     .filter((tag) => tag.length > 0);
 
-  void storage.set(
-    {
+  try {
+    await storage.set({
       disableNotifications: document.querySelector<HTMLInputElement>("#disable-notifications")?.checked,
       allowedTags,
-    },
-    () => {
-      // oxlint-disable-next-line typescript/no-non-null-assertion
-      const submitButton = document.querySelector(".submit-button")!;
-      // oxlint-disable-next-line typescript/no-non-null-assertion
-      const checkmark = document.querySelector(".checkmark")!;
+    });
+  } catch (error) {
+    console.error("Error saving options:", error);
+    return;
+  }
 
-      submitButton.classList.add("hidden");
-      checkmark.classList.add("visible");
+  document.querySelector(".submit-button")?.classList.add("hidden");
+  document.querySelector(".checkmark")?.classList.add("visible");
 
-      window.setTimeout(() => {
-        window.close();
-      }, 1500);
-    },
-  );
+  window.setTimeout(() => {
+    window.close();
+  }, 1500);
 }
 
 function setCurrentChoice(result: StorageOptions): void {
@@ -70,6 +67,8 @@ function restoreOptions(): void {
 }
 
 document.addEventListener("DOMContentLoaded", restoreOptions);
-document.querySelector("form")?.addEventListener("submit", saveOptions);
+document.querySelector("form")?.addEventListener("submit", (e) => {
+  void saveOptions(e);
+});
 
 handleSafariQuirks();

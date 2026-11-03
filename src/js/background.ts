@@ -1,7 +1,45 @@
 import { storage } from "./api.js";
 
-const urlPattern =
-  "https?://w*.?amazon.(ae|ca|cn|co.jp|co.uk|com.au|com.be|com.br|com.mx|com.sg|com.tr|com|de|eg|es|fr|ie|in|it|nl|pl|se|sg)/w*";
+// Keep in sync with the host_permissions in src/manifest.json
+const amazonDomains = [
+  "ae",
+  "at",
+  "ca",
+  "ch",
+  "cn",
+  "co.jp",
+  "co.uk",
+  "co.za",
+  "com.au",
+  "com.be",
+  "com.br",
+  "com.mx",
+  "com.sg",
+  "com.tr",
+  "com",
+  "de",
+  "dk",
+  "eg",
+  "es",
+  "fr",
+  "ie",
+  "in",
+  "it",
+  "mx",
+  "nl",
+  "nz",
+  "pl",
+  "pt",
+  "sa",
+  "se",
+  "sg",
+  "us",
+];
+
+// Unified event filter (Chrome 148+ / Firefox 140+): urlMatches uses RE2
+const amazonUrlFilter = {
+  url: [{ urlMatches: `^https?://[^/]*amazon\\.(${amazonDomains.join("|")})/` }],
+};
 
 function createAmazonRules(allowedTags: string[]): chrome.declarativeNetRequest.Rule[] {
   return allowedTags.flatMap((tag, index) => {
@@ -48,59 +86,66 @@ async function updateRules(allowedTags: string[]): Promise<void> {
 }
 
 if (browser.notifications) {
-  browser.webNavigation.onBeforeNavigate.addListener(
-    async (details) => {
-      try {
-        const { tabId, url } = details;
-        const parsedUrl = new URL(url);
+  browser.webNavigation.onBeforeNavigate.addListener(async (details) => {
+    try {
+      const { tabId, url } = details;
+      const parsedUrl = new URL(url);
 
-        const tag = parsedUrl.searchParams.get("tag");
-        const ascsubtag = parsedUrl.searchParams.get("ascsubtag");
+      const tag = parsedUrl.searchParams.get("tag");
+      const ascsubtag = parsedUrl.searchParams.get("ascsubtag");
 
-        const removedTags: string[] = [];
-        if (tag) {
-          removedTags.push(tag);
-        }
-        if (ascsubtag) {
-          removedTags.push(ascsubtag);
-        }
-
-        if (removedTags.length > 0) {
-          await storage.set({ [`removedTags-${tabId}`]: removedTags });
-        }
-      } catch (error) {
-        console.error("Error storing removed tags:", error);
+      const removedTags: string[] = [];
+      if (tag) {
+        removedTags.push(tag);
       }
-    },
-    { url: [{ urlMatches: urlPattern }] },
-  );
-
-  browser.webNavigation.onCompleted.addListener(
-    async (details) => {
-      try {
-        const { disableNotifications } = await storage.get("disableNotifications");
-        if (!disableNotifications) {
-          const { allowedTags } = (await storage.get("allowedTags")) as Record<string, string[]>;
-          const { [`removedTags-${details.tabId}`]: removedTags } = (await storage.get()) as Record<string, string[]>;
-          const filteredRemovedTags = removedTags?.filter((tag) => !allowedTags?.includes(tag)) || [];
-
-          if (filteredRemovedTags.length > 0) {
-            await browser.notifications.create("amazonTagRemoverNotification", {
-              iconUrl: browser.runtime.getURL("images/icon64.png"),
-              message: `The following tracking tags have been removed: ${removedTags.join(", ")}`,
-              title: "Tag Remover for Amazon",
-              type: "basic",
-            });
-
-            await storage.remove([`removedTags-${details.tabId}`]);
-          }
-        }
-      } catch (error) {
-        console.error("Error handling navigation event:", error);
+      if (ascsubtag) {
+        removedTags.push(ascsubtag);
       }
-    },
-    { url: [{ urlMatches: urlPattern }] },
-  );
+
+      const removedTagsKey = `removedTags-${tabId}`;
+      if (removedTags.length > 0) {
+        await storage.set({ [removedTagsKey]: removedTags });
+      } else {
+        // Clear any stale value left over from a previous navigation in this tab
+        await storage.remove(removedTagsKey);
+      }
+    } catch (error) {
+      console.error("Error storing removed tags:", error);
+    }
+  }, amazonUrlFilter);
+
+  browser.webNavigation.onCompleted.addListener(async (details) => {
+    try {
+      const removedTagsKey = `removedTags-${details.tabId}`;
+      const { [removedTagsKey]: removedTags } = (await storage.get(removedTagsKey)) as Record<string, string[]>;
+
+      // Always clean up so keys never accumulate in sync storage
+      await storage.remove(removedTagsKey);
+
+      if (!removedTags?.length) {
+        return;
+      }
+
+      const { disableNotifications } = await storage.get("disableNotifications");
+      if (disableNotifications) {
+        return;
+      }
+
+      const { allowedTags } = (await storage.get("allowedTags")) as Record<string, string[]>;
+      const filteredRemovedTags = removedTags.filter((tag) => !allowedTags?.includes(tag));
+
+      if (filteredRemovedTags.length > 0) {
+        await browser.notifications.create("amazonTagRemoverNotification", {
+          iconUrl: browser.runtime.getURL("images/icon64.png"),
+          message: `The following tracking tags have been removed: ${filteredRemovedTags.join(", ")}`,
+          title: "Tag Remover for Amazon",
+          type: "basic",
+        });
+      }
+    } catch (error) {
+      console.error("Error handling navigation event:", error);
+    }
+  }, amazonUrlFilter);
 }
 
 browser.runtime.onInstalled.addListener(async (details) => {
@@ -111,9 +156,8 @@ browser.runtime.onInstalled.addListener(async (details) => {
     });
   }
 
-  await storage.get("allowedTags", async (result) => {
-    await updateRules((result.allowedTags as string[]) || []);
-  });
+  const result = await storage.get("allowedTags");
+  await updateRules((result.allowedTags as string[]) || []);
 });
 
 browser.storage.onChanged.addListener(async (changes) => {
