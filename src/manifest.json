@@ -26,7 +26,7 @@
   "options_ui": {
     "page": "options.html"
   },
-  "permissions": ["webNavigation", "activeTab", "declarativeNetRequestWithHostAccess", "notifications", "storage"],
+  "permissions": ["webNavigation", "declarativeNetRequestWithHostAccess", "notifications", "storage"],
   "host_permissions": [
     "*://*.amazon.ae/*",
     "*://*.amazon.at/*",
