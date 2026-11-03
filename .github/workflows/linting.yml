@@ -26,10 +26,14 @@ jobs:
           brew install swiftlint
           swiftlint version
 
+      - name: Build
+        run: pnpm build
+
       - name: Linting
         run: |
           pnpm test
           pnpm run lint:swift
+          pnpm run lint:webext
 
   auto-merge:
     runs-on: ubuntu-latest

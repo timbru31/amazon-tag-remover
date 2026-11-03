@@ -5,13 +5,21 @@
   "browser_specific_settings": {
     "gecko": {
       "id": "{744e2cc4-e8d5-4ab9-814e-d7dc30a09b3c}",
-      "strict_min_version": "113.0"
+      "strict_min_version": "140.0",
+      "data_collection_permissions": {
+        "required": ["websiteActivity"]
+      }
+    },
+    "gecko_android": {
+      "id": "{744e2cc4-e8d5-4ab9-814e-d7dc30a09b3c}",
+      "strict_min_version": "142.0"
     }
   },
   "author": "Tim 'timbru31' Brust",
   "description": "Removes the affiliate tracking ID (tag) from Amazon links",
   "background": {
     "service_worker": "js/background.js",
+    "scripts": ["js/background.js"],
     "type": "module"
   },
   "minimum_chrome_version": "125",

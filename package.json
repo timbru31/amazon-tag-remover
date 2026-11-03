@@ -17,6 +17,7 @@
     "build": "tsc",
     "postbuild": "tsx scripts/postbuild.ts",
     "lint:js": "oxlint src/js",
+    "lint:webext": "addons-linter dist",
     "stylelint": "stylelint 'src/**/*.html'",
     "lint": "pnpm run lint:js && pnpm run stylelint && pnpm run fmt:check",
     "lint:swift": "swiftlint",
