@@ -27,7 +27,7 @@
     "release": "commit-and-tag-version -s -a",
     "postrelease": "pnpm run build",
     "pretest": "pnpm run lint",
-    "test": "echo soon!"
+    "test": "vitest run"
   },
   "devDependencies": {
     "@types/chrome": "^0.3.7",
@@ -35,6 +35,7 @@
     "addons-linter": "^10.15.0",
     "commit-and-tag-version": "^13.3.0",
     "husky": "^9.1.7",
+    "jsdom": "^30.1.3",
     "lint-staged": "^17.6.0",
     "oxfmt": "^0.75.0",
     "oxlint": "^1.90.0",
@@ -43,7 +44,8 @@
     "stylelint-config-html": "^2.0.0",
     "stylelint-config-recommended": "^18.0.0",
     "tsx": "^4.21.0",
-    "typescript": "^7.0.2"
+    "typescript": "^7.0.2",
+    "vitest": "^5.1.0"
   },
   "packageManager": "pnpm@12.16.1",
   "commit-and-tag-version": {

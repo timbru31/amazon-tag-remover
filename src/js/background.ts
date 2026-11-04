@@ -44,7 +44,7 @@ const amazonUrlFilter = {
   url: [{ urlMatches: `^https?://([a-z0-9-]+\\.)*amazon\\.(${amazonDomains.join("|")})/` }],
 };
 
-function createAmazonRules(allowedTags: string[]): chrome.declarativeNetRequest.Rule[] {
+export function createAmazonRules(allowedTags: string[]): chrome.declarativeNetRequest.Rule[] {
   return allowedTags.flatMap((tag, index) => {
     const escapedTag = tag.replaceAll(/[.*+?^${}()|[\]\\]/gu, "\\$&");
     return [
@@ -74,7 +74,7 @@ function createAmazonRules(allowedTags: string[]): chrome.declarativeNetRequest.
   });
 }
 
-async function updateRules(allowedTags: string[]): Promise<void> {
+export async function updateRules(allowedTags: string[]): Promise<void> {
   try {
     const existingRules = await browser.declarativeNetRequest.getDynamicRules();
     const removeRuleIds = existingRules.map((rule) => rule.id);
