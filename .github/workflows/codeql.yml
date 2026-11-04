@@ -1,0 +1,70 @@
+name: "CodeQL"
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  schedule:
+    - cron: "30 7 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+  security-events: write
+
+jobs:
+  analyze:
+    name: Analyze (${{ matrix.language }})
+    runs-on: ${{ matrix.os }}
+
+    permissions:
+      contents: read
+      actions: read
+      security-events: write
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - language: javascript-typescript
+            os: ubuntu-latest
+          - language: actions
+            os: ubuntu-latest
+          - language: swift
+            os: macos-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7.0.1
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v4.39.3
+        with:
+          languages: ${{ matrix.language }}
+
+      # The Xcode extension targets bundle the built WebExtension output
+      # (dist/rules.json and dist/options.html), so the extension must be
+      # built before the Swift targets can compile.
+      - if: matrix.language == 'swift'
+        name: Setup pnpm
+        uses: pnpm/setup@v3.1.2
+        with:
+          cache: true
+          require-lockfile: true
+
+      - if: matrix.language == 'swift'
+        name: Build WebExtension
+        run: |
+          pnpm install --frozen-lockfile
+          pnpm build
+
+      - name: Autobuild
+        if: matrix.language == 'swift'
+        uses: github/codeql-action/autobuild@v4.39.3
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v4.39.3
+        with:
+          category: "/language:${{ matrix.language }}"
