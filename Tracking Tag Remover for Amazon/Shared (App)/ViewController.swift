@@ -33,7 +33,8 @@ class ViewController: PlatformViewController, WKNavigationDelegate, WKScriptMess
 
         self.webView.configuration.userContentController.add(self, name: "controller")
 
-        self.webView.loadFileURL(Bundle.main.url(forResource: "Main", withExtension: "html")!, allowingReadAccessTo: Bundle.main.resourceURL!)
+        let mainHtmlURL = Bundle.main.url(forResource: "Main", withExtension: "html")!
+        self.webView.loadFileURL(mainHtmlURL, allowingReadAccessTo: Bundle.main.resourceURL!)
     }
 
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {

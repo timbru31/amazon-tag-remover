@@ -122,7 +122,12 @@ describe("background event listeners", () => {
       const consoleError = vi.spyOn(console, "error").mockImplementation(() => undefined);
       browserMock.webNavigation.onBeforeNavigate.emit({ tabId: 10, url: "not a url" });
       await flushPromises();
-      expect(consoleError).toHaveBeenCalledWith("Error storing removed tags:", expect.any(Error));
+      // Assert on name/message instead of expect.any(Error): under pool: "vmThreads"
+      // the TypeError thrown by new URL() comes from a different V8 realm, so instanceof fails.
+      expect(consoleError).toHaveBeenCalledWith(
+        "Error storing removed tags:",
+        expect.objectContaining({ name: "TypeError", message: "Invalid URL" }),
+      );
       expect(sync.data["removedTags-10"]).toBeUndefined();
       consoleError.mockRestore();
     });
