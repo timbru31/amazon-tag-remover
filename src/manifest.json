@@ -20,7 +20,8 @@
   "background": {
     "service_worker": "js/background.js",
     "scripts": ["js/background.js"],
-    "type": "module"
+    "type": "module",
+    "preferred_environment": ["document"]
   },
   "minimum_chrome_version": "148",
   "options_ui": {
