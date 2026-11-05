@@ -51,13 +51,11 @@ const amazonUrlFilter = {
 // the tag instead of removing it.
 const ALLOW_RULE_PRIORITY = 100;
 
-// Priorities of the aggressive-mode rules (DNR: a higher value wins). Both must
-// outrank the static tag removal rule (priority 1) so aggressive cleaning wins,
-// but stay below the cart add neutralization rule (priority 10) so that
-// endpoint keeps its parameters, and below the allow rules (ALLOW_RULE_PRIORITY)
-// so an allowed tag always leaves a URL untouched. DNR applies only one rule per
-// request, so the product URL rule must outrank (higher number than) the query
-// stripping rule so a slugged product URL is canonicalized in one redirect.
+// Priorities (DNR: a higher value wins, one rule per request). Both must outrank
+// the static tag removal rule (priority 1) so aggressive cleaning wins, but stay
+// below the cart add rule (priority 10) and the allow rules (priority 100). The
+// product rule must outrank the url rule so a slugged product URL is
+// canonicalized in one redirect.
 const AGGRESSIVE_URL_RULE_PRIORITY = 5;
 const AGGRESSIVE_PRODUCT_RULE_PRIORITY = 6;
 
@@ -65,19 +63,20 @@ const AGGRESSIVE_PRODUCT_RULE_PRIORITY = 6;
 const AGGRESSIVE_PRODUCT_RULE_ID = 100001;
 const AGGRESSIVE_URL_RULE_ID = 100002;
 
-// Amazon serves a product by its canonical `/dp/<ASIN>`; the long title slug
-// (and the `/gp/product/` / `/product/` aliases) are cosmetic. ASINs are 9-13
-// uppercase alphanumeric characters.
+// Amazon serves a product by its canonical `/dp/<ASIN>`; the title slug and the
+// `/gp/product/` / `/product/` aliases are cosmetic. ASINs are 9-13 alphanumerics.
 const ASIN = "[A-Z0-9]{9,13}";
 
 /**
  * Aggressive mode (opt-in, see GitHub issue #550), product part: canonicalize
  * a product URL to the bare `https://.../dp/<ASIN>`, dropping the title slug
- * and the `/gp/product/` / `/product/` shape. The substitution keeps only the
- * host (group 1) and appends `/dp/<ASIN>` (group 2). The middle group requires
- * a slug segment or a non-`/dp/` shape, so an already-canonical `/dp/<ASIN>`
- * does not match (no no-op redirect); any trailing `/ref=...` segment and
- * query are stripped as part of the match.
+ * and the `/gp/product/` / `/product/` shapes. The substitution keeps only the
+ * host (group 1) and appends `/dp/<ASIN>` (group 2). The greedy `.+` before the
+ * `/dp` marker requires a slug to be present, so an already-canonical
+ * `/dp/<ASIN>` does not match (no no-op redirect); those are handled by
+ * createAggressiveUrlRule instead. Any trailing `/ref=...` segment and query
+ * are stripped as part of the match. (Kept compact and lazy-free: Chrome
+ * rejects a `regexFilter` whose compiled RE2 exceeds 2KB.)
  */
 export function createAggressiveProductRule(): chrome.declarativeNetRequest.Rule {
   return {
@@ -90,7 +89,7 @@ export function createAggressiveProductRule(): chrome.declarativeNetRequest.Rule
       },
     },
     condition: {
-      regexFilter: `^(https?://(?:[a-z0-9-]+\\.)*amazon\\.[^/]+)/(?:.+?/(?:dp|gp/product|product)|gp/product|product)/(${ASIN})(?:/ref=[^/?]+\\?.+|/ref=[^/?]+|\\?.+)?$`,
+      regexFilter: `^(https?://(?:[a-z0-9-]+\\.)*amazon\\.[^/]+)(?:/.+(?:/dp|/gp/product|/product)|/product)/(${ASIN})(?:/ref=[^/?]+\\?.+|/ref=[^/?]+|\\?.+)?$`,
       resourceTypes: ["main_frame", "sub_frame"],
     },
   };
