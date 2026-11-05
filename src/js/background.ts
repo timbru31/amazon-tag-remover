@@ -378,7 +378,7 @@ browser.webNavigation.onCompleted.addListener(async (details) => {
 
 browser.runtime.onInstalled.addListener(async (details) => {
   if (details.reason === "install") {
-    void storage.set({
+    await storage.set({
       disableNotifications: false,
       allowedTags: [],
       aggressiveMode: false,
