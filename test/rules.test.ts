@@ -222,6 +222,13 @@ describe("rule resolution with aggressive mode", () => {
     expect(effectiveUrl(rule, url)).toBe("https://www.amazon.de/dp/B0GXB9QXR5");
   });
 
+  it("canonicalizes bare /product/ URLs via the separate bare product rule", () => {
+    const url = "https://www.amazon.com/product/B0GXB9QXR5?th=1";
+    const rule = resolveRule([...staticRules, ...aggressiveRules], url);
+    expect(rule?.id).toBe(100003);
+    expect(effectiveUrl(rule, url)).toBe("https://www.amazon.com/dp/B0GXB9QXR5");
+  });
+
   it("strips the query from non-product URLs via the url rule", () => {
     const url = "https://www.amazon.de/s?k=caliper&page=2";
     const rule = resolveRule([...staticRules, ...aggressiveRules], url);

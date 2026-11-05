@@ -70,17 +70,20 @@ describe("createAmazonRules", () => {
 });
 
 describe("aggressive mode rules", () => {
-  const productRule = background.createAggressiveProductRule();
+  const sluggedProductRule = background.createAggressiveSluggedProductRule();
+  const bareProductRule = background.createAggressiveBareProductRule();
   const urlRule = background.createAggressiveUrlRule();
 
   it("has fixed ids and priorities between the static rules and the allow rules", () => {
-    // The product rule must outrank the url rule (DNR: higher number wins) so a
+    // The product rules must outrank the url rule (DNR: higher number wins) so a
     // slugged product URL is canonicalized in one redirect.
-    expect(productRule.id).toBe(100001);
+    expect(sluggedProductRule.id).toBe(100001);
     expect(urlRule.id).toBe(100002);
-    expect(productRule.priority).toBe(6);
+    expect(bareProductRule.id).toBe(100003);
+    expect(sluggedProductRule.priority).toBe(6);
+    expect(bareProductRule.priority).toBe(6);
     expect(urlRule.priority).toBe(5);
-    for (const rule of [productRule, urlRule]) {
+    for (const rule of [sluggedProductRule, bareProductRule, urlRule]) {
       // Must outrank the base tag removal rule (priority 1), but stay below the
       // cart add rule (priority 10) and the allow rules (priority 100).
       expect(rule.priority).toBeGreaterThan(1);
@@ -91,13 +94,13 @@ describe("aggressive mode rules", () => {
     }
   });
 
-  it("createAggressiveRules returns both rules in priority order", () => {
-    expect(background.createAggressiveRules()).toEqual([productRule, urlRule]);
+  it("createAggressiveRules returns all rules in priority order", () => {
+    expect(background.createAggressiveRules()).toEqual([sluggedProductRule, bareProductRule, urlRule]);
   });
 
-  /** DNR applies only the highest-priority (lowest number) matching rule. */
+  /** DNR applies only the highest-priority matching rule. */
   function cleaned(url: string): string {
-    for (const rule of [productRule, urlRule]) {
+    for (const rule of [sluggedProductRule, bareProductRule, urlRule]) {
       const regex = regexOf(rule.condition.regexFilter);
       const match = url.match(regex);
       if (match) {
@@ -117,20 +120,26 @@ describe("aggressive mode rules", () => {
       ),
     ).toBe("https://www.amazon.com/dp/B00WMKUUAQ");
     expect(cleaned("https://www.amazon.de/Some-Long-Title/dp/B00WMKUUAQ?k=x")).toBe("https://www.amazon.de/dp/B00WMKUUAQ");
+    expect(cleaned("https://www.amazon.com/Brand/Title-Text/dp/B00WMKUUAQ/ref=as_li_ss_tl")).toBe("https://www.amazon.com/dp/B00WMKUUAQ");
   });
 
   it("canonicalizes the /gp/product/ and /product/ shapes to /dp/<ASIN>", () => {
+    // /gp/product/: the /gp segment counts as the slug
     expect(cleaned("https://www.amazon.de/gp/product/B0GXB9QXR5")).toBe("https://www.amazon.de/dp/B0GXB9QXR5");
+    expect(cleaned("https://www.amazon.de/gp/product/B0GXB9QXR5/ref=sr_1_1?tag=foo")).toBe("https://www.amazon.de/dp/B0GXB9QXR5");
+    // bare /product/: handled by the separate bare product rule
     expect(cleaned("https://www.amazon.com/product/B0GXB9QXR5?th=1")).toBe("https://www.amazon.com/dp/B0GXB9QXR5");
   });
 
   it("strips the query or ref segment from an already-canonical /dp/<ASIN>", () => {
     expect(cleaned("https://www.amazon.de/dp/B00WMKUUAQ?tag=aff1")).toBe("https://www.amazon.de/dp/B00WMKUUAQ");
     expect(cleaned("https://www.amazon.de/dp/B00WMKUUAQ/ref=as_li_ss_tl")).toBe("https://www.amazon.de/dp/B00WMKUUAQ");
+    expect(cleaned("https://www.amazon.de/dp/B00WMKUUAQ/ref=as_li_ss_tl?ie=UTF8")).toBe("https://www.amazon.de/dp/B00WMKUUAQ");
   });
 
   it("strips the query from non-product pages", () => {
     expect(cleaned("https://www.amazon.com/s?k=caliper&page=2")).toBe("https://www.amazon.com/s");
+    expect(cleaned("https://www.amazon.de/s/ref=nb_sb_noss")).toBe("https://www.amazon.de/s");
   });
 
   it("leaves already-clean URLs untouched (no no-op redirect)", () => {
@@ -142,8 +151,10 @@ describe("aggressive mode rules", () => {
     expect(cleaned("https://m.media-amazon.com/images/xx/ref=x")).toBe("https://m.media-amazon.com/images/xx/ref=x");
   });
 
-  it("does not match a short non-ASIN path", () => {
-    expect(cleaned("https://amazon.com/gp/aw/ref=xx/dp/B01")).toBe("https://amazon.com/gp/aw/ref=xx/dp/B01");
+  it("canonicalizes even a short non-ASIN segment (product-shaped URLs only, see ASIN bound)", () => {
+    // The slugged rule uses an unbounded ASIN class for RE2 budget headroom, so
+    // a short segment after /dp/ is canonicalized too (it 404s either way).
+    expect(cleaned("https://amazon.com/gp/aw/ref=xx/dp/B01")).toBe("https://amazon.com/dp/B01");
   });
 });
 

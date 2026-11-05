@@ -27,6 +27,10 @@ export default defineConfig({
     // max-lines-per-function only trips on the test describe blocks, which are
     // long by nature; the 50-line limit is noise here.
     "eslint/max-lines-per-function": "off",
+    // The category default of 300 lines sits below the natural size of the
+    // background worker (static rules, aggressive-mode rules, navigation and
+    // storage handling), so set an explicit ceiling.
+    "eslint/max-lines": ["error", { max: 400 }],
     // Every flagged async function awaits real async I/O (readFile, Probot.load,
     // receive, octokit.*); "remove the async keyword" would be a regression.
     "oxc/no-async-await": "off",
