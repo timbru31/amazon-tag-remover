@@ -87,7 +87,7 @@ function applyRedirect(url: string, rule: DnrRule): string {
   // redirect.regexSubstitution: the first match of condition.regexFilter is
   // replaced with the substitution. DNR uses \1 for capture groups, JS $1.
   if (redirect?.regexSubstitution !== undefined && rule.condition.regexFilter !== undefined) {
-    const substitution = redirect.regexSubstitution.replace(/\\([1-9])/gu, "$$1");
+    const substitution = redirect.regexSubstitution.replace(/\\([1-9])/gu, (_match, digit) => `$${digit}`);
     return url.replace(new RegExp(rule.condition.regexFilter), substitution);
   }
 
@@ -205,24 +205,31 @@ describe("rule resolution", () => {
 });
 
 describe("rule resolution with aggressive mode", () => {
-  const aggressiveRules = [background.createAggressiveRule()];
+  const aggressiveRules = background.createAggressiveRules();
   const issueUrl =
     "https://www.amazon.com/Mitutoyo-Advanced-Absolute-Digital-Caliper/dp/B00WMKUUAQ/ref=as_li_ss_tl?ie=UTF8&linkCode=sl1&linkId=0ca01780457ac001751b779809516530&language=en_US";
 
-  it("strips the ref segment and every query parameter from the issue example", () => {
+  it("canonicalizes the slugged issue example to the bare product URL", () => {
     const rule = resolveRule([...staticRules, ...aggressiveRules], issueUrl);
     expect(rule?.id).toBe(100001);
-    expect(effectiveUrl(rule, issueUrl)).toBe("https://www.amazon.com/Mitutoyo-Advanced-Absolute-Digital-Caliper/dp/B00WMKUUAQ");
+    expect(effectiveUrl(rule, issueUrl)).toBe("https://www.amazon.com/dp/B00WMKUUAQ");
   });
 
-  it("strips the query from URLs without a ref segment", () => {
-    const url = "https://www.amazon.de/s?k=caliper&page=2";
+  it("canonicalizes /gp/product/ shapes to /dp/<ASIN>", () => {
+    const url = "https://www.amazon.de/gp/product/B0GXB9QXR5";
     const rule = resolveRule([...staticRules, ...aggressiveRules], url);
     expect(rule?.id).toBe(100001);
+    expect(effectiveUrl(rule, url)).toBe("https://www.amazon.de/dp/B0GXB9QXR5");
+  });
+
+  it("strips the query from non-product URLs via the url rule", () => {
+    const url = "https://www.amazon.de/s?k=caliper&page=2";
+    const rule = resolveRule([...staticRules, ...aggressiveRules], url);
+    expect(rule?.id).toBe(100002);
     expect(effectiveUrl(rule, url)).toBe("https://www.amazon.de/s");
   });
 
-  it("leaves plain product URLs untouched", () => {
+  it("leaves plain canonical product URLs untouched", () => {
     const url = "https://www.amazon.de/dp/B012NH05UW";
     const rule = resolveRule([...staticRules, ...aggressiveRules], url);
     // The base rule matches but changes nothing

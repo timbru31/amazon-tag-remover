@@ -69,58 +69,81 @@ describe("createAmazonRules", () => {
   });
 });
 
-describe("createAggressiveRule", () => {
-  const aggressive = background.createAggressiveRule();
+describe("aggressive mode rules", () => {
+  const productRule = background.createAggressiveProductRule();
+  const urlRule = background.createAggressiveUrlRule();
 
-  it("has a fixed id and a priority between the static rules and the allow rules", () => {
-    expect(aggressive.id).toBe(100001);
-    // Must outrank the base tag removal rule (priority 1), but stay below the
-    // cart add rule (priority 10) and the allow rules (priority 100).
-    expect(aggressive.priority).toBeGreaterThan(1);
-    expect(aggressive.priority).toBeLessThan(10);
-    expect(aggressive.priority).toBeLessThan(100);
-    expect(aggressive.action.type).toBe("redirect");
-    expect(aggressive.condition.resourceTypes).toEqual(["main_frame", "sub_frame"]);
+  it("has fixed ids and priorities between the static rules and the allow rules", () => {
+    // The product rule must outrank the url rule (DNR: higher number wins) so a
+    // slugged product URL is canonicalized in one redirect.
+    expect(productRule.id).toBe(100001);
+    expect(urlRule.id).toBe(100002);
+    expect(productRule.priority).toBe(6);
+    expect(urlRule.priority).toBe(5);
+    for (const rule of [productRule, urlRule]) {
+      // Must outrank the base tag removal rule (priority 1), but stay below the
+      // cart add rule (priority 10) and the allow rules (priority 100).
+      expect(rule.priority).toBeGreaterThan(1);
+      expect(rule.priority).toBeLessThan(10);
+      expect(rule.priority).toBeLessThan(100);
+      expect(rule.action.type).toBe("redirect");
+      expect(rule.condition.resourceTypes).toEqual(["main_frame", "sub_frame"]);
+    }
   });
 
-  function cleaned(url: string): string | undefined {
-    const regex = regexOf(aggressive.condition.regexFilter);
-    const match = url.match(regex);
-    if (!match) {
-      return undefined;
+  it("createAggressiveRules returns both rules in priority order", () => {
+    expect(background.createAggressiveRules()).toEqual([productRule, urlRule]);
+  });
+
+  /** DNR applies only the highest-priority (lowest number) matching rule. */
+  function cleaned(url: string): string {
+    for (const rule of [productRule, urlRule]) {
+      const regex = regexOf(rule.condition.regexFilter);
+      const match = url.match(regex);
+      if (match) {
+        // DNR substitution uses \1 for capture groups, JS replace uses $1
+        const substitution = String(rule.action.redirect?.regexSubstitution).replace(/\\([1-9])/gu, (_m, d) => `$${d}`);
+        return url.replace(regex, substitution);
+      }
     }
-    // DNR substitution uses \1 for capture groups, JS replace uses $1
-    const substitution = String(aggressive.action.redirect?.regexSubstitution).replace(/\\([1-9])/gu, "$$1");
-    return url.replace(regex, substitution);
+    return url;
   }
 
-  it("removes the ref segment and every query parameter", () => {
+  it("drops the title slug, /ref segment and every query parameter", () => {
     // The exact link from the issue
     expect(
       cleaned(
         "https://www.amazon.com/Mitutoyo-Advanced-Absolute-Digital-Caliper/dp/B00WMKUUAQ/ref=as_li_ss_tl?ie=UTF8&linkCode=sl1&linkId=0ca01780457ac001751b779809516530&language=en_US",
       ),
-    ).toBe("https://www.amazon.com/Mitutoyo-Advanced-Absolute-Digital-Caliper/dp/B00WMKUUAQ");
-    expect(cleaned("https://www.amazon.de/dp/B001/ref=as_li_ss_tl")).toBe("https://www.amazon.de/dp/B001");
+    ).toBe("https://www.amazon.com/dp/B00WMKUUAQ");
+    expect(cleaned("https://www.amazon.de/Some-Long-Title/dp/B00WMKUUAQ?k=x")).toBe("https://www.amazon.de/dp/B00WMKUUAQ");
   });
 
-  it("removes the query when no ref segment is present", () => {
+  it("canonicalizes the /gp/product/ and /product/ shapes to /dp/<ASIN>", () => {
+    expect(cleaned("https://www.amazon.de/gp/product/B0GXB9QXR5")).toBe("https://www.amazon.de/dp/B0GXB9QXR5");
+    expect(cleaned("https://www.amazon.com/product/B0GXB9QXR5?th=1")).toBe("https://www.amazon.com/dp/B0GXB9QXR5");
+  });
+
+  it("strips the query or ref segment from an already-canonical /dp/<ASIN>", () => {
+    expect(cleaned("https://www.amazon.de/dp/B00WMKUUAQ?tag=aff1")).toBe("https://www.amazon.de/dp/B00WMKUUAQ");
+    expect(cleaned("https://www.amazon.de/dp/B00WMKUUAQ/ref=as_li_ss_tl")).toBe("https://www.amazon.de/dp/B00WMKUUAQ");
+  });
+
+  it("strips the query from non-product pages", () => {
     expect(cleaned("https://www.amazon.com/s?k=caliper&page=2")).toBe("https://www.amazon.com/s");
   });
 
-  it("leaves URLs without anything to clean unmatched", () => {
-    expect(cleaned("https://www.amazon.com/dp/B001")).toBeUndefined();
-    // A ref parameter in the query (not a path segment) is covered by the query removal
-    expect(cleaned("https://www.amazon.com/dp/B001?ref=as_li_ss_tl")).toBe("https://www.amazon.com/dp/B001");
+  it("leaves already-clean URLs untouched (no no-op redirect)", () => {
+    expect(cleaned("https://www.amazon.com/dp/B00WMKUUAQ")).toBe("https://www.amazon.com/dp/B00WMKUUAQ");
   });
 
   it("does not match non-amazon or media-amazon hosts", () => {
-    expect(cleaned("https://www.example.com/dp/B001/ref=xx")).toBeUndefined();
-    expect(cleaned("https://m.media-amazon.com/images/xx/ref=x")).toBeUndefined();
+    expect(cleaned("https://www.example.com/Slug/dp/B00WMKUUAQ/ref=xx")).toBe("https://www.example.com/Slug/dp/B00WMKUUAQ/ref=xx");
+    expect(cleaned("https://m.media-amazon.com/images/xx/ref=x")).toBe("https://m.media-amazon.com/images/xx/ref=x");
   });
 
-  it("does not match a ref segment in the middle of the path", () => {
-    expect(cleaned("https://amazon.com/gp/aw/ref=xx/dp/B01")).toBeUndefined();
+  it("does not match a short non-ASIN path", () => {
+    expect(cleaned("https://amazon.com/gp/aw/ref=xx/dp/B01")).toBe("https://amazon.com/gp/aw/ref=xx/dp/B01");
   });
 });
 
@@ -155,7 +178,7 @@ describe("updateRules", () => {
     await background.updateRules([], true);
     expect(browserMock.declarativeNetRequest.updateDynamicRules).toHaveBeenCalledWith({
       removeRuleIds: [],
-      addRules: [background.createAggressiveRule()],
+      addRules: background.createAggressiveRules(),
     });
 
     browserMock.declarativeNetRequest.updateDynamicRules.mockClear();
@@ -360,7 +383,7 @@ describe("background event listeners", () => {
       await flushPromises();
       expect(browserMock.declarativeNetRequest.updateDynamicRules).toHaveBeenCalledWith({
         removeRuleIds: [],
-        addRules: [background.createAggressiveRule()],
+        addRules: background.createAggressiveRules(),
       });
     });
 
@@ -371,7 +394,7 @@ describe("background event listeners", () => {
       await flushPromises();
       expect(browserMock.declarativeNetRequest.updateDynamicRules).toHaveBeenCalledWith({
         removeRuleIds: [],
-        addRules: [...background.createAmazonRules(["aff1"]), background.createAggressiveRule()],
+        addRules: [...background.createAmazonRules(["aff1"]), ...background.createAggressiveRules()],
       });
     });
   });

@@ -51,28 +51,64 @@ const amazonUrlFilter = {
 // the tag instead of removing it.
 const ALLOW_RULE_PRIORITY = 100;
 
-// Priority of the aggressive-mode rule: it must outrank the static tag
-// removal rule (priority 1) so that aggressive cleaning wins, but stay below
-// the cart add neutralization rule (priority 10) so that endpoint keeps its
-// parameters, and below the allow rules (ALLOW_RULE_PRIORITY) so an allowed
-// tag always leaves a URL untouched.
-const AGGRESSIVE_RULE_PRIORITY = 5;
+// Priorities of the aggressive-mode rules (DNR: a higher value wins). Both must
+// outrank the static tag removal rule (priority 1) so aggressive cleaning wins,
+// but stay below the cart add neutralization rule (priority 10) so that
+// endpoint keeps its parameters, and below the allow rules (ALLOW_RULE_PRIORITY)
+// so an allowed tag always leaves a URL untouched. DNR applies only one rule per
+// request, so the product URL rule must outrank (higher number than) the query
+// stripping rule so a slugged product URL is canonicalized in one redirect.
+const AGGRESSIVE_URL_RULE_PRIORITY = 5;
+const AGGRESSIVE_PRODUCT_RULE_PRIORITY = 6;
 
 // Must not collide with the allow rule ids (index * 2 + 1 and index * 2 + 2)
-const AGGRESSIVE_RULE_ID = 100001;
+const AGGRESSIVE_PRODUCT_RULE_ID = 100001;
+const AGGRESSIVE_URL_RULE_ID = 100002;
+
+// Amazon serves a product by its canonical `/dp/<ASIN>`; the long title slug
+// (and the `/gp/product/` / `/product/` aliases) are cosmetic. ASINs are 9-13
+// uppercase alphanumeric characters.
+const ASIN = "[A-Z0-9]{9,13}";
 
 /**
- * Aggressive mode (opt-in, see GitHub issue #550): strips every query
- * parameter and a trailing `/ref=...` path segment from Amazon URLs, leaving
- * e.g. https://www.amazon.com/dp/B00WMKUUAQ. The substitution keeps only the
- * prefix captured by group 1 (scheme, host and path without the ref segment
- * and query). The filter only matches when there is actually something to
+ * Aggressive mode (opt-in, see GitHub issue #550), product part: canonicalize
+ * a product URL to the bare `https://.../dp/<ASIN>`, dropping the title slug
+ * and the `/gp/product/` / `/product/` shape. The substitution keeps only the
+ * host (group 1) and appends `/dp/<ASIN>` (group 2). The middle group requires
+ * a slug segment or a non-`/dp/` shape, so an already-canonical `/dp/<ASIN>`
+ * does not match (no no-op redirect); any trailing `/ref=...` segment and
+ * query are stripped as part of the match.
+ */
+export function createAggressiveProductRule(): chrome.declarativeNetRequest.Rule {
+  return {
+    id: AGGRESSIVE_PRODUCT_RULE_ID,
+    priority: AGGRESSIVE_PRODUCT_RULE_PRIORITY,
+    action: {
+      type: "redirect",
+      redirect: {
+        regexSubstitution: "\\1/dp/\\2",
+      },
+    },
+    condition: {
+      regexFilter: `^(https?://(?:[a-z0-9-]+\\.)*amazon\\.[^/]+)/(?:.+?/(?:dp|gp/product|product)|gp/product|product)/(${ASIN})(?:/ref=[^/?]+\\?.+|/ref=[^/?]+|\\?.+)?$`,
+      resourceTypes: ["main_frame", "sub_frame"],
+    },
+  };
+}
+
+/**
+ * Aggressive mode (opt-in, see GitHub issue #550), URL part: strips every
+ * query parameter and a trailing `/ref=...` path segment from the remaining
+ * Amazon URLs (non-product pages, and already-canonical `/dp/<ASIN>` product
+ * URLs that still carry a query or ref segment). The substitution keeps only
+ * the prefix captured by group 1 (scheme, host and path without the ref
+ * segment and query). The filter only matches when there is something to
  * clean, so unmarked URLs are never redirected.
  */
-export function createAggressiveRule(): chrome.declarativeNetRequest.Rule {
+export function createAggressiveUrlRule(): chrome.declarativeNetRequest.Rule {
   return {
-    id: AGGRESSIVE_RULE_ID,
-    priority: AGGRESSIVE_RULE_PRIORITY,
+    id: AGGRESSIVE_URL_RULE_ID,
+    priority: AGGRESSIVE_URL_RULE_PRIORITY,
     action: {
       type: "redirect",
       redirect: {
@@ -84,6 +120,11 @@ export function createAggressiveRule(): chrome.declarativeNetRequest.Rule {
       resourceTypes: ["main_frame", "sub_frame"],
     },
   };
+}
+
+/** The two dynamic DNR rules that make up aggressive mode. */
+export function createAggressiveRules(): chrome.declarativeNetRequest.Rule[] {
+  return [createAggressiveProductRule(), createAggressiveUrlRule()];
 }
 
 export function createAmazonRules(allowedTags: string[]): chrome.declarativeNetRequest.Rule[] {
@@ -120,7 +161,7 @@ export async function updateRules(allowedTags: string[], aggressiveMode = false)
   try {
     const existingRules = await browser.declarativeNetRequest.getDynamicRules();
     const removeRuleIds = existingRules.map((rule) => rule.id);
-    const addRules = [...createAmazonRules(allowedTags), ...(aggressiveMode ? [createAggressiveRule()] : [])];
+    const addRules = [...createAmazonRules(allowedTags), ...(aggressiveMode ? createAggressiveRules() : [])];
     await browser.declarativeNetRequest.updateDynamicRules({
       removeRuleIds,
       addRules,
@@ -158,8 +199,10 @@ browser.webNavigation.onBeforeNavigate.addListener(async (details) => {
     const isCartAdd = parsedUrl.pathname.includes("/gp/aws/cart/add.html");
 
     if (aggressiveMode === true && !hasAllowedTag && !isCartAdd) {
-      // Mirrors createAggressiveRule: every query parameter and the trailing
-      // /ref=... path segment are removed.
+      // Mirrors createAggressiveUrlRule: every query parameter and the trailing
+      // /ref=... path segment are removed. The title-slug canonicalization done
+      // by createAggressiveProductRule is cosmetic (not tracking info), so it is
+      // not reported here.
       const removedItems = [...new Set(parsedUrl.searchParams.keys())];
       if (hasTrailingRefSegment(parsedUrl.pathname)) {
         removedItems.push("ref");
