@@ -16,5 +16,30 @@
       "urlFilter": "*://*.amazon.*/*",
       "resourceTypes": ["main_frame", "sub_frame"]
     }
+  },
+  {
+    "id": 7919055,
+    "priority": 10,
+    "action": {
+      "type": "redirect",
+      "redirect": {
+        "transform": {
+          "queryTransform": {
+            "addOrReplaceParams": [
+              {
+                "key": "tag",
+                "value": "0",
+                "replaceOnly": true
+              }
+            ],
+            "removeParams": ["ascsubtag"]
+          }
+        }
+      }
+    },
+    "condition": {
+      "urlFilter": "*://*.amazon.*/gp/aws/cart/add.html*",
+      "resourceTypes": ["main_frame", "sub_frame"]
+    }
   }
 ]
