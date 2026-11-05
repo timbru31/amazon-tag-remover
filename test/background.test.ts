@@ -34,7 +34,9 @@ describe("createAmazonRules", () => {
     expect(rules[1]?.id).toBe(2);
     expect(rules[0]?.action).toEqual({ type: "allow" });
     expect(rules[1]?.action).toEqual({ type: "allow" });
-    expect(rules[0]?.priority).toBe(1);
+    // Must outrank the redirect rules in rules.json (highest priority 10),
+    // since DNR evaluates rule priority before the action type.
+    expect(rules[0]?.priority).toBe(100);
     expect(rules[0]?.condition?.resourceTypes).toEqual(["main_frame", "sub_frame"]);
   });
 

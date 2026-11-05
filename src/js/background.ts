@@ -44,13 +44,20 @@ const amazonUrlFilter = {
   url: [{ urlMatches: `^https?://([a-z0-9-]+\\.)*amazon\\.(${amazonDomains.join("|")})/` }],
 };
 
+// Priority of the allow rules for user-configured allowed tags. DNR evaluates
+// rule priority before the action type, so these rules must outrank every
+// redirect rule in rules.json (highest is the cart add rule with priority 10)
+// to keep an allowed tag unmodified — including on endpoints that neutralize
+// the tag instead of removing it.
+const ALLOW_RULE_PRIORITY = 100;
+
 export function createAmazonRules(allowedTags: string[]): chrome.declarativeNetRequest.Rule[] {
   return allowedTags.flatMap((tag, index) => {
     const escapedTag = tag.replaceAll(/[.*+?^${}()|[\]\\]/gu, "\\$&");
     return [
       {
         id: index * 2 + 1,
-        priority: 1,
+        priority: ALLOW_RULE_PRIORITY,
         action: {
           type: "allow",
         },
@@ -61,7 +68,7 @@ export function createAmazonRules(allowedTags: string[]): chrome.declarativeNetR
       },
       {
         id: index * 2 + 2,
-        priority: 1,
+        priority: ALLOW_RULE_PRIORITY,
         action: {
           type: "allow",
         },
