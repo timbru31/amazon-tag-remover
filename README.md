@@ -55,6 +55,7 @@ This extension removes the tracking ID before the browser is performing the requ
 - Works on starting parameter (?tag) and appended parameter (&tag)
 - Support for ascsubtags
 - Affiliate "Add to Cart" links (`/gp/aws/cart/add.html`) keep working: Amazon requires the tag parameter on that endpoint, so instead of removing it, its value is replaced with a neutral placeholder
+- Optional aggressive mode, which removes all query parameters and the `/ref=...` part of Amazon links, leaving only the product URL (e.g. `https://www.amazon.com/dp/B00WMKUUAQ`)
 - Full support for all amazon sites (e.g. from Germany, Mexico or UK to China and Italy)
   - amazn.to links are supported, too, since the expanded request to the amazon site is intercepted
 

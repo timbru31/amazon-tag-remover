@@ -68,6 +68,12 @@
         border-radius: 4px;
       }
 
+      .settings-hint {
+        margin: 5px 0 0;
+        font-size: 0.85em;
+        color: var(--text-color);
+      }
+
       label {
         display: flex;
         align-items: center;
@@ -213,6 +219,16 @@
             <input type="checkbox" id="disable-notifications" />
             <span>Disable notifications</span>
           </label>
+        </div>
+        <div class="option-group">
+          <label>
+            <input type="checkbox" id="aggressive-mode" />
+            <span>Aggressive mode</span>
+          </label>
+          <p class="settings-hint">
+            Also removes all other query parameters and the “/ref=…” part of Amazon links, leaving only the product URL. This can remove
+            information Amazon uses for things like search results, so it is off by default.
+          </p>
         </div>
         <div class="option-group">
           <label for="allowed-tags">Allowed tags (one per line):</label>
