@@ -19,6 +19,21 @@ test("keeps allowed tags", async ({ serviceWorker, page }) => {
   expect(page.url()).toBe(`${AMAZON_URL}?tag=keepme`);
 });
 
+test("replaces a foreign tag with the replacement tag without a redirect loop", async ({ serviceWorker, page }) => {
+  await setStorage(serviceWorker, { replacementTag: "mytag-21" });
+  await expect.poll(async () => (await getDynamicRules(serviceWorker)).length, { timeout: 10_000 }).toBe(2);
+  await page.goto(`${AMAZON_URL}?tag=aff1&ascsubtag=asc1`, { waitUntil: "load" });
+  expect(page.url()).toBe(`${AMAZON_URL}?tag=mytag-21`);
+  await expect(page).toHaveTitle(FIXTURE_TITLE);
+});
+
+test("adds the replacement tag to URLs without a tag", async ({ serviceWorker, page }) => {
+  await setStorage(serviceWorker, { replacementTag: "mytag-21" });
+  await expect.poll(async () => (await getDynamicRules(serviceWorker)).length, { timeout: 10_000 }).toBe(2);
+  await page.goto(AMAZON_URL, { waitUntil: "load" });
+  expect(page.url()).toBe(`${AMAZON_URL}?tag=mytag-21`);
+});
+
 test("aggressive mode canonicalizes slugged product URLs in a real redirect", async ({ serviceWorker, page }) => {
   await setStorage(serviceWorker, { aggressiveMode: true });
   // The three aggressive dynamic rules must be registered before the navigation

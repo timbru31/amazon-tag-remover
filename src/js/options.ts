@@ -4,6 +4,7 @@ interface StorageOptions {
   disableNotifications: boolean;
   allowedTags?: string[];
   aggressiveMode?: boolean;
+  replacementTag?: string;
 }
 
 function handleSafariQuirks(): void {
@@ -35,6 +36,7 @@ async function saveOptions(e: Event): Promise<void> {
       disableNotifications: document.querySelector<HTMLInputElement>("#disable-notifications")?.checked,
       allowedTags,
       aggressiveMode: document.querySelector<HTMLInputElement>("#aggressive-mode")?.checked,
+      replacementTag: document.querySelector<HTMLInputElement>("#replacement-tag")?.value.trim() ?? "",
     });
   } catch (error) {
     console.error("Error saving options:", error);
@@ -53,6 +55,7 @@ function setCurrentChoice(result: StorageOptions): void {
   const notificationCheckbox = document.querySelector<HTMLInputElement>("#disable-notifications");
   const allowedTextarea = document.querySelector<HTMLTextAreaElement>("#allowed-tags");
   const aggressiveCheckbox = document.querySelector<HTMLInputElement>("#aggressive-mode");
+  const replacementInput = document.querySelector<HTMLInputElement>("#replacement-tag");
 
   if (notificationCheckbox) {
     notificationCheckbox.checked = result.disableNotifications;
@@ -65,10 +68,14 @@ function setCurrentChoice(result: StorageOptions): void {
   if (aggressiveCheckbox) {
     aggressiveCheckbox.checked = result.aggressiveMode === true;
   }
+
+  if (replacementInput) {
+    replacementInput.value = result.replacementTag ?? "";
+  }
 }
 
 function restoreOptions(): void {
-  void storage.get(["disableNotifications", "allowedTags", "aggressiveMode"]).then((options) => {
+  void storage.get(["disableNotifications", "allowedTags", "aggressiveMode", "replacementTag"]).then((options) => {
     setCurrentChoice(options as unknown as StorageOptions);
   });
 }

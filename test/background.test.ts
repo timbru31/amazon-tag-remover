@@ -158,6 +158,61 @@ describe("aggressive mode rules", () => {
   });
 });
 
+describe("normalizeReplacementTag", () => {
+  it("trims valid tags", () => {
+    expect(background.normalizeReplacementTag("  mytag-21 ")).toBe("mytag-21");
+  });
+
+  it("rejects unset, empty and unsafe values", () => {
+    expect(background.normalizeReplacementTag(undefined)).toBe("");
+    expect(background.normalizeReplacementTag("")).toBe("");
+    expect(background.normalizeReplacementTag("my tag")).toBe("");
+    expect(background.normalizeReplacementTag("a&tag=b")).toBe("");
+  });
+});
+
+describe("createReplacementTagRules", () => {
+  const [redirectRule, allowRule] = background.createReplacementTagRules("mytag-21");
+
+  it("has fixed ids and priorities between the static rule and the allow rules", () => {
+    expect(redirectRule?.id).toBe(100004);
+    expect(allowRule?.id).toBe(100005);
+    // Above the static tag removal rule (1), below the aggressive rules (5, 6)
+    expect(redirectRule?.priority).toBe(4);
+    expect(allowRule?.priority).toBe(100);
+    expect(allowRule?.action).toEqual({ type: "allow" });
+  });
+
+  it("sets the tag and drops ascsubtag", () => {
+    expect(redirectRule?.action.redirect?.transform?.queryTransform).toEqual({
+      addOrReplaceParams: [{ key: "tag", value: "mytag-21" }],
+      removeParams: ["ascsubtag"],
+    });
+    const regex = regexOf(redirectRule?.condition.regexFilter);
+    expect(regex.test("https://www.amazon.de/dp/B001")).toBe(true);
+    expect(regex.test("https://amazon.com/s?k=books")).toBe(true);
+    expect(regex.test("https://m.media-amazon.com/images/x.jpg")).toBe(false);
+    expect(regex.test("https://www.example.com/dp/B001")).toBe(false);
+  });
+
+  it("stops the redirect only for URLs that carry exactly the replacement tag", () => {
+    const regex = regexOf(allowRule?.condition.regexFilter);
+    expect(regex.test("https://www.amazon.de/dp/B001?tag=mytag-21")).toBe(true);
+    expect(regex.test("https://www.amazon.de/s?k=books&tag=mytag-21&ref=x")).toBe(true);
+    expect(regex.test("https://www.amazon.de/dp/B001?tag=mytag-21#reviews")).toBe(true);
+    expect(regex.test("https://www.amazon.de/dp/B001?tag=mytag-211")).toBe(false);
+    expect(regex.test("https://www.amazon.de/dp/B001?tag=other")).toBe(false);
+    expect(regex.test("https://www.amazon.de/dp/B001")).toBe(false);
+  });
+
+  it("escapes regex special characters in the tag", () => {
+    const [, escapedAllowRule] = background.createReplacementTagRules("my.tag");
+    const regex = regexOf(escapedAllowRule?.condition.regexFilter);
+    expect(regex.test("https://www.amazon.de/dp/B001?tag=my.tag")).toBe(true);
+    expect(regex.test("https://www.amazon.de/dp/B001?tag=myxtag")).toBe(false);
+  });
+});
+
 describe("hasTrailingRefSegment", () => {
   it("detects a trailing /ref=... path segment", () => {
     expect(background.hasTrailingRefSegment("/Mitutoyo-Caliper/dp/B00WMKUUAQ/ref=as_li_ss_tl")).toBe(true);
@@ -200,6 +255,22 @@ describe("updateRules", () => {
     });
   });
 
+  it("adds the replacement tag rules only when a valid replacement tag is set", async () => {
+    await background.updateRules(["aff1"], true, " mytag-21 ");
+    expect(browserMock.declarativeNetRequest.updateDynamicRules).toHaveBeenCalledWith({
+      removeRuleIds: [],
+      addRules: [
+        ...background.createAmazonRules(["aff1"]),
+        ...background.createAggressiveRules(),
+        ...background.createReplacementTagRules("mytag-21"),
+      ],
+    });
+
+    browserMock.declarativeNetRequest.updateDynamicRules.mockClear();
+    await background.updateRules([], false, "not valid!");
+    expect(browserMock.declarativeNetRequest.updateDynamicRules).toHaveBeenCalledWith({ removeRuleIds: [], addRules: [] });
+  });
+
   it("logs and swallows errors instead of throwing", async () => {
     const consoleError = vi.spyOn(console, "error").mockImplementation(() => undefined);
     browserMock.declarativeNetRequest.getDynamicRules.mockRejectedValueOnce(new Error("boom"));
@@ -216,6 +287,7 @@ describe("background event listeners", () => {
     browserMock.notifications?.create.mockReset().mockResolvedValue("amazonTagRemoverNotification");
     delete sync.data.allowedTags;
     delete sync.data.aggressiveMode;
+    delete sync.data.replacementTag;
   });
 
   describe("webNavigation.onBeforeNavigate", () => {
@@ -250,6 +322,16 @@ describe("background event listeners", () => {
       );
       expect(sync.data["removedTags-10"]).toBeUndefined();
       consoleError.mockRestore();
+    });
+
+    it("skips aggressive cleaning when the replacement tag is present", async () => {
+      sync.data.replacementTag = "mytag-21";
+      sync.data.aggressiveMode = true;
+      browserMock.webNavigation.onBeforeNavigate.emit({ tabId: 30, url: "https://www.amazon.de/dp/B001?tag=mytag-21&ie=UTF8" });
+      await flushPromises();
+      // The allow rule leaves the URL untouched, so aggressive cleaning is skipped
+      expect(sync.data["aggressiveRemoved-30"]).toBeUndefined();
+      expect(sync.data["removedTags-30"]).toEqual(["mytag-21"]);
     });
 
     describe("aggressive mode", () => {
@@ -345,6 +427,16 @@ describe("background event listeners", () => {
       expect(sync.data["removedTags-11"]).toBeUndefined();
     });
 
+    it("does not notify for the replacement tag", async () => {
+      sync.data.disableNotifications = false;
+      sync.data.replacementTag = "mytag-21";
+      sync.data["removedTags-15"] = ["mytag-21"];
+      browserMock.webNavigation.onCompleted.emit({ tabId: 15 });
+      await flushPromises();
+      expect(browserMock.notifications?.create).not.toHaveBeenCalled();
+      expect(sync.data["removedTags-15"]).toBeUndefined();
+    });
+
     it("does nothing when no tags were removed in the tab", async () => {
       browserMock.webNavigation.onCompleted.emit({ tabId: 12 });
       await flushPromises();
@@ -395,6 +487,16 @@ describe("background event listeners", () => {
       expect(browserMock.declarativeNetRequest.updateDynamicRules).toHaveBeenCalledWith({
         removeRuleIds: [],
         addRules: background.createAggressiveRules(),
+      });
+    });
+
+    it("updates the rules when replacementTag changes", async () => {
+      sync.data.replacementTag = "mytag-21";
+      browserMock.storage.onChanged.emit({ replacementTag: { oldValue: "", newValue: "mytag-21" } });
+      await flushPromises();
+      expect(browserMock.declarativeNetRequest.updateDynamicRules).toHaveBeenCalledWith({
+        removeRuleIds: [],
+        addRules: background.createReplacementTagRules("mytag-21"),
       });
     });
 
