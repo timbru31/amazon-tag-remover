@@ -19,6 +19,21 @@ test("keeps allowed tags", async ({ serviceWorker, page }) => {
   expect(page.url()).toBe(`${AMAZON_URL}?tag=keepme`);
 });
 
+test("aggressive mode canonicalizes slugged product URLs in a real redirect", async ({ serviceWorker, page }) => {
+  await setStorage(serviceWorker, { aggressiveMode: true });
+  // The three aggressive dynamic rules must be registered before the navigation
+  // happens. This also catches a regexFilter that exceeds Chrome's compiled
+  // RE2 budget: such a rule rejects the whole updateDynamicRules call and the
+  // redirect below would never fire.
+  await expect.poll(async () => (await getDynamicRules(serviceWorker)).length, { timeout: 10_000 }).toBe(3);
+  await page.goto(
+    "https://www.amazon.de/benuta-Basic-Baumwollteppich-Ron-Minimalistisch/dp/B0DKK6BX9K/ref=sr_1_6_sspa?crid=3MOUWA4J839G7&keywords=teppich&qid=1793905131&tag=aff1",
+    { waitUntil: "load" },
+  );
+  expect(page.url()).toBe("https://www.amazon.de/dp/B0DKK6BX9K");
+  await expect(page).toHaveTitle(FIXTURE_TITLE);
+});
+
 test("notifies about removed tags", async ({ serviceWorker, page }) => {
   await installNotificationSpy(serviceWorker);
   await page.goto(`${AMAZON_URL}?tag=aff1`, { waitUntil: "load" });
