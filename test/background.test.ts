@@ -69,6 +69,107 @@ describe("createAmazonRules", () => {
   });
 });
 
+describe("aggressive mode rules", () => {
+  const sluggedProductRule = background.createAggressiveSluggedProductRule();
+  const bareProductRule = background.createAggressiveBareProductRule();
+  const urlRule = background.createAggressiveUrlRule();
+
+  it("has fixed ids and priorities between the static rules and the allow rules", () => {
+    // The product rules must outrank the url rule (DNR: higher number wins) so a
+    // slugged product URL is canonicalized in one redirect.
+    expect(sluggedProductRule.id).toBe(100001);
+    expect(urlRule.id).toBe(100002);
+    expect(bareProductRule.id).toBe(100003);
+    expect(sluggedProductRule.priority).toBe(6);
+    expect(bareProductRule.priority).toBe(6);
+    expect(urlRule.priority).toBe(5);
+    for (const rule of [sluggedProductRule, bareProductRule, urlRule]) {
+      // Must outrank the base tag removal rule (priority 1), but stay below the
+      // cart add rule (priority 10) and the allow rules (priority 100).
+      expect(rule.priority).toBeGreaterThan(1);
+      expect(rule.priority).toBeLessThan(10);
+      expect(rule.priority).toBeLessThan(100);
+      expect(rule.action.type).toBe("redirect");
+      expect(rule.condition.resourceTypes).toEqual(["main_frame", "sub_frame"]);
+    }
+  });
+
+  it("createAggressiveRules returns all rules in priority order", () => {
+    expect(background.createAggressiveRules()).toEqual([sluggedProductRule, bareProductRule, urlRule]);
+  });
+
+  /** DNR applies only the highest-priority matching rule. */
+  function cleaned(url: string): string {
+    for (const rule of [sluggedProductRule, bareProductRule, urlRule]) {
+      const regex = regexOf(rule.condition.regexFilter);
+      const match = url.match(regex);
+      if (match) {
+        // DNR substitution uses \1 for capture groups, JS replace uses $1
+        const substitution = String(rule.action.redirect?.regexSubstitution).replace(/\\([1-9])/gu, (_m, d) => `$${d}`);
+        return url.replace(regex, substitution);
+      }
+    }
+    return url;
+  }
+
+  it("drops the title slug, /ref segment and every query parameter", () => {
+    // The exact link from the issue
+    expect(
+      cleaned(
+        "https://www.amazon.com/Mitutoyo-Advanced-Absolute-Digital-Caliper/dp/B00WMKUUAQ/ref=as_li_ss_tl?ie=UTF8&linkCode=sl1&linkId=0ca01780457ac001751b779809516530&language=en_US",
+      ),
+    ).toBe("https://www.amazon.com/dp/B00WMKUUAQ");
+    expect(cleaned("https://www.amazon.de/Some-Long-Title/dp/B00WMKUUAQ?k=x")).toBe("https://www.amazon.de/dp/B00WMKUUAQ");
+    expect(cleaned("https://www.amazon.com/Brand/Title-Text/dp/B00WMKUUAQ/ref=as_li_ss_tl")).toBe("https://www.amazon.com/dp/B00WMKUUAQ");
+  });
+
+  it("canonicalizes the /gp/product/ and /product/ shapes to /dp/<ASIN>", () => {
+    // /gp/product/: the /gp segment counts as the slug
+    expect(cleaned("https://www.amazon.de/gp/product/B0GXB9QXR5")).toBe("https://www.amazon.de/dp/B0GXB9QXR5");
+    expect(cleaned("https://www.amazon.de/gp/product/B0GXB9QXR5/ref=sr_1_1?tag=foo")).toBe("https://www.amazon.de/dp/B0GXB9QXR5");
+    // bare /product/: handled by the separate bare product rule
+    expect(cleaned("https://www.amazon.com/product/B0GXB9QXR5?th=1")).toBe("https://www.amazon.com/dp/B0GXB9QXR5");
+  });
+
+  it("strips the query or ref segment from an already-canonical /dp/<ASIN>", () => {
+    expect(cleaned("https://www.amazon.de/dp/B00WMKUUAQ?tag=aff1")).toBe("https://www.amazon.de/dp/B00WMKUUAQ");
+    expect(cleaned("https://www.amazon.de/dp/B00WMKUUAQ/ref=as_li_ss_tl")).toBe("https://www.amazon.de/dp/B00WMKUUAQ");
+    expect(cleaned("https://www.amazon.de/dp/B00WMKUUAQ/ref=as_li_ss_tl?ie=UTF8")).toBe("https://www.amazon.de/dp/B00WMKUUAQ");
+  });
+
+  it("strips the query from non-product pages", () => {
+    expect(cleaned("https://www.amazon.com/s?k=caliper&page=2")).toBe("https://www.amazon.com/s");
+    expect(cleaned("https://www.amazon.de/s/ref=nb_sb_noss")).toBe("https://www.amazon.de/s");
+  });
+
+  it("leaves already-clean URLs untouched (no no-op redirect)", () => {
+    expect(cleaned("https://www.amazon.com/dp/B00WMKUUAQ")).toBe("https://www.amazon.com/dp/B00WMKUUAQ");
+  });
+
+  it("does not match non-amazon or media-amazon hosts", () => {
+    expect(cleaned("https://www.example.com/Slug/dp/B00WMKUUAQ/ref=xx")).toBe("https://www.example.com/Slug/dp/B00WMKUUAQ/ref=xx");
+    expect(cleaned("https://m.media-amazon.com/images/xx/ref=x")).toBe("https://m.media-amazon.com/images/xx/ref=x");
+  });
+
+  it("canonicalizes even a short non-ASIN segment (product-shaped URLs only, see ASIN bound)", () => {
+    // The slugged rule uses an unbounded ASIN class for RE2 budget headroom, so
+    // a short segment after /dp/ is canonicalized too (it 404s either way).
+    expect(cleaned("https://amazon.com/gp/aw/ref=xx/dp/B01")).toBe("https://amazon.com/dp/B01");
+  });
+});
+
+describe("hasTrailingRefSegment", () => {
+  it("detects a trailing /ref=... path segment", () => {
+    expect(background.hasTrailingRefSegment("/Mitutoyo-Caliper/dp/B00WMKUUAQ/ref=as_li_ss_tl")).toBe(true);
+    expect(background.hasTrailingRefSegment("/s/ref=nb_sb_noss")).toBe(true);
+  });
+
+  it("ignores other paths and query-only refs", () => {
+    expect(background.hasTrailingRefSegment("/dp/B001")).toBe(false);
+    expect(background.hasTrailingRefSegment("/gp/aw/ref=xx/dp/B01")).toBe(false);
+  });
+});
+
 describe("updateRules", () => {
   beforeEach(() => {
     browserMock.declarativeNetRequest.getDynamicRules.mockReset().mockResolvedValue([]);
@@ -80,6 +181,21 @@ describe("updateRules", () => {
     await background.updateRules(["aff1"]);
     expect(browserMock.declarativeNetRequest.updateDynamicRules).toHaveBeenCalledWith({
       removeRuleIds: [11, 12],
+      addRules: background.createAmazonRules(["aff1"]),
+    });
+  });
+
+  it("adds the aggressive rule only when aggressive mode is enabled", async () => {
+    await background.updateRules([], true);
+    expect(browserMock.declarativeNetRequest.updateDynamicRules).toHaveBeenCalledWith({
+      removeRuleIds: [],
+      addRules: background.createAggressiveRules(),
+    });
+
+    browserMock.declarativeNetRequest.updateDynamicRules.mockClear();
+    await background.updateRules(["aff1"], false);
+    expect(browserMock.declarativeNetRequest.updateDynamicRules).toHaveBeenCalledWith({
+      removeRuleIds: [],
       addRules: background.createAmazonRules(["aff1"]),
     });
   });
@@ -98,6 +214,8 @@ describe("background event listeners", () => {
     browserMock.declarativeNetRequest.getDynamicRules.mockReset().mockResolvedValue([]);
     browserMock.declarativeNetRequest.updateDynamicRules.mockReset().mockResolvedValue(undefined);
     browserMock.notifications?.create.mockReset().mockResolvedValue("amazonTagRemoverNotification");
+    delete sync.data.allowedTags;
+    delete sync.data.aggressiveMode;
   });
 
   describe("webNavigation.onBeforeNavigate", () => {
@@ -132,6 +250,62 @@ describe("background event listeners", () => {
       );
       expect(sync.data["removedTags-10"]).toBeUndefined();
       consoleError.mockRestore();
+    });
+
+    describe("aggressive mode", () => {
+      beforeEach(() => {
+        sync.data.aggressiveMode = true;
+      });
+
+      it("stores every query parameter name and the ref segment for the tab", async () => {
+        browserMock.webNavigation.onBeforeNavigate.emit({
+          tabId: 20,
+          url: "https://www.amazon.de/dp/B001/ref=as_li_ss_tl?tag=aff1&linkCode=sl1&ie=UTF8",
+        });
+        await flushPromises();
+        expect(sync.data["aggressiveRemoved-20"]).toEqual(["tag", "linkCode", "ie", "ref"]);
+        // The regular tag notification is subsumed by the aggressive one
+        expect(sync.data["removedTags-20"]).toBeUndefined();
+      });
+
+      it("stores only query parameter names when there is no ref segment", async () => {
+        browserMock.webNavigation.onBeforeNavigate.emit({ tabId: 21, url: "https://www.amazon.de/s?k=books" });
+        await flushPromises();
+        expect(sync.data["aggressiveRemoved-21"]).toEqual(["k"]);
+      });
+
+      it("clears stale entries when the URL has nothing to clean", async () => {
+        sync.data["aggressiveRemoved-22"] = ["tag"];
+        browserMock.webNavigation.onBeforeNavigate.emit({ tabId: 22, url: "https://www.amazon.de/dp/B001" });
+        await flushPromises();
+        expect(sync.data["aggressiveRemoved-22"]).toBeUndefined();
+      });
+
+      it("does not store anything when an allowed tag is present", async () => {
+        sync.data.allowedTags = ["aff1"];
+        browserMock.webNavigation.onBeforeNavigate.emit({ tabId: 23, url: "https://www.amazon.de/dp/B001?tag=aff1" });
+        await flushPromises();
+        expect(sync.data["aggressiveRemoved-23"]).toBeUndefined();
+      });
+
+      it("falls back to the regular tag notification on the cart add endpoint", async () => {
+        browserMock.webNavigation.onBeforeNavigate.emit({
+          tabId: 25,
+          url: "https://www.amazon.de/gp/aws/cart/add.html?ASIN.1=B001&Quantity.1=1&tag=aff1",
+        });
+        await flushPromises();
+        expect(sync.data["aggressiveRemoved-25"]).toBeUndefined();
+        expect(sync.data["removedTags-25"]).toEqual(["aff1"]);
+      });
+
+      it("clears the aggressive entry when aggressive mode is turned off", async () => {
+        sync.data.aggressiveMode = false;
+        sync.data["aggressiveRemoved-24"] = ["tag"];
+        browserMock.webNavigation.onBeforeNavigate.emit({ tabId: 24, url: "https://www.amazon.de/dp/B001?tag=aff1" });
+        await flushPromises();
+        expect(sync.data["aggressiveRemoved-24"]).toBeUndefined();
+        expect(sync.data["removedTags-24"]).toEqual(["aff1"]);
+      });
     });
   });
 
@@ -176,15 +350,62 @@ describe("background event listeners", () => {
       await flushPromises();
       expect(browserMock.notifications?.create).not.toHaveBeenCalled();
     });
+
+    it("shows the aggressive notification and cleans up both keys", async () => {
+      sync.data.disableNotifications = false;
+      sync.data["aggressiveRemoved-13"] = ["tag", "linkCode", "ref"];
+      browserMock.webNavigation.onCompleted.emit({ tabId: 13 });
+      await flushPromises();
+      expect(browserMock.notifications?.create).toHaveBeenCalledTimes(1);
+      expect(browserMock.notifications?.create).toHaveBeenCalledWith(
+        "amazonTagRemoverNotification",
+        expect.objectContaining({
+          title: "Tag Remover for Amazon",
+          message: "The following tracking information has been removed (aggressive mode): tag, linkCode, ref",
+        }),
+      );
+      expect(sync.data["aggressiveRemoved-13"]).toBeUndefined();
+    });
+
+    it("does not show the aggressive notification when notifications are disabled", async () => {
+      sync.data.disableNotifications = true;
+      sync.data["aggressiveRemoved-14"] = ["tag"];
+      browserMock.webNavigation.onCompleted.emit({ tabId: 14 });
+      await flushPromises();
+      expect(browserMock.notifications?.create).not.toHaveBeenCalled();
+      expect(sync.data["aggressiveRemoved-14"]).toBeUndefined();
+    });
   });
 
   describe("storage.onChanged", () => {
     it("updates the rules when allowedTags change", async () => {
+      sync.data.allowedTags = ["aff1"];
       browserMock.storage.onChanged.emit({ allowedTags: { oldValue: [], newValue: ["aff1"] } });
       await flushPromises();
       expect(browserMock.declarativeNetRequest.updateDynamicRules).toHaveBeenCalledWith({
         removeRuleIds: [],
         addRules: background.createAmazonRules(["aff1"]),
+      });
+    });
+
+    it("updates the rules when aggressiveMode changes", async () => {
+      sync.data.aggressiveMode = true;
+      browserMock.storage.onChanged.emit({ aggressiveMode: { oldValue: false, newValue: true } });
+      await flushPromises();
+      expect(browserMock.declarativeNetRequest.updateDynamicRules).toHaveBeenCalledWith({
+        removeRuleIds: [],
+        addRules: background.createAggressiveRules(),
+      });
+    });
+
+    it("keeps the allowed tag rules when aggressiveMode changes", async () => {
+      sync.data.allowedTags = ["aff1"];
+      sync.data.aggressiveMode = true;
+      browserMock.storage.onChanged.emit({ aggressiveMode: { oldValue: false, newValue: true } });
+      await flushPromises();
+      expect(browserMock.declarativeNetRequest.updateDynamicRules).toHaveBeenCalledWith({
+        removeRuleIds: [],
+        addRules: [...background.createAmazonRules(["aff1"]), ...background.createAggressiveRules()],
       });
     });
   });

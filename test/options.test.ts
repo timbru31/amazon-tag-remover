@@ -6,6 +6,7 @@ function setupDom(): BrowserMock {
     <form>
       <textarea id="allowed-tags"></textarea>
       <input id="disable-notifications" type="checkbox" />
+      <input id="aggressive-mode" type="checkbox" />
       <button class="submit-button" type="submit">Save</button>
       <span class="checkmark">Saved</span>
     </form>
@@ -44,12 +45,17 @@ describe("options page", () => {
 
   describe("restoreOptions", () => {
     it("applies the stored options on DOMContentLoaded", async () => {
-      Object.assign(browserMock.storage.sync?.data ?? {}, { disableNotifications: true, allowedTags: ["tag-a", "tag-b"] });
+      Object.assign(browserMock.storage.sync?.data ?? {}, {
+        disableNotifications: true,
+        allowedTags: ["tag-a", "tag-b"],
+        aggressiveMode: true,
+      });
       await import("../src/js/options.js");
       document.dispatchEvent(new Event("DOMContentLoaded"));
       await flushPromises();
       expect(document.querySelector<HTMLInputElement>("#disable-notifications")?.checked).toBe(true);
       expect(document.querySelector<HTMLTextAreaElement>("#allowed-tags")?.value).toBe("tag-a\ntag-b");
+      expect(document.querySelector<HTMLInputElement>("#aggressive-mode")?.checked).toBe(true);
     });
 
     it("does not touch missing elements", async () => {
@@ -75,6 +81,7 @@ describe("options page", () => {
       expect(submitEvent.defaultPrevented).toBe(true);
       expect(browserMock.storage.sync?.data.allowedTags).toEqual(["tag-a", "tag-b"]);
       expect(browserMock.storage.sync?.data.disableNotifications).toBe(false);
+      expect(browserMock.storage.sync?.data.aggressiveMode).toBe(false);
       expect(submitButton.classList.contains("hidden")).toBe(true);
       expect(checkmark.classList.contains("visible")).toBe(true);
 
@@ -85,9 +92,11 @@ describe("options page", () => {
     it("stores the notification toggle together with the tags", async () => {
       await import("../src/js/options.js");
       document.querySelector<HTMLInputElement>("#disable-notifications")!.checked = true;
+      document.querySelector<HTMLInputElement>("#aggressive-mode")!.checked = true;
       document.querySelector("form")!.dispatchEvent(new Event("submit", { cancelable: true }));
       await flushPromises();
       expect(browserMock.storage.sync?.data.disableNotifications).toBe(true);
+      expect(browserMock.storage.sync?.data.aggressiveMode).toBe(true);
       expect(browserMock.storage.sync?.data.allowedTags).toEqual([]);
     });
 

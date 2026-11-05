@@ -2,7 +2,13 @@ import { expect, test } from "./fixtures.js";
 import { getDynamicRules, getStorage, setStorage } from "./helpers.js";
 
 test("service worker seeds default storage on install", async ({ serviceWorker }) => {
-  await expect.poll(() => getStorage(serviceWorker), { timeout: 10_000 }).toEqual({ allowedTags: [], disableNotifications: false });
+  await expect
+    .poll(() => getStorage(serviceWorker), { timeout: 10_000 })
+    .toEqual({
+      aggressiveMode: false,
+      allowedTags: [],
+      disableNotifications: false,
+    });
 });
 
 test("allowed tags are registered as dynamic allow rules", async ({ serviceWorker }) => {
