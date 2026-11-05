@@ -23,13 +23,16 @@
     "lint:swift": "swiftlint",
     "fmt": "oxfmt",
     "fmt:check": "oxfmt --check",
-    "prerelease": "pnpm run test",
-    "release": "commit-and-tag-version -s -a",
-    "postrelease": "pnpm run build",
     "pretest": "pnpm run lint",
-    "test": "vitest run"
+    "test": "vitest run",
+    "pretest:e2e": "pnpm build",
+    "test:e2e": "playwright test",
+    "prerelease": "pnpm run test && pnpm run test:e2e",
+    "release": "commit-and-tag-version -s -a",
+    "postrelease": "pnpm run build"
   },
   "devDependencies": {
+    "@playwright/test": "^1.64.1",
     "@types/chrome": "^0.3.7",
     "@types/node": "^26.6.6",
     "addons-linter": "^10.15.0",

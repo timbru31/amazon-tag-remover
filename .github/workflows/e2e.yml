@@ -1,0 +1,28 @@
+name: E2E
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  e2e:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v7.0.1
+
+      - uses: pnpm/setup@v3.1.2
+        with:
+          cache: true
+          require-lockfile: true
+
+      - name: Install browsers
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Run e2e tests
+        run: pnpm test:e2e

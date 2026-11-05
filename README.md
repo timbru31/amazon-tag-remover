@@ -68,6 +68,16 @@ Please visit [CHANGELOG.md](CHANGELOG.md) for a complete changelog.
 3. Run `pnpm run build:dev` and start hacking. The extension is automatically rebuilt on changes.
 4. Load the un-packaged addon from the `dist` folder
 
+## Testing
+
+- `pnpm test` — unit tests (Vitest) and linting
+- `pnpm test:e2e` — end-to-end tests (Playwright). Builds the extension, then drives the real
+  `dist/` build in a headless Chromium. `www.amazon.de` is resolved to a local TLS fixture via a
+  launch argument, so the whole suite runs offline: the DNR redirect rewrites the URL in the
+  browser's network stack before it reaches the fixture server. No Firefox coverage here —
+  Playwright cannot load extensions in Firefox; Firefox is covered by the unit tests and
+  `pnpm run lint:webext` (addons-linter).
+
 ## Support
 
 For support please create an issue here at GitHub
