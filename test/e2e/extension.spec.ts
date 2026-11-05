@@ -8,6 +8,7 @@ test("service worker seeds default storage on install", async ({ serviceWorker }
       aggressiveMode: false,
       allowedTags: [],
       disableNotifications: false,
+      replacementTag: "",
     });
 });
 

@@ -25,7 +25,8 @@
   },
   "minimum_chrome_version": "148",
   "options_ui": {
-    "page": "options.html"
+    "page": "options.html",
+    "open_in_tab": true
   },
   "permissions": ["webNavigation", "declarativeNetRequestWithHostAccess", "notifications", "storage"],
   "host_permissions": [

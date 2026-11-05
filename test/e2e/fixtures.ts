@@ -5,6 +5,7 @@ import { fileURLToPath } from "node:url";
 import { chromium, expect, test as base, type BrowserContext, type ServiceWorker } from "@playwright/test";
 
 import { PORT } from "./global-setup.js";
+import { getStorage } from "./helpers.js";
 
 const distDir = fileURLToPath(new URL("../../dist", import.meta.url));
 
@@ -50,7 +51,11 @@ export const test = base.extend<{ serviceWorker: ServiceWorker }>({
     await rm(profileDir, { recursive: true, force: true });
   },
   serviceWorker: async ({ context }, use) => {
-    await use(await waitForServiceWorker(context));
+    const serviceWorker = await waitForServiceWorker(context);
+    // The onInstalled handler seeds the default options asynchronously. Wait
+    // for it, otherwise it can overwrite values a test stored in the meantime.
+    await expect.poll(() => getStorage(serviceWorker).then((storage) => "replacementTag" in storage), { timeout: 10_000 }).toBe(true);
+    await use(serviceWorker);
   },
 });
 

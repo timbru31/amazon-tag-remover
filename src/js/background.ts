@@ -59,10 +59,31 @@ const ALLOW_RULE_PRIORITY = 100;
 const AGGRESSIVE_URL_RULE_PRIORITY = 5;
 const AGGRESSIVE_PRODUCT_RULE_PRIORITY = 6;
 
+// The replacement tag rule must outrank the static tag removal rule (priority 1)
+// but stay below the aggressive rules: aggressive mode cleans the URL first, the
+// replacement rule then adds the tag to the cleaned URL, and the allow rule for
+// the replacement tag (ALLOW_RULE_PRIORITY) stops any further redirect.
+const REPLACEMENT_TAG_RULE_PRIORITY = 4;
+
 // Must not collide with the allow rule ids (index * 2 + 1 and index * 2 + 2)
 const AGGRESSIVE_SLUGGED_PRODUCT_RULE_ID = 100001;
 const AGGRESSIVE_URL_RULE_ID = 100002;
 const AGGRESSIVE_BARE_PRODUCT_RULE_ID = 100003;
+const REPLACEMENT_TAG_RULE_ID = 100004;
+const REPLACEMENT_TAG_ALLOW_RULE_ID = 100005;
+
+// Amazon tracking IDs look like "name-21"; restrict to URL-safe characters so the
+// value can be used in a query parameter and a regexFilter without escaping issues.
+const REPLACEMENT_TAG_PATTERN = /^[\w.~-]+$/u;
+
+/** Returns the trimmed replacement tag, or an empty string when it is unset or invalid. */
+export function normalizeReplacementTag(replacementTag: unknown): string {
+  if (typeof replacementTag !== "string") {
+    return "";
+  }
+  const trimmed = replacementTag.trim();
+  return REPLACEMENT_TAG_PATTERN.test(trimmed) ? trimmed : "";
+}
 
 // Amazon serves a product by its canonical `/dp/<ASIN>`; the title slug and the
 // `/gp/product/` / `/product/` shapes are cosmetic. Real ASINs are 10
@@ -73,7 +94,7 @@ const AGGRESSIVE_BARE_PRODUCT_RULE_ID = 100003;
 const ASIN = "[A-Z0-9]+";
 const ASIN_BOUNDED = "[A-Z0-9]{9,}";
 
-const AGGRESSIVE_HOST = "https?://(?:[a-z0-9-]+\\.)*amazon\\.[^/]+";
+const AMAZON_HOST = "https?://(?:[a-z0-9-]+\\.)*amazon\\.[^/]+";
 
 // Chrome DNR compiles each regexFilter with RE2 under a 2KB max_mem budget
 // (forward Prog gets 2/3 of it) and rejects the whole updateDynamicRules call
@@ -107,7 +128,7 @@ function createAggressiveProductRule(id: number, regexFilter: string): chrome.de
  * are consumed by the trailing `.*`.
  */
 export function createAggressiveSluggedProductRule(): chrome.declarativeNetRequest.Rule {
-  return createAggressiveProductRule(AGGRESSIVE_SLUGGED_PRODUCT_RULE_ID, `^(${AGGRESSIVE_HOST})(?:/.+?/(?:dp|product)/)(${ASIN}).*`);
+  return createAggressiveProductRule(AGGRESSIVE_SLUGGED_PRODUCT_RULE_ID, `^(${AMAZON_HOST})(?:/.+?/(?:dp|product)/)(${ASIN}).*`);
 }
 
 /**
@@ -116,7 +137,7 @@ export function createAggressiveSluggedProductRule(): chrome.declarativeNetReque
  * 2KB budget.
  */
 export function createAggressiveBareProductRule(): chrome.declarativeNetRequest.Rule {
-  return createAggressiveProductRule(AGGRESSIVE_BARE_PRODUCT_RULE_ID, `^(${AGGRESSIVE_HOST})/product/(${ASIN_BOUNDED}).*`);
+  return createAggressiveProductRule(AGGRESSIVE_BARE_PRODUCT_RULE_ID, `^(${AMAZON_HOST})/product/(${ASIN_BOUNDED}).*`);
 }
 
 /**
@@ -138,7 +159,7 @@ export function createAggressiveUrlRule(): chrome.declarativeNetRequest.Rule {
       },
     },
     condition: {
-      regexFilter: `^((${AGGRESSIVE_HOST})(/.+?))(?:/ref=[^/]*|\\?.+)$`,
+      regexFilter: `^((${AMAZON_HOST})(/.+?))(?:/ref=[^/]*|\\?.+)$`,
       resourceTypes: ["main_frame", "sub_frame"],
     },
   };
@@ -179,11 +200,60 @@ export function createAmazonRules(allowedTags: string[]): chrome.declarativeNetR
   });
 }
 
-export async function updateRules(allowedTags: string[], aggressiveMode = false): Promise<void> {
+/**
+ * Replacement tag (GitHub issue #11): instead of just removing the foreign tag,
+ * set the user's own tag on every Amazon page navigation. Two rules work
+ * together to avoid a redirect loop: the redirect rule sets `tag` (replacing a
+ * foreign one, dropping `ascsubtag`), and the allow rule leaves any URL that
+ * already carries the replacement tag untouched. The allow rule uses the same
+ * priority as the allowed tag rules, so it also outranks the redirect rule.
+ */
+export function createReplacementTagRules(replacementTag: string): chrome.declarativeNetRequest.Rule[] {
+  const escapedTag = replacementTag.replaceAll(/[.*+?^${}()|[\]\\]/gu, "\\$&");
+  return [
+    {
+      id: REPLACEMENT_TAG_RULE_ID,
+      priority: REPLACEMENT_TAG_RULE_PRIORITY,
+      action: {
+        type: "redirect",
+        redirect: {
+          transform: {
+            queryTransform: {
+              addOrReplaceParams: [{ key: "tag", value: replacementTag }],
+              removeParams: ["ascsubtag"],
+            },
+          },
+        },
+      },
+      condition: {
+        regexFilter: `^${AMAZON_HOST}/`,
+        resourceTypes: ["main_frame", "sub_frame"],
+      },
+    },
+    {
+      id: REPLACEMENT_TAG_ALLOW_RULE_ID,
+      priority: ALLOW_RULE_PRIORITY,
+      action: {
+        type: "allow",
+      },
+      condition: {
+        regexFilter: `^${AMAZON_HOST}/.*[?&]tag=${escapedTag}(?:[&#]|$)`,
+        resourceTypes: ["main_frame", "sub_frame"],
+      },
+    },
+  ];
+}
+
+export async function updateRules(allowedTags: string[], aggressiveMode = false, replacementTag = ""): Promise<void> {
   try {
     const existingRules = await browser.declarativeNetRequest.getDynamicRules();
     const removeRuleIds = existingRules.map((rule) => rule.id);
-    const addRules = [...createAmazonRules(allowedTags), ...(aggressiveMode ? createAggressiveRules() : [])];
+    const normalizedReplacementTag = normalizeReplacementTag(replacementTag);
+    const addRules = [
+      ...createAmazonRules(allowedTags),
+      ...(aggressiveMode ? createAggressiveRules() : []),
+      ...(normalizedReplacementTag ? createReplacementTagRules(normalizedReplacementTag) : []),
+    ];
     await browser.declarativeNetRequest.updateDynamicRules({
       removeRuleIds,
       addRules,
@@ -208,8 +278,13 @@ browser.webNavigation.onBeforeNavigate.addListener(async (details) => {
     // rules.json strips every occurrence, so this mirrors what actually happens.
     const removedTags = [...new Set([...parsedUrl.searchParams.getAll("tag"), ...parsedUrl.searchParams.getAll("ascsubtag")])];
 
-    const { aggressiveMode, allowedTags } = await storage.get(["aggressiveMode", "allowedTags"]);
+    const { aggressiveMode, allowedTags, replacementTag } = await storage.get(["aggressiveMode", "allowedTags", "replacementTag"]);
     const allowedTagList = (allowedTags as string[] | undefined) ?? [];
+    const normalizedReplacementTag = normalizeReplacementTag(replacementTag);
+    if (normalizedReplacementTag) {
+      // The user's own tag is never removed, see createReplacementTagRules
+      allowedTagList.push(normalizedReplacementTag);
+    }
     // The allow rules (highest priority) leave a URL carrying an allowed tag
     // completely untouched, so no aggressive cleaning happens for it either.
     const hasAllowedTag = removedTags.some((tag) => allowedTagList.includes(tag));
@@ -279,8 +354,10 @@ browser.webNavigation.onCompleted.addListener(async (details) => {
       // everything that was stripped from the URL
       message = `The following tracking information has been removed (aggressive mode): ${aggressiveRemoved.join(", ")}`;
     } else {
-      const { allowedTags } = (await storage.get("allowedTags")) as Record<string, string[]>;
-      const filteredRemovedTags = (removedTags ?? []).filter((tag) => !allowedTags?.includes(tag));
+      const { allowedTags, replacementTag } = await storage.get(["allowedTags", "replacementTag"]);
+      const allowedTagList = (allowedTags as string[] | undefined) ?? [];
+      const normalizedReplacementTag = normalizeReplacementTag(replacementTag);
+      const filteredRemovedTags = (removedTags ?? []).filter((tag) => !allowedTagList.includes(tag) && tag !== normalizedReplacementTag);
       if (filteredRemovedTags.length > 0) {
         message = `The following tracking tags have been removed: ${filteredRemovedTags.join(", ")}`;
       }
@@ -301,22 +378,23 @@ browser.webNavigation.onCompleted.addListener(async (details) => {
 
 browser.runtime.onInstalled.addListener(async (details) => {
   if (details.reason === "install") {
-    void storage.set({
+    await storage.set({
       disableNotifications: false,
       allowedTags: [],
       aggressiveMode: false,
+      replacementTag: "",
     });
   }
 
-  const result = await storage.get(["allowedTags", "aggressiveMode"]);
-  await updateRules((result.allowedTags as string[]) || [], result.aggressiveMode === true);
+  const result = await storage.get(["allowedTags", "aggressiveMode", "replacementTag"]);
+  await updateRules((result.allowedTags as string[]) || [], result.aggressiveMode === true, normalizeReplacementTag(result.replacementTag));
 });
 
 browser.storage.onChanged.addListener(async (changes) => {
-  if (changes.allowedTags || changes.aggressiveMode) {
-    // Re-read both options so the rule set always reflects the current
-    // combination of allowed tags and aggressive mode
-    const { allowedTags, aggressiveMode } = await storage.get(["allowedTags", "aggressiveMode"]);
-    await updateRules((allowedTags as string[]) || [], aggressiveMode === true);
+  if (changes.allowedTags || changes.aggressiveMode || changes.replacementTag) {
+    // Re-read all options so the rule set always reflects the current
+    // combination of allowed tags, aggressive mode and replacement tag
+    const { allowedTags, aggressiveMode, replacementTag } = await storage.get(["allowedTags", "aggressiveMode", "replacementTag"]);
+    await updateRules((allowedTags as string[]) || [], aggressiveMode === true, normalizeReplacementTag(replacementTag));
   }
 });
