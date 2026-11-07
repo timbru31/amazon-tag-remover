@@ -23,12 +23,12 @@
     "type": "module",
     "preferred_environment": ["document"]
   },
-  "minimum_chrome_version": "148",
+  "minimum_chrome_version": "157",
   "options_ui": {
     "page": "options.html",
     "open_in_tab": true
   },
-  "permissions": ["webNavigation", "declarativeNetRequestWithHostAccess", "notifications", "storage"],
+  "permissions": ["webNavigation", "declarativeNetRequestWithHostAccess", "notifications", "storage", "contextMenus", "clipboardWrite"],
   "host_permissions": [
     "*://*.amazon.ae/*",
     "*://*.amazon.at/*",

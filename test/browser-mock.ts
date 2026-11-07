@@ -69,6 +69,11 @@ export interface BrowserMock {
     onBeforeNavigate: ListenerMock;
     onCompleted: ListenerMock;
   };
+  contextMenus: {
+    removeAll: ReturnType<typeof vi.fn>;
+    create: ReturnType<typeof vi.fn>;
+    onClicked: ListenerMock;
+  };
   runtime: {
     onInstalled: ListenerMock;
     getURL: (path: string) => string;
@@ -90,6 +95,11 @@ export function createBrowserMock(options: BrowserMockOptions = {}): BrowserMock
     webNavigation: {
       onBeforeNavigate: createListenerMock(),
       onCompleted: createListenerMock(),
+    },
+    contextMenus: {
+      removeAll: vi.fn(async () => undefined),
+      create: vi.fn(async () => undefined),
+      onClicked: createListenerMock(),
     },
     runtime: {
       onInstalled: createListenerMock(),
