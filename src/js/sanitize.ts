@@ -61,6 +61,22 @@ export function hasTrailingRefSegment(pathname: string): boolean {
   return /\/ref=[^/?]+$/u.test(pathname);
 }
 
+// Mirrors the static cart add rule in rules.json (priority 10, outranking the
+// aggressive rules): the add-to-cart endpoint keeps its parameters (ASIN,
+// quantity, ...); only the tag is neutralized to the placeholder "0" and
+// ascsubtag is removed. In DNR the rule therefore applies identically in both
+// modes, and the replacement tag rule (priority 4) does not fire for it either.
+const CART_ADD_PATH = "/gp/aws/cart/add.html";
+
+// Aggressive-mode product canonicalization, mirroring the two dynamic product
+// rules in background.ts: the slugged form allows any prefix before the product
+// segment (title slug, /gp/, locale markers such as /-/en/) and any trailing
+// path after the ASIN, while the bare form requires a lower-bounded ASIN so a
+// short /product/ segment is left alone (an unbounded class plus the slugged
+// alternation exceeds the RE2 budget in the DNR filter, see background.ts).
+const SLUGGED_PRODUCT_PATH = /^(?:\/.+?\/(?:dp|product)\/)([A-Z0-9]+).*/u;
+const BARE_PRODUCT_PATH = /^\/product\/([A-Z0-9]{9,}).*/u;
+
 export interface SanitizeOptions {
   aggressiveMode: boolean;
   allowedTags: string[];
@@ -80,9 +96,14 @@ export interface SanitizeResult {
  *
  * - a URL carrying an allowed tag (or the replacement tag) is returned
  *   unchanged — the allow rules (highest priority) leave such URLs untouched;
+ * - a cart add URL keeps its parameters in both modes; only the tag is
+ *   neutralized to "0" and ascsubtag is removed (the static cart rule outranks
+ *   the aggressive and replacement rules);
  * - normal mode removes the `tag` and `ascsubtag` parameters;
  * - aggressive mode removes every query parameter and a trailing `/ref=...`
- *   path segment;
+ *   path segment, and canonicalizes a product URL to `host/dp/<ASIN>` like the
+ *   aggressive product rules (dropping the title slug and any prefix such as
+ *   `/-/en/`);
  * - when a replacement tag is configured, a foreign tag is replaced by it,
  *   but a URL without a foreign tag is never tagged: copying a clean link
  *   yields a clean link, even though the DNR replacement rule also adds the
@@ -114,7 +135,17 @@ export function sanitizeAmazonUrl(input: string, options: SanitizeOptions): Sani
   const hasForeignTag = tags.length > 0;
 
   const url = new URL(input);
-  let changed: boolean;
+  if (parsed.pathname.startsWith(CART_ADD_PATH)) {
+    // The cart add endpoint is cleaned the same way in both modes, see
+    // CART_ADD_PATH: neutralize the tag, drop ascsubtag, keep the rest, and
+    // never apply the replacement tag (the cart rule outranks it in DNR).
+    if (url.searchParams.has("tag")) {
+      url.searchParams.set("tag", "0");
+    }
+    url.searchParams.delete("ascsubtag");
+    const cleanedUrl = url.toString();
+    return { url: cleanedUrl, changed: cleanedUrl !== input };
+  }
   if (options.aggressiveMode) {
     // Mirrors createAggressiveUrlRule: every query parameter and the trailing
     // /ref=... path segment are removed.
@@ -123,14 +154,19 @@ export function sanitizeAmazonUrl(input: string, options: SanitizeOptions): Sani
     if (refSegment) {
       url.pathname = url.pathname.slice(0, refSegment.index);
     }
-    changed = hasTrailingRefSegment(parsed.pathname) || parsed.searchParams.size > 0;
+    // Then the product rules canonicalize a product URL to /dp/<ASIN> in one
+    // step (their .* already consumes the query and ref segment).
+    const productSegment = SLUGGED_PRODUCT_PATH.exec(url.pathname) ?? BARE_PRODUCT_PATH.exec(url.pathname);
+    if (productSegment) {
+      url.pathname = `/dp/${productSegment[1]}`;
+    }
   } else {
     url.searchParams.delete("tag");
     url.searchParams.delete("ascsubtag");
-    changed = hasForeignTag;
   }
   if (options.replacementTag && hasForeignTag) {
     url.searchParams.set("tag", options.replacementTag);
   }
-  return { url: url.toString(), changed };
+  const cleanedUrl = url.toString();
+  return { url: cleanedUrl, changed: cleanedUrl !== input };
 }

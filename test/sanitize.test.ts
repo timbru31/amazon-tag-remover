@@ -122,7 +122,7 @@ describe("sanitizeAmazonUrl", () => {
       });
     });
 
-    it("keeps a /ref= segment that is not trailing", () => {
+    it("strips a trailing /ref= segment from a non-product page", () => {
       expect(sanitizeAmazonUrl("https://www.amazon.de/s/ref=nb_sb_noss?tag=a-20", aggressive)).toEqual({
         url: "https://www.amazon.de/s",
         changed: true,
@@ -150,6 +150,105 @@ describe("sanitizeAmazonUrl", () => {
         url: "https://www.amazon.de/dp/B001",
         changed: true,
       });
+    });
+
+    it("drops a locale prefix before /dp/ together with the ref segment", () => {
+      expect(sanitizeAmazonUrl("https://www.amazon.de/-/en/dp/B09XN22JBT/ref=dp_ccx_cts_image_luxe_1", aggressive)).toEqual({
+        url: "https://www.amazon.de/dp/B09XN22JBT",
+        changed: true,
+      });
+    });
+
+    it("canonicalizes a slugged product URL, dropping the slug and the ref segment", () => {
+      expect(sanitizeAmazonUrl("https://www.amazon.de/Mitutoyo-Caliper/dp/B00WMKUUAQ/ref=as_li_ss_tl", aggressive)).toEqual({
+        url: "https://www.amazon.de/dp/B00WMKUUAQ",
+        changed: true,
+      });
+    });
+
+    it("canonicalizes a /gp/product/ slug to /dp/", () => {
+      expect(sanitizeAmazonUrl("https://www.amazon.de/gp/product/B00WMKUUAQ?tag=a-20", aggressive)).toEqual({
+        url: "https://www.amazon.de/dp/B00WMKUUAQ",
+        changed: true,
+      });
+    });
+
+    it("canonicalizes a bare /product/ URL to /dp/", () => {
+      expect(sanitizeAmazonUrl("https://www.amazon.de/product/B00WMKUUAQ", aggressive)).toEqual({
+        url: "https://www.amazon.de/dp/B00WMKUUAQ",
+        changed: true,
+      });
+    });
+
+    it("leaves a short bare /product/ segment alone", () => {
+      const input = "https://www.amazon.de/product/abc";
+      expect(sanitizeAmazonUrl(input, aggressive)).toEqual({ url: input, changed: false });
+    });
+
+    it("canonicalizes a clean slugged product URL even without tracking", () => {
+      expect(sanitizeAmazonUrl("https://www.amazon.de/-/en/dp/B09XN22JBT", aggressive)).toEqual({
+        url: "https://www.amazon.de/dp/B09XN22JBT",
+        changed: true,
+      });
+    });
+
+    it("replaces a foreign tag with the replacement tag on a canonicalized product URL", () => {
+      expect(
+        sanitizeAmazonUrl("https://www.amazon.de/-/en/dp/B09XN22JBT?tag=foreign-20", {
+          ...aggressive,
+          replacementTag: "mytag-21",
+        }),
+      ).toEqual({
+        url: "https://www.amazon.de/dp/B09XN22JBT?tag=mytag-21",
+        changed: true,
+      });
+    });
+  });
+
+  describe("cart add endpoint", () => {
+    const aggressive: SanitizeOptions = { aggressiveMode: true, allowedTags: [], replacementTag: "" };
+
+    it("neutralizes the tag and keeps the other parameters in normal mode", () => {
+      expect(sanitizeAmazonUrl("https://www.amazon.de/gp/aws/cart/add.html?ASIN=B001&tag=foreign-20&Quantity=1", defaults)).toEqual({
+        url: "https://www.amazon.de/gp/aws/cart/add.html?ASIN=B001&tag=0&Quantity=1",
+        changed: true,
+      });
+    });
+
+    it("keeps the other parameters in aggressive mode", () => {
+      expect(sanitizeAmazonUrl("https://www.amazon.de/gp/aws/cart/add.html?ASIN=B001&tag=foreign-20&Quantity=1", aggressive)).toEqual({
+        url: "https://www.amazon.de/gp/aws/cart/add.html?ASIN=B001&tag=0&Quantity=1",
+        changed: true,
+      });
+    });
+
+    it("removes ascsubtag from a cart add URL", () => {
+      expect(sanitizeAmazonUrl("https://www.amazon.de/gp/aws/cart/add.html?ASIN=B001&ascsubtag=asc1", defaults)).toEqual({
+        url: "https://www.amazon.de/gp/aws/cart/add.html?ASIN=B001",
+        changed: true,
+      });
+    });
+
+    it("leaves a tag-less cart add URL unchanged in aggressive mode", () => {
+      const input = "https://www.amazon.de/gp/aws/cart/add.html?ASIN=B001&Quantity=1";
+      expect(sanitizeAmazonUrl(input, aggressive)).toEqual({ url: input, changed: false });
+    });
+
+    it("does not apply the replacement tag to a cart add URL", () => {
+      expect(
+        sanitizeAmazonUrl("https://www.amazon.de/gp/aws/cart/add.html?ASIN=B001&tag=foreign-20", {
+          ...defaults,
+          replacementTag: "mytag-21",
+        }),
+      ).toEqual({
+        url: "https://www.amazon.de/gp/aws/cart/add.html?ASIN=B001&tag=0",
+        changed: true,
+      });
+    });
+
+    it("keeps a cart add URL carrying an allowed tag completely untouched", () => {
+      const input = "https://www.amazon.de/gp/aws/cart/add.html?ASIN=B001&tag=keepme";
+      expect(sanitizeAmazonUrl(input, { ...aggressive, allowedTags: ["keepme"] })).toEqual({ url: input, changed: false });
     });
   });
 
