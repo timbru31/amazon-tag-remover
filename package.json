@@ -43,9 +43,9 @@
     "oxfmt": "^0.75.0",
     "oxlint": "^1.91.0",
     "postcss-html": "^2.0.0",
-    "stylelint": "^17.16.0",
+    "stylelint": "^18.0.0",
     "stylelint-config-html": "^2.0.0",
-    "stylelint-config-recommended": "^18.0.0",
+    "stylelint-config-recommended": "^19.0.0",
     "tsx": "^4.21.0",
     "typescript": "^7.0.2",
     "vitest": "^5.1.0"
