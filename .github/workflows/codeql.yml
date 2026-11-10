@@ -68,3 +68,23 @@ jobs:
         uses: github/codeql-action/analyze@v4.39.3
         with:
           category: "/language:${{ matrix.language }}"
+
+  # Runs only after every CodeQL analysis has completed. The "main" ruleset
+  # blocks merges while a CodeQL analysis is still in progress
+  # (code_scanning rule), so merging must not be attempted before the slowest
+  # analyze variant (swift on macOS) has finished successfully.
+  auto-merge:
+    name: Auto-merge dependabot
+    runs-on: ubuntu-latest
+    needs: analyze
+    if: github.event_name == 'pull_request'
+
+    permissions:
+      pull-requests: write
+      contents: write
+
+    steps:
+      - name: Automatically merge dependabot upgrades
+        uses: fastify/github-action-merge-dependabot@v3.15.0
+        with:
+          target: minor
