@@ -158,19 +158,6 @@ describe("aggressive mode rules", () => {
   });
 });
 
-describe("normalizeReplacementTag", () => {
-  it("trims valid tags", () => {
-    expect(background.normalizeReplacementTag("  mytag-21 ")).toBe("mytag-21");
-  });
-
-  it("rejects unset, empty and unsafe values", () => {
-    expect(background.normalizeReplacementTag(undefined)).toBe("");
-    expect(background.normalizeReplacementTag("")).toBe("");
-    expect(background.normalizeReplacementTag("my tag")).toBe("");
-    expect(background.normalizeReplacementTag("a&tag=b")).toBe("");
-  });
-});
-
 describe("createReplacementTagRules", () => {
   const [redirectRule, allowRule] = background.createReplacementTagRules("mytag-21");
 
@@ -210,18 +197,6 @@ describe("createReplacementTagRules", () => {
     const regex = regexOf(escapedAllowRule?.condition.regexFilter);
     expect(regex.test("https://www.amazon.de/dp/B001?tag=my.tag")).toBe(true);
     expect(regex.test("https://www.amazon.de/dp/B001?tag=myxtag")).toBe(false);
-  });
-});
-
-describe("hasTrailingRefSegment", () => {
-  it("detects a trailing /ref=... path segment", () => {
-    expect(background.hasTrailingRefSegment("/Mitutoyo-Caliper/dp/B00WMKUUAQ/ref=as_li_ss_tl")).toBe(true);
-    expect(background.hasTrailingRefSegment("/s/ref=nb_sb_noss")).toBe(true);
-  });
-
-  it("ignores other paths and query-only refs", () => {
-    expect(background.hasTrailingRefSegment("/dp/B001")).toBe(false);
-    expect(background.hasTrailingRefSegment("/gp/aw/ref=xx/dp/B01")).toBe(false);
   });
 });
 

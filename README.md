@@ -57,6 +57,7 @@ This extension removes the tracking ID before the browser is performing the requ
 - Affiliate "Add to Cart" links (`/gp/aws/cart/add.html`) keep working: Amazon requires the tag parameter on that endpoint, so instead of removing it, its value is replaced with a neutral placeholder
 - Optional aggressive mode, which removes all query parameters, the `/ref=...` part and the long title slug of Amazon links, leaving only the canonical product URL (e.g. `https://www.amazon.com/dp/B00WMKUUAQ`)
 - Optional replacement tag: set your own affiliate tag, which is added to Amazon links after the existing tag was removed (combines with aggressive mode; the cart add endpoint keeps its neutral placeholder)
+- Right-click any Amazon link on any page and choose "Copy link without tracking tag" to copy it without the tracking ID (in aggressive mode the copied link matches the canonical URL the extension navigates to; in Chrome/Edge this requires the browser's `clipboardWrite` support, i.e. Chrome 157+)
 - Full support for all amazon sites (e.g. from Germany, Mexico or UK to China and Italy)
   - amazn.to links are supported, too, since the expanded request to the amazon site is intercepted
 

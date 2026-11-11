@@ -1,40 +1,10 @@
 import { storage } from "./api.js";
+import { registerContextMenu } from "./context-menu.js";
+import { amazonDomains, hasTrailingRefSegment, normalizeReplacementTag } from "./sanitize.js";
 
-// Keep in sync with the host_permissions in src/manifest.json
-const amazonDomains = [
-  "ae",
-  "at",
-  "ca",
-  "ch",
-  "cn",
-  "co.jp",
-  "co.uk",
-  "co.za",
-  "com.au",
-  "com.be",
-  "com.br",
-  "com.mx",
-  "com.sg",
-  "com.tr",
-  "com",
-  "de",
-  "dk",
-  "eg",
-  "es",
-  "fr",
-  "ie",
-  "in",
-  "it",
-  "mx",
-  "nl",
-  "nz",
-  "pl",
-  "pt",
-  "sa",
-  "se",
-  "sg",
-  "us",
-];
+// The "Copy link without tracking tag" menu item; the click listener is
+// attached by importing context-menu.js.
+registerContextMenu();
 
 // Unified event filter (Chrome 148+ / Firefox 140+): urlMatches uses RE2.
 // ([a-z0-9-]+\.)* requires a dotted subdomain label (or none) before "amazon"
@@ -71,19 +41,6 @@ const AGGRESSIVE_URL_RULE_ID = 100002;
 const AGGRESSIVE_BARE_PRODUCT_RULE_ID = 100003;
 const REPLACEMENT_TAG_RULE_ID = 100004;
 const REPLACEMENT_TAG_ALLOW_RULE_ID = 100005;
-
-// Amazon tracking IDs look like "name-21"; restrict to URL-safe characters so the
-// value can be used in a query parameter and a regexFilter without escaping issues.
-const REPLACEMENT_TAG_PATTERN = /^[\w.~-]+$/u;
-
-/** Returns the trimmed replacement tag, or an empty string when it is unset or invalid. */
-export function normalizeReplacementTag(replacementTag: unknown): string {
-  if (typeof replacementTag !== "string") {
-    return "";
-  }
-  const trimmed = replacementTag.trim();
-  return REPLACEMENT_TAG_PATTERN.test(trimmed) ? trimmed : "";
-}
 
 // Amazon serves a product by its canonical `/dp/<ASIN>`; the title slug and the
 // `/gp/product/` / `/product/` shapes are cosmetic. Real ASINs are 10
@@ -261,11 +218,6 @@ export async function updateRules(allowedTags: string[], aggressiveMode = false,
   } catch (error) {
     console.error("Error updating rules:", error);
   }
-}
-
-/** True when the path ends with a `/ref=...` segment, as produced by Amazon referrals. */
-export function hasTrailingRefSegment(pathname: string): boolean {
-  return /\/ref=[^/?]+$/u.test(pathname);
 }
 
 browser.webNavigation.onBeforeNavigate.addListener(async (details) => {
