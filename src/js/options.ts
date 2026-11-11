@@ -1,10 +1,12 @@
 import { isSafari, storage } from "./api.js";
+import { amazonDomains } from "./sanitize.js";
 
 interface StorageOptions {
   disableNotifications: boolean;
   allowedTags?: string[];
   aggressiveMode?: boolean;
   replacementTag?: string;
+  redirectRegion?: string;
 }
 
 function handleSafariQuirks(): void {
@@ -19,6 +21,21 @@ function handleSafariQuirks(): void {
       "Note: Make sure to allow access to Amazon domains in the Safari Extensions Preferences to enable all features.";
     extensionSettingsLink.classList.add("settings-hint");
     notificationsSection?.after(extensionSettingsLink);
+  }
+}
+
+function populateRegionOptions(): void {
+  const select = document.querySelector<HTMLSelectElement>("#redirect-region");
+  if (!select) {
+    return;
+  }
+  // The first option ("Off") is hardcoded in options.html; the regional sites
+  // are appended in the order of amazonDomains (shared with the background).
+  for (const domain of amazonDomains) {
+    const option = document.createElement("option");
+    option.value = domain;
+    option.textContent = `amazon.${domain}`;
+    select.append(option);
   }
 }
 
@@ -37,6 +54,7 @@ async function saveOptions(e: Event): Promise<void> {
       allowedTags,
       aggressiveMode: document.querySelector<HTMLInputElement>("#aggressive-mode")?.checked,
       replacementTag: document.querySelector<HTMLInputElement>("#replacement-tag")?.value.trim() ?? "",
+      redirectRegion: document.querySelector<HTMLSelectElement>("#redirect-region")?.value ?? "",
     });
   } catch (error) {
     console.error("Error saving options:", error);
@@ -56,6 +74,7 @@ function setCurrentChoice(result: StorageOptions): void {
   const allowedTextarea = document.querySelector<HTMLTextAreaElement>("#allowed-tags");
   const aggressiveCheckbox = document.querySelector<HTMLInputElement>("#aggressive-mode");
   const replacementInput = document.querySelector<HTMLInputElement>("#replacement-tag");
+  const regionSelect = document.querySelector<HTMLSelectElement>("#redirect-region");
 
   if (notificationCheckbox) {
     notificationCheckbox.checked = result.disableNotifications;
@@ -72,10 +91,16 @@ function setCurrentChoice(result: StorageOptions): void {
   if (replacementInput) {
     replacementInput.value = result.replacementTag ?? "";
   }
+
+  if (regionSelect) {
+    const region = result.redirectRegion;
+    // Fall back to "Off" for a stored value that is no longer a known domain
+    regionSelect.value = typeof region === "string" && amazonDomains.includes(region) ? region : "";
+  }
 }
 
 function restoreOptions(): void {
-  void storage.get(["disableNotifications", "allowedTags", "aggressiveMode", "replacementTag"]).then((options) => {
+  void storage.get(["disableNotifications", "allowedTags", "aggressiveMode", "replacementTag", "redirectRegion"]).then((options) => {
     setCurrentChoice(options as unknown as StorageOptions);
   });
 }
@@ -85,4 +110,5 @@ document.querySelector("form")?.addEventListener("submit", (e) => {
   void saveOptions(e);
 });
 
+populateRegionOptions();
 handleSafariQuirks();

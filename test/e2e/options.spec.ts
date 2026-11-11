@@ -8,11 +8,17 @@ function extensionUrl(serviceWorker: ServiceWorker, path: string): string {
 }
 
 test("options page restores saved options", async ({ serviceWorker, page }) => {
-  await setStorage(serviceWorker, { allowedTags: ["tag-one", "tag-two"], disableNotifications: true, replacementTag: "mytag-21" });
+  await setStorage(serviceWorker, {
+    allowedTags: ["tag-one", "tag-two"],
+    disableNotifications: true,
+    replacementTag: "mytag-21",
+    redirectRegion: "fr",
+  });
   await page.goto(extensionUrl(serviceWorker, "/options.html"));
   await expect(page.locator("#disable-notifications")).toBeChecked();
   await expect(page.locator("#replacement-tag")).toHaveValue("mytag-21");
   await expect(page.locator("#allowed-tags")).toHaveValue("tag-one\ntag-two");
+  await expect(page.locator("#redirect-region")).toHaveValue("fr");
 });
 
 test("options page saves options", async ({ serviceWorker, page }) => {
@@ -20,9 +26,16 @@ test("options page saves options", async ({ serviceWorker, page }) => {
   await page.locator("#disable-notifications").check();
   await page.locator("#allowed-tags").fill("new-tag");
   await page.locator("#replacement-tag").fill("mytag-21");
+  await page.locator("#redirect-region").selectOption("de");
   await page.locator(".submit-button").click();
   await expect(page.locator(".checkmark")).toHaveClass(/visible/u);
   await expect
     .poll(() => getStorage(serviceWorker), { timeout: 10_000 })
-    .toEqual({ aggressiveMode: false, allowedTags: ["new-tag"], disableNotifications: true, replacementTag: "mytag-21" });
+    .toEqual({
+      aggressiveMode: false,
+      allowedTags: ["new-tag"],
+      disableNotifications: true,
+      redirectRegion: "de",
+      replacementTag: "mytag-21",
+    });
 });

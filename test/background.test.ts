@@ -3,6 +3,7 @@ import { installBrowserMock } from "./browser-mock.js";
 
 const browserMock = installBrowserMock();
 const background = await import("../src/js/background.js");
+const region = await import("../src/js/region-redirect.js");
 
 const sync = browserMock.storage.sync!;
 
@@ -246,6 +247,30 @@ describe("updateRules", () => {
     expect(browserMock.declarativeNetRequest.updateDynamicRules).toHaveBeenCalledWith({ removeRuleIds: [], addRules: [] });
   });
 
+  it("adds the region redirect rule only when a valid region is set", async () => {
+    await background.updateRules([], false, "", " de ");
+    expect(browserMock.declarativeNetRequest.updateDynamicRules).toHaveBeenCalledWith({
+      removeRuleIds: [],
+      addRules: [region.createRegionRedirectRule("de")],
+    });
+
+    browserMock.declarativeNetRequest.updateDynamicRules.mockClear();
+    await background.updateRules([], false, "", "not-a-region");
+    expect(browserMock.declarativeNetRequest.updateDynamicRules).toHaveBeenCalledWith({ removeRuleIds: [], addRules: [] });
+
+    browserMock.declarativeNetRequest.updateDynamicRules.mockClear();
+    await background.updateRules(["aff1"], true, "mytag-21", "fr");
+    expect(browserMock.declarativeNetRequest.updateDynamicRules).toHaveBeenCalledWith({
+      removeRuleIds: [],
+      addRules: [
+        ...background.createAmazonRules(["aff1"]),
+        ...background.createAggressiveRules(),
+        ...background.createReplacementTagRules("mytag-21"),
+        region.createRegionRedirectRule("fr"),
+      ],
+    });
+  });
+
   it("logs and swallows errors instead of throwing", async () => {
     const consoleError = vi.spyOn(console, "error").mockImplementation(() => undefined);
     browserMock.declarativeNetRequest.getDynamicRules.mockRejectedValueOnce(new Error("boom"));
@@ -263,6 +288,7 @@ describe("background event listeners", () => {
     delete sync.data.allowedTags;
     delete sync.data.aggressiveMode;
     delete sync.data.replacementTag;
+    delete sync.data.redirectRegion;
   });
 
   describe("webNavigation.onBeforeNavigate", () => {
@@ -343,6 +369,31 @@ describe("background event listeners", () => {
         browserMock.webNavigation.onBeforeNavigate.emit({ tabId: 23, url: "https://www.amazon.de/dp/B001?tag=aff1" });
         await flushPromises();
         expect(sync.data["aggressiveRemoved-23"]).toBeUndefined();
+      });
+
+      it("does not claim aggressive cleaning when the regional redirect wins", async () => {
+        // The region redirect rule outranks the aggressive rules, so it only
+        // removes the tag parameters — the aggressive notification must not
+        // claim the other parameters were stripped.
+        sync.data.redirectRegion = "fr";
+        browserMock.webNavigation.onBeforeNavigate.emit({
+          tabId: 26,
+          url: "https://www.amazon.de/dp/B001/ref=as_li_ss_tl?tag=aff1&linkCode=sl1&ie=UTF8",
+        });
+        await flushPromises();
+        expect(sync.data["aggressiveRemoved-26"]).toBeUndefined();
+        expect(sync.data["removedTags-26"]).toEqual(["aff1"]);
+      });
+
+      it("stores aggressive items for a URL already on the target region", async () => {
+        sync.data.redirectRegion = "de";
+        browserMock.webNavigation.onBeforeNavigate.emit({
+          tabId: 27,
+          url: "https://www.amazon.de/dp/B001/ref=as_li_ss_tl?tag=aff1&linkCode=sl1",
+        });
+        await flushPromises();
+        expect(sync.data["aggressiveRemoved-27"]).toEqual(["tag", "linkCode", "ref"]);
+        expect(sync.data["removedTags-27"]).toBeUndefined();
       });
 
       it("falls back to the regular tag notification on the cart add endpoint", async () => {
@@ -472,6 +523,16 @@ describe("background event listeners", () => {
       expect(browserMock.declarativeNetRequest.updateDynamicRules).toHaveBeenCalledWith({
         removeRuleIds: [],
         addRules: background.createReplacementTagRules("mytag-21"),
+      });
+    });
+
+    it("updates the rules when redirectRegion changes", async () => {
+      sync.data.redirectRegion = "fr";
+      browserMock.storage.onChanged.emit({ redirectRegion: { oldValue: "", newValue: "fr" } });
+      await flushPromises();
+      expect(browserMock.declarativeNetRequest.updateDynamicRules).toHaveBeenCalledWith({
+        removeRuleIds: [],
+        addRules: [region.createRegionRedirectRule("fr")],
       });
     });
 

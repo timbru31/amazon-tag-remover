@@ -1,5 +1,6 @@
 import { storage } from "./api.js";
 import { registerContextMenu } from "./context-menu.js";
+import { createRegionRedirectRule, normalizeRedirectRegion, regionRedirectApplies } from "./region-redirect.js";
 import { amazonDomains, hasTrailingRefSegment, normalizeReplacementTag } from "./sanitize.js";
 
 // The "Copy link without tracking tag" menu item; the click listener is
@@ -201,15 +202,17 @@ export function createReplacementTagRules(replacementTag: string): chrome.declar
   ];
 }
 
-export async function updateRules(allowedTags: string[], aggressiveMode = false, replacementTag = ""): Promise<void> {
+export async function updateRules(allowedTags: string[], aggressiveMode = false, replacementTag = "", redirectRegion = ""): Promise<void> {
   try {
     const existingRules = await browser.declarativeNetRequest.getDynamicRules();
     const removeRuleIds = existingRules.map((rule) => rule.id);
     const normalizedReplacementTag = normalizeReplacementTag(replacementTag);
+    const normalizedRedirectRegion = normalizeRedirectRegion(redirectRegion);
     const addRules = [
       ...createAmazonRules(allowedTags),
       ...(aggressiveMode ? createAggressiveRules() : []),
       ...(normalizedReplacementTag ? createReplacementTagRules(normalizedReplacementTag) : []),
+      ...(normalizedRedirectRegion ? [createRegionRedirectRule(normalizedRedirectRegion)] : []),
     ];
     await browser.declarativeNetRequest.updateDynamicRules({
       removeRuleIds,
@@ -230,7 +233,12 @@ browser.webNavigation.onBeforeNavigate.addListener(async (details) => {
     // rules.json strips every occurrence, so this mirrors what actually happens.
     const removedTags = [...new Set([...parsedUrl.searchParams.getAll("tag"), ...parsedUrl.searchParams.getAll("ascsubtag")])];
 
-    const { aggressiveMode, allowedTags, replacementTag } = await storage.get(["aggressiveMode", "allowedTags", "replacementTag"]);
+    const { aggressiveMode, allowedTags, replacementTag, redirectRegion } = await storage.get([
+      "aggressiveMode",
+      "allowedTags",
+      "replacementTag",
+      "redirectRegion",
+    ]);
     const allowedTagList = (allowedTags as string[] | undefined) ?? [];
     const normalizedReplacementTag = normalizeReplacementTag(replacementTag);
     if (normalizedReplacementTag) {
@@ -246,8 +254,12 @@ browser.webNavigation.onBeforeNavigate.addListener(async (details) => {
     // The cart add endpoint keeps its parameters (the static rule only
     // neutralizes the tag), so no aggressive cleaning happens there
     const isCartAdd = parsedUrl.pathname.includes("/gp/aws/cart/add.html");
+    // With a region selected, the regional redirect rule (higher priority) wins
+    // over the aggressive rules and only removes the tag parameters, so the
+    // aggressive notification must not claim anything more was stripped
+    const isRegionRedirect = regionRedirectApplies(parsedUrl.hostname, normalizeRedirectRegion(redirectRegion));
 
-    if (aggressiveMode === true && !hasAllowedTag && !isCartAdd) {
+    if (aggressiveMode === true && !hasAllowedTag && !isCartAdd && !isRegionRedirect) {
       // Mirrors createAggressiveUrlRule: every query parameter and the trailing
       // /ref=... path segment are removed. The product URL canonicalization done
       // by the aggressive product rules is cosmetic (not tracking info), so it is
@@ -335,18 +347,34 @@ browser.runtime.onInstalled.addListener(async (details) => {
       allowedTags: [],
       aggressiveMode: false,
       replacementTag: "",
+      redirectRegion: "",
     });
   }
 
-  const result = await storage.get(["allowedTags", "aggressiveMode", "replacementTag"]);
-  await updateRules((result.allowedTags as string[]) || [], result.aggressiveMode === true, normalizeReplacementTag(result.replacementTag));
+  const result = await storage.get(["allowedTags", "aggressiveMode", "replacementTag", "redirectRegion"]);
+  await updateRules(
+    (result.allowedTags as string[]) || [],
+    result.aggressiveMode === true,
+    normalizeReplacementTag(result.replacementTag),
+    normalizeRedirectRegion(result.redirectRegion),
+  );
 });
 
 browser.storage.onChanged.addListener(async (changes) => {
-  if (changes.allowedTags || changes.aggressiveMode || changes.replacementTag) {
+  if (changes.allowedTags || changes.aggressiveMode || changes.replacementTag || changes.redirectRegion) {
     // Re-read all options so the rule set always reflects the current
-    // combination of allowed tags, aggressive mode and replacement tag
-    const { allowedTags, aggressiveMode, replacementTag } = await storage.get(["allowedTags", "aggressiveMode", "replacementTag"]);
-    await updateRules((allowedTags as string[]) || [], aggressiveMode === true, normalizeReplacementTag(replacementTag));
+    // combination of allowed tags, aggressive mode, replacement tag and region
+    const { allowedTags, aggressiveMode, replacementTag, redirectRegion } = await storage.get([
+      "allowedTags",
+      "aggressiveMode",
+      "replacementTag",
+      "redirectRegion",
+    ]);
+    await updateRules(
+      (allowedTags as string[]) || [],
+      aggressiveMode === true,
+      normalizeReplacementTag(replacementTag),
+      normalizeRedirectRegion(redirectRegion),
+    );
   }
 });

@@ -31,8 +31,10 @@ async function waitForServiceWorker(context: BrowserContext): Promise<ServiceWor
 // Boots the real, built extension in a throw-away headless profile.
 // `channel: "chromium"` is required: Playwright's default headless shell is
 // launched with --disable-extensions and would silently load nothing.
-// `--host-rules` points www.amazon.de at the local TLS fixture started in
-// global-setup.ts, so every test runs fully offline.
+// `--host-rules` points www.amazon.de and www.amazon.com at the local TLS
+// fixture started in global-setup.ts, so every test runs fully offline
+// (including cross-region redirect tests; the fixture cert only covers the
+// .de host, --ignore-certificate-errors accepts the rest).
 export const test = base.extend<{ serviceWorker: ServiceWorker }>({
   context: async ({}, use) => {
     const profileDir = await mkdtemp(join(tmpdir(), "tag-remover-e2e-"));
@@ -42,7 +44,7 @@ export const test = base.extend<{ serviceWorker: ServiceWorker }>({
       args: [
         `--disable-extensions-except=${distDir}`,
         `--load-extension=${distDir}`,
-        `--host-rules=MAP www.amazon.de 127.0.0.1:${PORT}`,
+        `--host-rules=MAP www.amazon.de 127.0.0.1:${PORT}, MAP www.amazon.com 127.0.0.1:${PORT}`,
         "--ignore-certificate-errors",
       ],
     });

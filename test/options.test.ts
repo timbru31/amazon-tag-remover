@@ -8,6 +8,7 @@ function setupDom(): BrowserMock {
       <input id="disable-notifications" type="checkbox" />
       <input id="aggressive-mode" type="checkbox" />
       <input id="replacement-tag" type="text" />
+      <select id="redirect-region"><option value="">Off — keep the original site</option><option value="de">amazon.de</option><option value="fr">amazon.fr</option></select>
       <button class="submit-button" type="submit">Save</button>
       <span class="checkmark">Saved</span>
     </form>
@@ -51,6 +52,7 @@ describe("options page", () => {
         allowedTags: ["tag-a", "tag-b"],
         aggressiveMode: true,
         replacementTag: "mytag-21",
+        redirectRegion: "fr",
       });
       await import("../src/js/options.js");
       document.dispatchEvent(new Event("DOMContentLoaded"));
@@ -59,6 +61,15 @@ describe("options page", () => {
       expect(document.querySelector<HTMLInputElement>("#disable-notifications")?.checked).toBe(true);
       expect(document.querySelector<HTMLTextAreaElement>("#allowed-tags")?.value).toBe("tag-a\ntag-b");
       expect(document.querySelector<HTMLInputElement>("#aggressive-mode")?.checked).toBe(true);
+      expect(document.querySelector<HTMLSelectElement>("#redirect-region")?.value).toBe("fr");
+    });
+
+    it("falls back to off for a stored region that is no longer a known domain", async () => {
+      Object.assign(browserMock.storage.sync?.data ?? {}, { redirectRegion: "xx" });
+      await import("../src/js/options.js");
+      document.dispatchEvent(new Event("DOMContentLoaded"));
+      await flushPromises();
+      expect(document.querySelector<HTMLSelectElement>("#redirect-region")?.value).toBe("");
     });
 
     it("does not touch missing elements", async () => {
@@ -86,6 +97,7 @@ describe("options page", () => {
       expect(browserMock.storage.sync?.data.disableNotifications).toBe(false);
       expect(browserMock.storage.sync?.data.aggressiveMode).toBe(false);
       expect(browserMock.storage.sync?.data.replacementTag).toBe("");
+      expect(browserMock.storage.sync?.data.redirectRegion).toBe("");
       expect(submitButton.classList.contains("hidden")).toBe(true);
       expect(checkmark.classList.contains("visible")).toBe(true);
 
@@ -110,6 +122,14 @@ describe("options page", () => {
       document.querySelector("form")!.dispatchEvent(new Event("submit", { cancelable: true }));
       await flushPromises();
       expect(browserMock.storage.sync?.data.replacementTag).toBe("mytag-21");
+    });
+
+    it("saves the selected redirect region", async () => {
+      await import("../src/js/options.js");
+      document.querySelector<HTMLSelectElement>("#redirect-region")!.value = "de";
+      document.querySelector("form")!.dispatchEvent(new Event("submit", { cancelable: true }));
+      await flushPromises();
+      expect(browserMock.storage.sync?.data.redirectRegion).toBe("de");
     });
 
     it("does not show the checkmark or close when saving fails", async () => {
