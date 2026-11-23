@@ -58,6 +58,7 @@ This extension removes the tracking ID before the browser is performing the requ
 - Optional aggressive mode, which removes all query parameters, the `/ref=...` part and the long title slug of Amazon links, leaving only the canonical product URL (e.g. `https://www.amazon.com/dp/B00WMKUUAQ`)
 - Optional replacement tag: set your own affiliate tag, which is added to Amazon links after the existing tag was removed (combines with aggressive mode; the cart add endpoint keeps its neutral placeholder)
 - Right-click any Amazon link on any page and choose "Copy link without tracking tag" to copy it without the tracking ID (in aggressive mode the copied link matches the canonical URL the extension navigates to; in Chrome/Edge this requires the browser's `clipboardWrite` support, i.e. Chrome 157+)
+- Optional regional redirect: rewrite Amazon links from other regional sites to a regional site of your choice (e.g. `amazon.com` → `amazon.de`) — tracking tags are still removed. Note that not every product is available in every region: a 404 page means the product is not sold there
 - Full support for all amazon sites (e.g. from Germany, Mexico or UK to China and Italy)
   - amazn.to links are supported, too, since the expanded request to the amazon site is intercepted
 

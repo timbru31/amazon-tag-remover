@@ -49,6 +49,34 @@ test("aggressive mode canonicalizes slugged product URLs in a real redirect", as
   await expect(page).toHaveTitle(FIXTURE_TITLE);
 });
 
+test("redirects Amazon links from other regional sites to the selected site", async ({ serviceWorker, page }) => {
+  await setStorage(serviceWorker, { redirectRegion: "de" });
+  // The dynamic region redirect rule must be registered before the navigation
+  // happens. This also catches a regexFilter that exceeds Chrome's compiled
+  // RE2 budget: such a rule rejects the whole updateDynamicRules call and the
+  // redirect below would never fire.
+  await expect.poll(async () => (await getDynamicRules(serviceWorker)).length, { timeout: 10_000 }).toBe(1);
+  await page.goto("https://www.amazon.com/dp/B00WMKUUAQ?tag=aff1&ascsubtag=asc1", { waitUntil: "load" });
+  expect(page.url()).toBe("https://www.amazon.de/dp/B00WMKUUAQ");
+  await expect(page).toHaveTitle(FIXTURE_TITLE);
+});
+
+test("does not redirect links that are already on the selected site", async ({ serviceWorker, page }) => {
+  await setStorage(serviceWorker, { redirectRegion: "de" });
+  // The region rule must not match a URL already on the target site, otherwise
+  // every amazon.de navigation would be a no-op redirect.
+  await expect.poll(async () => (await getDynamicRules(serviceWorker)).length, { timeout: 10_000 }).toBe(1);
+  await page.goto(`${AMAZON_URL}?tag=aff1`, { waitUntil: "load" });
+  expect(page.url()).toBe(AMAZON_URL);
+  await expect(page).toHaveTitle(FIXTURE_TITLE);
+});
+
+test("keeps the original regional site when no region is selected", async ({ page }) => {
+  await page.goto("https://www.amazon.com/dp/B00WMKUUAQ?tag=aff1", { waitUntil: "load" });
+  expect(page.url()).toBe("https://www.amazon.com/dp/B00WMKUUAQ");
+  await expect(page).toHaveTitle(FIXTURE_TITLE);
+});
+
 test("notifies about removed tags", async ({ serviceWorker, page }) => {
   await installNotificationSpy(serviceWorker);
   await page.goto(`${AMAZON_URL}?tag=aff1`, { waitUntil: "load" });

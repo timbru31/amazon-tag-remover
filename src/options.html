@@ -121,7 +121,8 @@
       }
 
       input[type="text"],
-      textarea {
+      textarea,
+      select {
         width: 100%;
         padding: 8px;
         margin-top: 5px;
@@ -205,7 +206,8 @@
       }
 
       input[type="text"]:focus,
-      textarea:focus {
+      textarea:focus,
+      select:focus {
         outline: none;
         border-color: var(--primary-color);
         box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
@@ -231,6 +233,16 @@
             Also removes all other query parameters, the “/ref=…” part and the long title slug of Amazon links, leaving only the canonical
             product URL (e.g. <code>amazon.com/dp/B00WMKUUAQ</code>). This can remove information Amazon uses for things like search
             results, so it is off by default.
+          </p>
+        </div>
+        <div class="option-group">
+          <label for="redirect-region">Redirect to regional site:</label>
+          <select id="redirect-region">
+            <option value="">Off — keep the original site</option>
+          </select>
+          <p class="settings-hint">
+            Rewrites Amazon links from other regional sites to the selected one (e.g. <code>amazon.com</code> → <code>amazon.de</code>).
+            Tracking tags are still removed. Not every product is available in every region — a 404 page means it is not sold there.
           </p>
         </div>
         <div class="option-group">
