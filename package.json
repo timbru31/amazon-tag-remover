@@ -35,7 +35,7 @@
     "@playwright/test": "^1.65.1",
     "@types/chrome": "^0.3.7",
     "@types/node": "^26.6.6",
-    "addons-linter": "^10.15.0",
+    "addons-linter": "^10.16.0",
     "commit-and-tag-version": "^13.3.0",
     "husky": "^9.1.7",
     "jsdom": "^31.0.1",
