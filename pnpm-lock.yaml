@@ -206,8 +206,8 @@ importers:
         specifier: ^2.0.0
         version: 2.0.0(postcss-html@2.0.1(postcss@8.5.32))(stylelint@18.0.0)
       stylelint-config-recommended:
-        specifier: ^19.0.0
-        version: 19.0.0(stylelint@18.0.0)
+        specifier: ^19.1.0
+        version: 19.1.0(stylelint@18.0.0)
       tsx:
         specifier: ^4.21.0
         version: 4.23.15
@@ -2047,8 +2047,8 @@ packages:
       postcss-html: ^2.0.0
       stylelint: '>=16.0.0'
 
-  stylelint-config-recommended@19.0.0:
-    resolution: {integrity: sha512-Y15XB19RManqBOpbRC42tF8R/Hfe314xYLzedRlnnYxYzZ0777RakDQIGcqYfrz9jWGoVyjaGTdpSl9F+roOOw==}
+  stylelint-config-recommended@19.1.0:
+    resolution: {integrity: sha512-DurXBzvz2cmVX2rM1JMDCbPIq+MRKhIPY743lFk1DjUoyx7giLfN+HR8Hilw+kE2nE5blaXhVf66edvQGnLdwA==}
     engines: {node: ^22.22.2 || ^24.15.0 || >=26.0.0}
     peerDependencies:
       stylelint: ^18.0.0
@@ -3830,7 +3830,7 @@ snapshots:
       postcss-html: 2.0.1(postcss@8.5.32)
       stylelint: 18.0.0
 
-  stylelint-config-recommended@19.0.0(stylelint@18.0.0):
+  stylelint-config-recommended@19.1.0(stylelint@18.0.0):
     dependencies:
       stylelint: 18.0.0
 
