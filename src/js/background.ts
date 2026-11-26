@@ -342,8 +342,9 @@ browser.webNavigation.onCompleted.addListener(async (details) => {
 
 browser.runtime.onInstalled.addListener(async (details) => {
   if (details.reason === "install") {
+    // Only fresh installs default to off; existing users keep their stored value (an unset key still means "on")
     await storage.set({
-      disableNotifications: false,
+      disableNotifications: true,
       allowedTags: [],
       aggressiveMode: false,
       replacementTag: "",

@@ -7,7 +7,7 @@ test("service worker seeds default storage on install", async ({ serviceWorker }
     .toEqual({
       aggressiveMode: false,
       allowedTags: [],
-      disableNotifications: false,
+      disableNotifications: true,
       redirectRegion: "",
       replacementTag: "",
     });
