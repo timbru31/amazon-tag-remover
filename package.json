@@ -40,7 +40,7 @@
     "husky": "^9.1.7",
     "jsdom": "^31.0.1",
     "lint-staged": "^17.6.2",
-    "oxfmt": "^0.79.0",
+    "oxfmt": "^0.80.0",
     "oxlint": "^1.95.0",
     "postcss-html": "^2.0.1",
     "stylelint": "^18.1.0",
