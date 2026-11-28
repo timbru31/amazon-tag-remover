@@ -21,7 +21,7 @@ test("keeps allowed tags", async ({ serviceWorker, page }) => {
 
 test("replaces a foreign tag with the replacement tag without a redirect loop", async ({ serviceWorker, page }) => {
   await setStorage(serviceWorker, { replacementTag: "mytag-21" });
-  await expect.poll(async () => (await getDynamicRules(serviceWorker)).length, { timeout: 10_000 }).toBe(2);
+  await expect.poll(async () => (await getDynamicRules(serviceWorker)).length, { timeout: 10_000 }).toBe(3);
   await page.goto(`${AMAZON_URL}?tag=aff1&ascsubtag=asc1`, { waitUntil: "load" });
   expect(page.url()).toBe(`${AMAZON_URL}?tag=mytag-21`);
   await expect(page).toHaveTitle(FIXTURE_TITLE);
@@ -29,18 +29,18 @@ test("replaces a foreign tag with the replacement tag without a redirect loop", 
 
 test("adds the replacement tag to URLs without a tag", async ({ serviceWorker, page }) => {
   await setStorage(serviceWorker, { replacementTag: "mytag-21" });
-  await expect.poll(async () => (await getDynamicRules(serviceWorker)).length, { timeout: 10_000 }).toBe(2);
+  await expect.poll(async () => (await getDynamicRules(serviceWorker)).length, { timeout: 10_000 }).toBe(3);
   await page.goto(AMAZON_URL, { waitUntil: "load" });
   expect(page.url()).toBe(`${AMAZON_URL}?tag=mytag-21`);
 });
 
 test("aggressive mode canonicalizes slugged product URLs in a real redirect", async ({ serviceWorker, page }) => {
   await setStorage(serviceWorker, { aggressiveMode: true });
-  // The three aggressive dynamic rules must be registered before the navigation
+  // The five aggressive dynamic rules must be registered before the navigation
   // happens. This also catches a regexFilter that exceeds Chrome's compiled
   // RE2 budget: such a rule rejects the whole updateDynamicRules call and the
   // redirect below would never fire.
-  await expect.poll(async () => (await getDynamicRules(serviceWorker)).length, { timeout: 10_000 }).toBe(3);
+  await expect.poll(async () => (await getDynamicRules(serviceWorker)).length, { timeout: 10_000 }).toBe(5);
   await page.goto(
     "https://www.amazon.de/benuta-Basic-Baumwollteppich-Ron-Minimalistisch/dp/B0DKK6BX9K/ref=sr_1_6_sspa?crid=3MOUWA4J839G7&keywords=teppich&qid=1793905131&tag=aff1",
     { waitUntil: "load" },
@@ -51,11 +51,10 @@ test("aggressive mode canonicalizes slugged product URLs in a real redirect", as
 
 test("redirects Amazon links from other regional sites to the selected site", async ({ serviceWorker, page }) => {
   await setStorage(serviceWorker, { redirectRegion: "de" });
-  // The dynamic region redirect rule must be registered before the navigation
-  // happens. This also catches a regexFilter that exceeds Chrome's compiled
-  // RE2 budget: such a rule rejects the whole updateDynamicRules call and the
-  // redirect below would never fire.
-  await expect.poll(async () => (await getDynamicRules(serviceWorker)).length, { timeout: 10_000 }).toBe(1);
+  // The dynamic region redirect rules (one per other regional site) must be
+  // registered before the navigation happens. A rejected rule rejects the whole
+  // updateDynamicRules call and the redirect below would never fire.
+  await expect.poll(async () => (await getDynamicRules(serviceWorker)).length, { timeout: 10_000 }).toBeGreaterThan(1);
   await page.goto("https://www.amazon.com/dp/B00WMKUUAQ?tag=aff1&ascsubtag=asc1", { waitUntil: "load" });
   expect(page.url()).toBe("https://www.amazon.de/dp/B00WMKUUAQ");
   await expect(page).toHaveTitle(FIXTURE_TITLE);
@@ -65,7 +64,7 @@ test("does not redirect links that are already on the selected site", async ({ s
   await setStorage(serviceWorker, { redirectRegion: "de" });
   // The region rule must not match a URL already on the target site, otherwise
   // every amazon.de navigation would be a no-op redirect.
-  await expect.poll(async () => (await getDynamicRules(serviceWorker)).length, { timeout: 10_000 }).toBe(1);
+  await expect.poll(async () => (await getDynamicRules(serviceWorker)).length, { timeout: 10_000 }).toBeGreaterThan(1);
   await page.goto(`${AMAZON_URL}?tag=aff1`, { waitUntil: "load" });
   expect(page.url()).toBe(AMAZON_URL);
   await expect(page).toHaveTitle(FIXTURE_TITLE);
