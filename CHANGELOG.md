@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [1.3.0](https://github.com/timbru31/amazon-tag-remover/compare/v1.2.0...v1.3.0) (2026-11-28)
+
+### Features
+
+- add toolbar popup and page context menu to copy the current URL without tracking tag ([#1800](https://github.com/timbru31/amazon-tag-remover/issues/1800)) ([c8fcf06](https://github.com/timbru31/amazon-tag-remover/commit/c8fcf06f8929b936778909573ae7c27fa637c7e3))
+- copy Amazon links without tracking tag ([#1775](https://github.com/timbru31/amazon-tag-remover/issues/1775)) ([5d70411](https://github.com/timbru31/amazon-tag-remover/commit/5d7041161f907b34a3c0ab2d766f482ba9bc0322))
+- disable notifications by default for new installs ([#1796](https://github.com/timbru31/amazon-tag-remover/issues/1796)) ([97c2378](https://github.com/timbru31/amazon-tag-remover/commit/97c23782e47b89e429421d6e269f24ac8ae8212c))
+- opt-in aggressive mode that canonicalizes Amazon links to /dp/<ASIN> ([#1768](https://github.com/timbru31/amazon-tag-remover/issues/1768)) ([94c72de](https://github.com/timbru31/amazon-tag-remover/commit/94c72de1cc14765a2f2e68beb2ff8eb53435c2ef))
+- optional replacement tag ([#1769](https://github.com/timbru31/amazon-tag-remover/issues/1769)) ([9740d3d](https://github.com/timbru31/amazon-tag-remover/commit/9740d3d9d9dafef89cbed3710923ee8be6dd6dc3))
+- redirect Amazon links to a chosen regional site ([#1789](https://github.com/timbru31/amazon-tag-remover/issues/1789)) ([b7f1600](https://github.com/timbru31/amazon-tag-remover/commit/b7f160096d4d11d145ab6e8fe7a76383b8dbda59))
+
+### Bug Fixes
+
+- clear CI warnings in vitest, swiftlint and addons-linter ([#1765](https://github.com/timbru31/amazon-tag-remover/issues/1765)) ([0d83846](https://github.com/timbru31/amazon-tag-remover/commit/0d8384686870744357c1ab5680c76e331f4d08d8))
+- keep affiliate cart add links working by neutralizing tag instead of removing it ([#1766](https://github.com/timbru31/amazon-tag-remover/issues/1766)) ([315b502](https://github.com/timbru31/amazon-tag-remover/commit/315b502726c45a8533f61cac70d10c3e48ce016a))
+- make dynamic DNR rules compatible with Safari's regex support ([41b6463](https://github.com/timbru31/amazon-tag-remover/commit/41b64632c0fbefa73dff4d135f3c5de718c3ac9d))
+- notification accuracy, storage cleanup and redundant permission ([#1761](https://github.com/timbru31/amazon-tag-remover/issues/1761)) ([c9c3f8b](https://github.com/timbru31/amazon-tag-remover/commit/c9c3f8bc0abf92167fd57af7226d37e63ac3b0e5))
+- tighten webNavigation filter to exclude media-amazon.com ([#1762](https://github.com/timbru31/amazon-tag-remover/issues/1762)) ([5e4e065](https://github.com/timbru31/amazon-tag-remover/commit/5e4e065a56501f023b38b4aa9630ce8859fd5811))
+
 ## [1.2.0](https://github.com/timbru31/amazon-tag-remover/compare/v1.1.0...v1.2.0) (2025-01-27)
 
 ### Features
