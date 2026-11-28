@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="color-scheme" content="light dark" />
+    <title>Tag Remover for Amazon</title>
+    <style type="text/css">
+      :root {
+        --background-color: #ffffff;
+        --text-color: #333333;
+        --primary-color: #4caf50;
+        --primary-hover: #45a049;
+      }
+
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --background-color: #2e3338;
+          --text-color: #ffffff;
+          --primary-color: #36b37e;
+          --primary-hover: #2ea16d;
+        }
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        margin: 0;
+        padding: 12px;
+        width: 260px;
+        background-color: var(--background-color);
+        color: var(--text-color);
+      }
+
+      h1 {
+        margin: 0 0 10px;
+        font-size: 14px;
+      }
+
+      button {
+        box-sizing: border-box;
+        width: 100%;
+        padding: 8px 12px;
+        border: 0;
+        border-radius: 4px;
+        background: var(--primary-color);
+        color: #ffffff;
+        font: inherit;
+        font-size: 13px;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background: var(--primary-hover);
+      }
+
+      #status {
+        margin: 8px 0 0;
+        font-size: 12px;
+      }
+
+      #status:empty {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Tag Remover for Amazon</h1>
+    <button id="copy" type="button">Copy URL without tracking tag</button>
+    <p id="status" role="status"></p>
+    <script type="module" src="js/popup.js"></script>
+  </body>
+</html>

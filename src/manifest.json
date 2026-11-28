@@ -24,6 +24,9 @@
     "preferred_environment": ["document"]
   },
   "minimum_chrome_version": "157",
+  "action": {
+    "default_popup": "popup.html"
+  },
   "options_ui": {
     "page": "options.html",
     "open_in_tab": true
