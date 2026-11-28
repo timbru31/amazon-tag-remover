@@ -1,11 +1,21 @@
 import { storage } from "./api.js";
 import { registerContextMenu } from "./context-menu.js";
+import { AMAZON_HOST, createAggressiveRules } from "./aggressive-rules.js";
 import { createRegionRedirectRules, normalizeRedirectRegion, regionRedirectApplies } from "./region-redirect.js";
 import { amazonDomains, hasTrailingRefSegment, normalizeReplacementTag } from "./sanitize.js";
 
 // The "Copy link without tracking tag" menu item; the click listener is
 // attached by importing context-menu.js.
 registerContextMenu();
+
+export {
+  createAggressiveBareProductRule,
+  createAggressiveProductShapeRule,
+  createAggressiveRefRule,
+  createAggressiveRules,
+  createAggressiveSluggedProductRule,
+  createAggressiveUrlRule,
+} from "./aggressive-rules.js";
 
 // Unified event filter (Chrome 148+ / Firefox 140+): urlMatches uses RE2.
 // ([a-z0-9-]+\.)* requires a dotted subdomain label (or none) before "amazon"
@@ -22,155 +32,17 @@ const amazonUrlFilter = {
 // the tag instead of removing it.
 const ALLOW_RULE_PRIORITY = 100;
 
-// Priorities (DNR: a higher value wins, one rule per request). All must outrank
-// the static tag removal rule (priority 1) so aggressive cleaning wins, but stay
-// below the cart add rule (priority 10) and the allow rules (priority 100). The
-// product rules must outrank the url rule so a slugged product URL is
-// canonicalized in one redirect.
-const AGGRESSIVE_URL_RULE_PRIORITY = 5;
-const AGGRESSIVE_PRODUCT_RULE_PRIORITY = 6;
-
 // The replacement tag rule must outrank the static tag removal rule (priority 1)
 // but stay below the aggressive rules: aggressive mode cleans the URL first, the
 // replacement rule then adds the tag to the cleaned URL, and the allow rule for
 // the replacement tag (ALLOW_RULE_PRIORITY) stops any further redirect.
 const REPLACEMENT_TAG_RULE_PRIORITY = 4;
 
-// Must not collide with the allow rule ids (index * 2 + 1 and index * 2 + 2)
-const AGGRESSIVE_SLUGGED_PRODUCT_RULE_ID = 100001;
-const AGGRESSIVE_URL_RULE_ID = 100002;
-const AGGRESSIVE_BARE_PRODUCT_RULE_ID = 100003;
+// Must not collide with the allow rule ids (index * 2 + 1 and index * 2 + 2) or the
+// aggressive rule ids in aggressive-rules.ts (100001..100003, 100007, 100008)
 const REPLACEMENT_TAG_RULE_ID = 100004;
 const REPLACEMENT_TAG_ALLOW_RULE_ID = 100005;
 const REPLACEMENT_TAG_ALLOW_END_RULE_ID = 100006;
-const AGGRESSIVE_PRODUCT_SHAPE_RULE_ID = 100007;
-const AGGRESSIVE_REF_RULE_ID = 100008;
-
-// Amazon serves a product by its canonical `/dp/<ASIN>`; the title slug and the
-// `/gp/product/` / `/product/` shapes are cosmetic. Real ASINs are 10
-// characters (B...) or 13 digits (ISBN); the slugged rules use the unbounded
-// class and the bare rule a lower bound because a bounded `{9,13}` class
-// exceeds the RE2 budget (see below). A product-shaped URL with a short
-// segment just canonicalizes to a 404 product page, which is harmless.
-const ASIN = "[A-Z0-9]+";
-const ASIN_BOUNDED = `${"[A-Z0-9]".repeat(9)}[A-Z0-9]*`;
-
-// Capture groups: the surrounding rule wraps this in group 1 (scheme + host),
-// this contributes group 2 (the optional subdomain), so the ASIN is group 3.
-const AMAZON_HOST = "https?://([^/]*\\.)?amazon\\.[^/]+";
-
-// Safari compiles regexFilter with WebKit's content blocker parser, which
-// rejects alternation (`|`), `{n,m}` repetition and built-in classes like
-// `\w` or `\d` ("not a supported regular expression") and then rejects the
-// whole updateDynamicRules call. All filters below therefore use only
-// literals, `[...]` classes, `.`, `?`/`*`/`+` and capture groups, so that one
-// rule shape means one rule (hence the separate dp/product and query/ref
-// rules).
-//
-// Chrome DNR compiles each regexFilter with RE2 under a 2KB max_mem budget
-// (forward Prog gets 2/3 of it) and rejects the whole updateDynamicRules call
-// if any rule exceeds it. These filters are measured to compile within it, so
-// keep them structurally minimal — no new alternations or bounded classes.
-/** Aggressive-mode product rule: canonicalize the match to `host/dp/<ASIN>`. */
-function createAggressiveProductRule(id: number, regexFilter: string): chrome.declarativeNetRequest.Rule {
-  return {
-    id,
-    priority: AGGRESSIVE_PRODUCT_RULE_PRIORITY,
-    action: {
-      type: "redirect",
-      redirect: {
-        regexSubstitution: "\\1/dp/\\3",
-      },
-    },
-    condition: {
-      regexFilter,
-      resourceTypes: ["main_frame", "sub_frame"],
-    },
-  };
-}
-
-/**
- * Aggressive mode (opt-in, see GitHub issue #550), slugged product part:
- * canonicalize a product URL to the bare `https://.../dp/<ASIN>`, dropping the
- * title slug. `/.+?/` requires a slug before `/dp/`, so an already-canonical
- * `/dp/<ASIN>` does not match (no no-op redirect); those are cleaned by
- * createAggressiveUrlRule instead. Any trailing `/ref=...` segment and query
- * are consumed by the trailing `.*`.
- */
-export function createAggressiveSluggedProductRule(): chrome.declarativeNetRequest.Rule {
-  return createAggressiveProductRule(AGGRESSIVE_SLUGGED_PRODUCT_RULE_ID, `^(${AMAZON_HOST})/.+?/dp/(${ASIN}).*`);
-}
-
-/**
- * Slugged `/product/` shape, e.g. `/gp/product/<ASIN>` (the `/gp` segment
- * counts as the slug). Separate from the `/dp/` rule because the combined
- * filter would need an alternation.
- */
-export function createAggressiveProductShapeRule(): chrome.declarativeNetRequest.Rule {
-  return createAggressiveProductRule(AGGRESSIVE_PRODUCT_SHAPE_RULE_ID, `^(${AMAZON_HOST})/.+?/product/(${ASIN}).*`);
-}
-
-/** Bare product part: canonicalize a slug-less `/product/<ASIN>` URL. */
-export function createAggressiveBareProductRule(): chrome.declarativeNetRequest.Rule {
-  return createAggressiveProductRule(AGGRESSIVE_BARE_PRODUCT_RULE_ID, `^(${AMAZON_HOST})/product/(${ASIN_BOUNDED}).*`);
-}
-
-/**
- * Aggressive mode, URL part: strips the query from the remaining Amazon URLs
- * (non-product pages, and already-canonical `/dp/<ASIN>` URLs that still carry
- * a query). The substitution keeps only group 1 (scheme, host and path). The
- * filter only matches when there is a query to strip, so unmarked URLs are
- * never redirected.
- */
-export function createAggressiveUrlRule(): chrome.declarativeNetRequest.Rule {
-  return {
-    id: AGGRESSIVE_URL_RULE_ID,
-    priority: AGGRESSIVE_URL_RULE_PRIORITY,
-    action: {
-      type: "redirect",
-      redirect: {
-        regexSubstitution: "\\1",
-      },
-    },
-    condition: {
-      regexFilter: `^(${AMAZON_HOST}/[^?]+)\\?.+$`,
-      resourceTypes: ["main_frame", "sub_frame"],
-    },
-  };
-}
-
-/**
- * Aggressive mode, ref part: strips a trailing `/ref=...` path segment
- * (including a query behind it). A URL with both a ref segment and a query may
- * match this and the url rule; either order ends at the same URL.
- */
-export function createAggressiveRefRule(): chrome.declarativeNetRequest.Rule {
-  return {
-    id: AGGRESSIVE_REF_RULE_ID,
-    priority: AGGRESSIVE_URL_RULE_PRIORITY,
-    action: {
-      type: "redirect",
-      redirect: {
-        regexSubstitution: "\\1",
-      },
-    },
-    condition: {
-      regexFilter: `^(${AMAZON_HOST}/.+?)/ref=[^/]*$`,
-      resourceTypes: ["main_frame", "sub_frame"],
-    },
-  };
-}
-
-/** The dynamic DNR rules that make up aggressive mode. */
-export function createAggressiveRules(): chrome.declarativeNetRequest.Rule[] {
-  return [
-    createAggressiveSluggedProductRule(),
-    createAggressiveProductShapeRule(),
-    createAggressiveBareProductRule(),
-    createAggressiveUrlRule(),
-    createAggressiveRefRule(),
-  ];
-}
 
 export function createAmazonRules(allowedTags: string[]): chrome.declarativeNetRequest.Rule[] {
   return allowedTags.flatMap((tag, index) => {
