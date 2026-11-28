@@ -78,6 +78,7 @@ test("keeps the original regional site when no region is selected", async ({ pag
 });
 
 test("notifies about removed tags", async ({ serviceWorker, page }) => {
+  await setStorage(serviceWorker, { disableNotifications: false });
   await installNotificationSpy(serviceWorker);
   await page.goto(`${AMAZON_URL}?tag=aff1`, { waitUntil: "load" });
   await expect
@@ -94,7 +95,7 @@ test("notifies about removed tags", async ({ serviceWorker, page }) => {
 });
 
 test("does not notify about allowed tags", async ({ serviceWorker, page }) => {
-  await setStorage(serviceWorker, { allowedTags: ["aff1"] });
+  await setStorage(serviceWorker, { allowedTags: ["aff1"], disableNotifications: false });
   await installNotificationSpy(serviceWorker);
   // The dynamic allow rule must be registered before the navigation happens.
   await expect.poll(async () => (await getDynamicRules(serviceWorker)).length, { timeout: 10_000 }).toBe(2);

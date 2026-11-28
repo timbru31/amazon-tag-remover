@@ -32,7 +32,7 @@ describe("background without notifications support", () => {
   it("initializes default options on install and updates the rules", async () => {
     browserMock.runtime.onInstalled.emit({ reason: "install" });
     await flushPromises();
-    expect(sync.data.disableNotifications).toBe(false);
+    expect(sync.data.disableNotifications).toBe(true);
     expect(sync.data.allowedTags).toEqual([]);
     expect(browserMock.declarativeNetRequest.updateDynamicRules).toHaveBeenCalledWith({
       removeRuleIds: [],
