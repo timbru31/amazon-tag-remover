@@ -75,8 +75,8 @@ class ViewController: PlatformViewController, WKNavigationDelegate, WKScriptMess
         }
     #elseif os(macOS)
         SFSafariApplication.showPreferencesForExtension(withIdentifier: extensionBundleIdentifier) { error in
-            guard error == nil else {
-                // Insert code to inform the user that something went wrong.
+            if let error {
+                print("Failed to open Safari extension settings: \(error)")
                 return
             }
 
