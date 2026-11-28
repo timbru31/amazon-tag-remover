@@ -36,11 +36,21 @@
 </p>
 
 [![Linting](https://github.com/timbru31/amazon-tag-remover/workflows/Linting/badge.svg)](https://github.com/timbru31/amazon-tag-remover/actions?query=workflow%3ALinting)
-
 [![Known Vulnerabilities](https://snyk.io/test/github/timbru31/amazon-tag-remover/badge.svg)](https://snyk.io/test/github/timbru31/amazon-tag-remover)
-
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
-[![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE.md)
+[![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+
+A browser extension for Chrome, Firefox, Edge, Opera and Safari (macOS/iOS) that strips the Amazon affiliate tracking ID (`tag`) from links before the request is made.
+
+## Contents
+
+- [Info](#info)
+- [How it works](#how-it-works)
+- [Features](#features)
+- [Options](#options)
+- [Contributing](#contributing)
+- [Testing](#testing)
+- [Support](#support)
 
 ## Info
 
@@ -48,6 +58,16 @@ Are you tired that each banner or ad linking to amazon is silently injecting the
 This extension removes the tracking ID before the browser is performing the request, ensuring that you are not being tracked.
 
 **Note: if you have a partner cookie on your computer, you might still be tracked**
+
+## How it works
+
+The extension uses declarative network request rules, so the tag is removed inside the browser's network stack before anything is sent to Amazon. It does not read page content, collect data or talk to any third-party server.
+
+| Before                                                  | After                                  |
+| ------------------------------------------------------- | -------------------------------------- |
+| `https://www.amazon.com/dp/B00WMKUUAQ?tag=some-site-20` | `https://www.amazon.com/dp/B00WMKUUAQ` |
+
+With the optional aggressive mode, the same applies to the `/ref=...` part and the title slug.
 
 ## Features
 
@@ -62,16 +82,33 @@ This extension removes the tracking ID before the browser is performing the requ
 - Full support for all amazon sites (e.g. from Germany, Mexico or UK to China and Italy)
   - amazn.to links are supported, too, since the expanded request to the amazon site is intercepted
 
+## Options
+
+Open the extension's options page to configure:
+
+| Option                    | Effect                                                                                      |
+| ------------------------- | ------------------------------------------------------------------------------------------- |
+| Disable notifications     | Hides the visual feedback when a tag was removed                                            |
+| Aggressive mode           | Reduces links to the canonical product URL (off by default, may affect search results)      |
+| Redirect to regional site | Rewrites links from other Amazon regions to the one you choose                              |
+| Allowed tags              | Tags (one per line) that are left untouched                                                 |
+| Replacement tag           | Your own affiliate tag, set after the original was removed; leave empty to only remove tags |
+
 ## Changelog
 
 Please visit [CHANGELOG.md](CHANGELOG.md) for a complete changelog.
 
 ## Contributing
 
+Requires [Node.js](https://nodejs.org/) and [pnpm](https://pnpm.io/).
+
 1. Fork and clone the project
 2. Run `pnpm install`
-3. Run `pnpm run build:dev` and start hacking. The extension is automatically rebuilt on changes.
-4. Load the un-packaged addon from the `dist` folder
+3. Run `pnpm build` to compile the extension into `dist`
+4. Load the un-packaged addon from the `dist` folder (`chrome://extensions` with developer mode, or `about:debugging` in Firefox)
+5. Run `pnpm lint` before opening a pull request; commits follow [Conventional Commits](https://www.conventionalcommits.org/) (Commitizen friendly)
+
+`src/rules.json` holds the declarative rules, `src/js` the background logic and options page.
 
 ## Testing
 
