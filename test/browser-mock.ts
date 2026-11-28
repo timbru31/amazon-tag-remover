@@ -77,6 +77,7 @@ export interface BrowserMock {
   runtime: {
     onInstalled: ListenerMock;
     getURL: (path: string) => string;
+    getManifest: () => { host_permissions: string[] };
   };
   notifications?: { create: ReturnType<typeof vi.fn> };
 }
@@ -104,6 +105,7 @@ export function createBrowserMock(options: BrowserMockOptions = {}): BrowserMock
     runtime: {
       onInstalled: createListenerMock(),
       getURL: (path) => path,
+      getManifest: () => ({ host_permissions: ["*://*.amazon.de/*"] }),
     },
   };
   if (options.notifications !== false) {

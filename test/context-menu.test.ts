@@ -54,6 +54,30 @@ describe("registerContextMenu", () => {
     });
   });
 
+  it("registers a page menu item restricted to the Amazon hosts", async () => {
+    stubClipboard();
+    const { registerContextMenu } = await loadContextMenu();
+    registerContextMenu();
+    await flushPromises();
+    expect(browserMock.contextMenus.create).toHaveBeenCalledWith({
+      id: "copy-page-url-without-tracking-tag",
+      title: "Copy current URL without tracking tag",
+      contexts: ["page"],
+      documentUrlPatterns: ["*://*.amazon.de/*"],
+    });
+  });
+
+  it("copies the sanitized page URL from the page menu item", async () => {
+    stubClipboard();
+    await loadContextMenu();
+    browserMock.contextMenus.onClicked.emit({
+      menuItemId: "copy-page-url-without-tracking-tag",
+      pageUrl: "https://www.amazon.de/dp/B000000000?tag=foo-21",
+    });
+    await flushPromises();
+    expect(writeText).toHaveBeenCalledWith("https://www.amazon.de/dp/B000000000");
+  });
+
   it("skips registration when the clipboard API is unavailable", async () => {
     vi.stubGlobal("navigator", {});
     const { registerContextMenu } = await loadContextMenu();
