@@ -53,7 +53,7 @@
   "packageManager": "pnpm@12.16.1",
   "commit-and-tag-version": {
     "scripts": {
-      "postbump": "tsx scripts/patch-versions.ts && oxfmt src/manifest.json && git add src/manifest.json",
+      "postbump": "tsx scripts/patch-versions.ts && oxfmt src/manifest.json && git add src/manifest.json \"Tracking Tag Remover for Amazon/Tag Remover for Amazon.xcodeproj/project.pbxproj\"",
       "postchangelog": "oxfmt CHANGELOG.md"
     }
   }
