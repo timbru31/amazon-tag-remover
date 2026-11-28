@@ -72,8 +72,11 @@ describe("createAmazonRules", () => {
 
 describe("aggressive mode rules", () => {
   const sluggedProductRule = background.createAggressiveSluggedProductRule();
+  const productShapeRule = background.createAggressiveProductShapeRule();
   const bareProductRule = background.createAggressiveBareProductRule();
   const urlRule = background.createAggressiveUrlRule();
+  const refRule = background.createAggressiveRefRule();
+  const allRules = [sluggedProductRule, productShapeRule, bareProductRule, urlRule, refRule];
 
   it("has fixed ids and priorities between the static rules and the allow rules", () => {
     // The product rules must outrank the url rule (DNR: higher number wins) so a
@@ -82,8 +85,10 @@ describe("aggressive mode rules", () => {
     expect(urlRule.id).toBe(100002);
     expect(bareProductRule.id).toBe(100003);
     expect(sluggedProductRule.priority).toBe(6);
+    expect(productShapeRule.priority).toBe(6);
     expect(bareProductRule.priority).toBe(6);
     expect(urlRule.priority).toBe(5);
+    expect(refRule.priority).toBe(5);
     for (const rule of [sluggedProductRule, bareProductRule, urlRule]) {
       // Must outrank the base tag removal rule (priority 1), but stay below the
       // cart add rule (priority 10) and the allow rules (priority 100).
@@ -96,19 +101,21 @@ describe("aggressive mode rules", () => {
   });
 
   it("createAggressiveRules returns all rules in priority order", () => {
-    expect(background.createAggressiveRules()).toEqual([sluggedProductRule, bareProductRule, urlRule]);
+    expect(background.createAggressiveRules()).toEqual(allRules);
   });
 
-  /** DNR applies only the highest-priority matching rule. */
-  function cleaned(url: string): string {
-    for (const rule of [sluggedProductRule, bareProductRule, urlRule]) {
-      const regex = regexOf(rule.condition.regexFilter);
-      const match = url.match(regex);
-      if (match) {
-        // DNR substitution uses \1 for capture groups, JS replace uses $1
-        const substitution = String(rule.action.redirect?.regexSubstitution).replace(/\\([1-9])/gu, (_m, d) => `$${d}`);
-        return url.replace(regex, substitution);
+  /** DNR applies only the highest-priority matching rule, and re-evaluates the redirect target. */
+  function cleaned(initialUrl: string): string {
+    let url = initialUrl;
+    for (let hop = 0; hop < 5; hop++) {
+      const rule = allRules.find((candidate) => regexOf(candidate.condition.regexFilter).test(url));
+      if (!rule) {
+        return url;
       }
+      const regex = regexOf(rule.condition.regexFilter);
+      // DNR substitution uses \1 for capture groups, JS replace uses $1
+      const substitution = String(rule.action.redirect?.regexSubstitution).replaceAll(/\\([1-9])/gu, (_m, d) => `$${d}`);
+      url = url.replace(regex, substitution);
     }
     return url;
   }
@@ -160,11 +167,12 @@ describe("aggressive mode rules", () => {
 });
 
 describe("createReplacementTagRules", () => {
-  const [redirectRule, allowRule] = background.createReplacementTagRules("mytag-21");
+  const [redirectRule, allowRule, allowEndRule] = background.createReplacementTagRules("mytag-21");
 
   it("has fixed ids and priorities between the static rule and the allow rules", () => {
     expect(redirectRule?.id).toBe(100004);
     expect(allowRule?.id).toBe(100005);
+    expect(allowEndRule?.id).toBe(100006);
     // Above the static tag removal rule (1), below the aggressive rules (5, 6)
     expect(redirectRule?.priority).toBe(4);
     expect(allowRule?.priority).toBe(100);
@@ -184,20 +192,39 @@ describe("createReplacementTagRules", () => {
   });
 
   it("stops the redirect only for URLs that carry exactly the replacement tag", () => {
-    const regex = regexOf(allowRule?.condition.regexFilter);
-    expect(regex.test("https://www.amazon.de/dp/B001?tag=mytag-21")).toBe(true);
-    expect(regex.test("https://www.amazon.de/s?k=books&tag=mytag-21&ref=x")).toBe(true);
-    expect(regex.test("https://www.amazon.de/dp/B001?tag=mytag-21#reviews")).toBe(true);
-    expect(regex.test("https://www.amazon.de/dp/B001?tag=mytag-211")).toBe(false);
-    expect(regex.test("https://www.amazon.de/dp/B001?tag=other")).toBe(false);
-    expect(regex.test("https://www.amazon.de/dp/B001")).toBe(false);
+    const matches = (url: string): boolean => [allowRule, allowEndRule].some((rule) => regexOf(rule?.condition.regexFilter).test(url));
+    expect(matches("https://www.amazon.de/dp/B001?tag=mytag-21")).toBe(true);
+    expect(matches("https://www.amazon.de/s?k=books&tag=mytag-21&ref=x")).toBe(true);
+    expect(matches("https://www.amazon.de/dp/B001?tag=mytag-21#reviews")).toBe(true);
+    expect(matches("https://www.amazon.de/dp/B001?tag=mytag-211")).toBe(false);
+    expect(matches("https://www.amazon.de/dp/B001?tag=other")).toBe(false);
+    expect(matches("https://www.amazon.de/dp/B001")).toBe(false);
   });
 
   it("escapes regex special characters in the tag", () => {
-    const [, escapedAllowRule] = background.createReplacementTagRules("my.tag");
+    const [, , escapedAllowRule] = background.createReplacementTagRules("my.tag");
     const regex = regexOf(escapedAllowRule?.condition.regexFilter);
     expect(regex.test("https://www.amazon.de/dp/B001?tag=my.tag")).toBe(true);
     expect(regex.test("https://www.amazon.de/dp/B001?tag=myxtag")).toBe(false);
+  });
+});
+
+// Safari rejects the whole updateDynamicRules call when any regexFilter uses
+// alternation, `{n,m}` repetition or built-in classes (WebKit URLFilterParser).
+describe("Safari-compatible regexFilters", () => {
+  const rules = [
+    ...background.createAmazonRules(["aff1"]),
+    ...background.createAggressiveRules(),
+    ...background.createReplacementTagRules("mytag-21"),
+  ];
+
+  it("uses no alternation, brace repetition or built-in character classes", () => {
+    for (const rule of rules) {
+      const filter = rule.condition.regexFilter ?? "";
+      expect(filter, `rule ${rule.id}`).not.toMatch(/(?<!\\)[|{}]/u);
+      expect(filter, `rule ${rule.id}`).not.toMatch(/\\[wWdDsSbB]/u);
+      expect(filter, `rule ${rule.id}`).not.toContain("(?");
+    }
   });
 });
 
@@ -251,7 +278,7 @@ describe("updateRules", () => {
     await background.updateRules([], false, "", " de ");
     expect(browserMock.declarativeNetRequest.updateDynamicRules).toHaveBeenCalledWith({
       removeRuleIds: [],
-      addRules: [region.createRegionRedirectRule("de")],
+      addRules: region.createRegionRedirectRules("de"),
     });
 
     browserMock.declarativeNetRequest.updateDynamicRules.mockClear();
@@ -266,7 +293,7 @@ describe("updateRules", () => {
         ...background.createAmazonRules(["aff1"]),
         ...background.createAggressiveRules(),
         ...background.createReplacementTagRules("mytag-21"),
-        region.createRegionRedirectRule("fr"),
+        ...region.createRegionRedirectRules("fr"),
       ],
     });
   });
@@ -532,7 +559,7 @@ describe("background event listeners", () => {
       await flushPromises();
       expect(browserMock.declarativeNetRequest.updateDynamicRules).toHaveBeenCalledWith({
         removeRuleIds: [],
-        addRules: [region.createRegionRedirectRule("fr")],
+        addRules: region.createRegionRedirectRules("fr"),
       });
     });
 

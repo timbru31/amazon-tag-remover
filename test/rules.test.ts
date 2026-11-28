@@ -218,7 +218,7 @@ describe("rule resolution with aggressive mode", () => {
   it("canonicalizes /gp/product/ shapes to /dp/<ASIN>", () => {
     const url = "https://www.amazon.de/gp/product/B0GXB9QXR5";
     const rule = resolveRule([...staticRules, ...aggressiveRules], url);
-    expect(rule?.id).toBe(100001);
+    expect(rule?.id).toBe(100007);
     expect(effectiveUrl(rule, url)).toBe("https://www.amazon.de/dp/B0GXB9QXR5");
   });
 

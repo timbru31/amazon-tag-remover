@@ -1,10 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 const region = await import("../src/js/region-redirect.js");
-
-function regexOf(regexFilter: string | undefined): RegExp {
-  return new RegExp(regexFilter ?? "");
-}
+const { amazonDomains } = await import("../src/js/sanitize.js");
 
 describe("normalizeRedirectRegion", () => {
   it("accepts known Amazon domains, case-insensitively and trimmed", () => {
@@ -21,48 +18,39 @@ describe("normalizeRedirectRegion", () => {
   });
 });
 
-describe("createRegionRedirectRule", () => {
-  const rule = region.createRegionRedirectRule("de");
+describe("createRegionRedirectRules", () => {
+  const rules = region.createRegionRedirectRules("de");
 
-  it("has a fixed id and a priority above the aggressive rules but below the cart add rule", () => {
-    expect(rule.id).toBe(100006);
-    // One DNR redirect rule wins per request: with a region selected, the
-    // regional redirect is the user's primary intent and must outrank the
-    // aggressive (5, 6) and replacement tag (4) rules, while the cart add rule
-    // (10) and the allow rules (100) keep their precedence.
-    expect(rule.priority).toBe(9);
-    expect(rule.priority).toBeGreaterThan(6);
-    expect(rule.priority).toBeLessThan(10);
-    expect(rule.action.type).toBe("redirect");
-    expect(rule.condition.resourceTypes).toEqual(["main_frame", "sub_frame"]);
+  it("has unique ids and a priority above the aggressive rules but below the cart add rule", () => {
+    expect(new Set(rules.map((rule) => rule.id)).size).toBe(rules.length);
+    expect(Math.min(...rules.map((rule) => rule.id))).toBeGreaterThan(100005);
+    for (const rule of rules) {
+      // One DNR redirect rule wins per request: with a region selected, the
+      // regional redirect is the user's primary intent and must outrank the
+      // aggressive (5, 6) and replacement tag (4) rules, while the cart add rule
+      // (10) and the allow rules (100) keep their precedence.
+      expect(rule.priority).toBe(9);
+      expect(rule.action.type).toBe("redirect");
+      expect(rule.condition.resourceTypes).toEqual(["main_frame", "sub_frame"]);
+    }
   });
 
   it("rewrites the host to the target site and removes the tracking parameters", () => {
-    expect(rule.action.redirect?.transform).toEqual({
-      host: "www.amazon.de",
-      queryTransform: { removeParams: ["tag", "ascsubtag"] },
-    });
+    for (const rule of rules) {
+      expect(rule.action.redirect?.transform).toEqual({
+        host: "www.amazon.de",
+        queryTransform: { removeParams: ["tag", "ascsubtag"] },
+      });
+    }
   });
 
-  it("matches Amazon URLs on every other regional site", () => {
-    const regex = regexOf(rule.condition.regexFilter);
-    expect(regex.test("https://www.amazon.com/dp/B001")).toBe(true);
-    expect(regex.test("https://smile.amazon.fr/s?k=books&tag=aff1")).toBe(true);
-    expect(regex.test("https://amazon.co.jp/gp/product/B001/ref=xx")).toBe(true);
-    expect(regex.test("http://www.amazon.com.au/")).toBe(true);
-  });
-
-  it("does not match URLs already on the target site (no no-op redirect)", () => {
-    const regex = regexOf(rule.condition.regexFilter);
-    expect(regex.test("https://www.amazon.de/dp/B001")).toBe(false);
-    expect(regex.test("https://smile.amazon.de/s?k=books")).toBe(false);
-    expect(regex.test("https://www.amazon.de/dp/B001?tag=aff1")).toBe(false);
-  });
-
-  it("does not match non-Amazon or media-amazon hosts", () => {
-    const regex = regexOf(rule.condition.regexFilter);
-    expect(regex.test("https://www.example.com/dp/B001")).toBe(false);
-    expect(regex.test("https://m.media-amazon.com/images/x.jpg")).toBe(false);
+  it("has one regex-free rule per other regional site and none for the target", () => {
+    const filters = rules.map((rule) => rule.condition.urlFilter);
+    expect(filters).toHaveLength(amazonDomains.length - 1);
+    expect(filters).toContain("||amazon.com/");
+    expect(filters).toContain("||amazon.co.uk/");
+    expect(filters).not.toContain("||amazon.de/");
+    expect(rules.every((rule) => rule.condition.regexFilter === undefined)).toBe(true);
   });
 });
 

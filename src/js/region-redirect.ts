@@ -12,10 +12,11 @@ import { amazonDomains } from "./sanitize.js";
 // that are already on the target site.
 const REGION_REDIRECT_RULE_PRIORITY = 9;
 
-// Must not collide with the DNR rule ids in background.ts: the allow rule ids
-// (index * 2 + 1 and index * 2 + 2 per allowed tag), the aggressive rule ids
-// (100001..100003) and the replacement tag rule ids (100004..100005).
-const REGION_REDIRECT_RULE_ID = 100006;
+// One rule per source domain, with ids from this base on. Must not collide with
+// the DNR rule ids in background.ts: the allow rule ids (index * 2 + 1 and
+// index * 2 + 2 per allowed tag), the aggressive and replacement tag rule ids
+// (100001..100008).
+const REGION_REDIRECT_RULE_ID_BASE = 200000;
 
 /** Returns the redirect region when it is a known Amazon domain, or "" when unset or unknown. */
 export function normalizeRedirectRegion(redirectRegion: unknown): string {
@@ -26,34 +27,37 @@ export function normalizeRedirectRegion(redirectRegion: unknown): string {
   return amazonDomains.includes(trimmed) ? trimmed : "";
 }
 
-// The filter lists every Amazon domain except the target (RE2 has no negative
-// lookahead), so a URL that is already on the target site never matches — no
-// no-op redirect. The trailing "/" anchors the end of the domain label.
-/** Regional redirect rule (GitHub issue #1535): rewrite the host to the target site. */
-export function createRegionRedirectRule(redirectRegion: string): chrome.declarativeNetRequest.Rule {
-  const otherDomains = amazonDomains.filter((domain) => domain !== redirectRegion).join("|");
-  return {
-    id: REGION_REDIRECT_RULE_ID,
-    priority: REGION_REDIRECT_RULE_PRIORITY,
-    action: {
-      type: "redirect",
-      redirect: {
-        transform: {
-          host: `www.amazon.${redirectRegion}`,
-          queryTransform: {
-            removeParams: ["tag", "ascsubtag"],
+// Safari rejects the alternation of a single regexFilter ("not a supported
+// regular expression"), so there is one urlFilter rule per source domain. The
+// target domain gets no rule, so a URL already on the target site never matches
+// (no no-op redirect). `||` anchors at a domain label (www.amazon.fr matches,
+// m.media-amazon.com does not) and the trailing "/" ends the domain label.
+/** Regional redirect rules (GitHub issue #1535): rewrite the host to the target site. */
+export function createRegionRedirectRules(redirectRegion: string): chrome.declarativeNetRequest.Rule[] {
+  return amazonDomains
+    .filter((domain) => domain !== redirectRegion)
+    .map((domain, index) => ({
+      id: REGION_REDIRECT_RULE_ID_BASE + index,
+      priority: REGION_REDIRECT_RULE_PRIORITY,
+      action: {
+        type: "redirect",
+        redirect: {
+          transform: {
+            host: `www.amazon.${redirectRegion}`,
+            queryTransform: {
+              removeParams: ["tag", "ascsubtag"],
+            },
           },
         },
       },
-    },
-    condition: {
-      regexFilter: `^https?://(?:[a-z0-9-]+\\.)*amazon\\.(?:${otherDomains})/`,
-      resourceTypes: ["main_frame", "sub_frame"],
-    },
-  };
+      condition: {
+        urlFilter: `||amazon.${domain}/`,
+        resourceTypes: ["main_frame", "sub_frame"],
+      },
+    }));
 }
 
-/** Mirrors the filter of createRegionRedirectRule: true when the host is an Amazon site other than the target. */
+/** Mirrors the filters of createRegionRedirectRules: true when the host is an Amazon site other than the target. */
 export function regionRedirectApplies(hostname: string, redirectRegion: string): boolean {
   if (!redirectRegion) {
     return false;
